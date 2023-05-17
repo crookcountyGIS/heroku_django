@@ -140,8 +140,6 @@ def account_query(request, account):
                 mt_find = mt[:mt.find('-', mt.find('-') + 1)]
                 maptaxlot.append(mt_find.replace('-', ''))
 
-    #j = json.dumps(jsonResponse, indent=4)
-
     context = {'data':jsonResponse, 'maptaxlot': maptaxlot}
 
     return render(request, 'pats/summaryPage.html', context)
