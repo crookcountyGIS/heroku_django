@@ -104,18 +104,33 @@
     });
 
     realSwitch.addEventListener("change", function(e) {
-      console.log()
-     // = e.target.checked;
+      console.log(e.target.checked);
+     //var filter = 'Real'
+      //var filterText = this.value.toLowerCase();
+      
+    if (e.target.checked == 'true') {
+      var filterText = 'Real';
+      $('#resultsTable #accountType').each(function() {
+          var $this = $(this);
+          console.log($this);
+          var text = $this.find('td').text().toLowerCase();
+          console.log(text);
+            if (text.indexOf(filterText) > -1) {
+                $this.show();
+            } else {
+              $this.hide();
+            }
+          
+  });
+    }
     }); 
     
     personalSwitch.addEventListener("change", function(e) {
-      // = e.target.checked;
-      console.log("personal check")
+      console.log(e.target.checked);
     }); 
     
     mobileSwitch.addEventListener("change", function(e) {
-      // = e.target.checked;
-      console.log("mobile check")
+      console.log(e.target.checked);
     }); 
 
 
