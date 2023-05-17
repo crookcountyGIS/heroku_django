@@ -23,4 +23,11 @@ body {
 }
 
 
+@media (max-width: 768px) {
+    #searchBtnDiv {
+      margin-top: 10px;
+    }
+  }
+
+
 

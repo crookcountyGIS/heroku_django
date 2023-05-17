@@ -6,15 +6,25 @@
 {% bootstrap_javascript %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
 {% block content %}
-<!-- {% for feature in data.features %}
-{% endfor %} -->
-
-
-<!-- {{ html_table|safe }} -->
   <div class="container">
-    <h2 class="text-left"><u>Search Results</u></h2><br>            
+    <div class="row">
+      <div class="col-md pt-3" style="max-width: 100px;padding: 0; margin:0; position: static;float: left;">
+        Filter Box
+      </div>
+
+      <div class="col">
+        <div class="pt-3">
+          <p class="mb-0">Search By Name</p>
+          <div class="row align-items-start pt-1">
+              <div class="col-lg-4 col-sm-6">
+      <input id="searchBar" class="form-control" type="text" placeholder="Search Here" aria-label="default input example">
+      </div>
+      <div id ="searchBtnDiv" class="col">
+      <button id="searchBtn" type="button" class="btn btn-primary">Submit</button>
+      </div>
+      </div>
+    <div class="pt-3">
     <table class="table table-dark table-striped table-hover" id="resultsTable">
       <thead>
         <tr>
@@ -42,6 +52,9 @@
       </tbody>
     </table>
   </div>
+  </div>
+  </div>
+</div>
 
   <script type="text/javascript">
 
@@ -56,6 +69,26 @@
     window.location.href = "{% url 'account_query' 0 %}".replace(/0/, accountQuery)
  
 });
+
+
+    var btn = document.getElementById("searchBtn");
+    var searchBar = document.getElementById("searchBar");
+
+    btn.addEventListener("click", function() {
+        var name = searchBar.value;
+        if (name != '') {
+         window.location.href = "search/" + name 
+    }
+
+    });
+
+    searchBar.addEventListener("keypress", function(e) {
+        if (e.key === 'Enter' && name != '') {
+            var name = searchBar.value;
+            window.location.assign("{% url 'tableSearchResults' 0 %}".replace(/0/, name))
+        }
+    });
+
 
   </script>
 
