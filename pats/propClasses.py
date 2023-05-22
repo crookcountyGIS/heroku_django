@@ -1,6 +1,7 @@
 from typing import Any
 from dataclasses import dataclass
 import json
+
 @dataclass
 class Attributes:
     OBJECTID: int

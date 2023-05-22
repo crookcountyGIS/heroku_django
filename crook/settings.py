@@ -35,7 +35,7 @@ IS_HEROKU = "DYNO" in os.environ
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-DEBUG = os.getenv("DEBUG", "False") == "False"
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
 if IS_HEROKU:
     ALLOWED_HOSTS = ["*"]
