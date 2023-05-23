@@ -5,17 +5,39 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
+<link href="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.css" rel="stylesheet">
+<script src="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.js"></script>
 {% block content %}
-<!-- {% for feature in data.features %}
-{% endfor %} -->
-
-
-<!-- {{ html_table|safe }} -->
   <div class="container">
-    <h2 class="text-left"><u>Search Results</u></h2><br>            
-    <table class="table table-dark table-striped table-hover" id="resultsTable">
+    <div class="row">
+      <div class="col-md pt-3" style="max-width: 100px;padding: 0; margin:0; position: static;float: left;">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="flexSwitchReal" checked>
+          <label class="form-check-label" for="flexSwitchReal">Real</label>
+        </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="flexSwitchPersonal" checked>
+          <label class="form-check-label" for="flexSwitchPersonal">Personal</label>
+        </div>
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" id="flexSwitchMobile" checked>
+          <label class="form-check-label" for="flexSwitchMobile">Mobile</label>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="pt-3">
+          <p class="mb-0">New Search</p>
+          <div class="row align-items-start pt-1">
+              <div class="col-lg-4 col-sm-6">
+      <input id="searchBar" class="form-control" type="text" placeholder="Search Here" aria-label="default input example">
+      </div>
+      <div id ="searchBtnDiv" class="col">
+      <button id="searchBtn" type="button" class="btn btn-primary">Submit</button>
+      </div>
+      </div>
+    <div class="pt-3">
+    <table id="table" data-toggle="table" class="table table-light table-striped table-hover">
       <thead>
         <tr>
           <th>Map / Taxlot</th>
@@ -23,7 +45,7 @@
           <th>Owner Name</th>
           <th>Property Addess (Situs)</th>
           <th>Subdivision</th>
-          <th>Property Type</th>
+          <th data-field="#accountType" data-sortable="true">Property Type</th>
         </tr>
       </thead>
       <tbody>
@@ -35,17 +57,29 @@
           <td>{{i.owner_name}}</td>
           <td>{{i.situs_address}}</td>
           <td>{{i.subdivision}}</td>
-          <td>{{i.account_type}}</td>
+          <td id="accountType">{{i.account_type}}</td>
         </tr>
       {% endfor %}
       {% endif %}
       </tbody>
     </table>
   </div>
+  </div>
+  </div>
+</div>
 
   <script type="text/javascript">
 
-    $('#resultsTable tbody').on('click', 'tr', function(e) {
+    var btn = document.getElementById("searchBtn");
+    var searchBar = document.getElementById("searchBar");
+    var realSwitch = document.getElementById("flexSwitchReal");
+    var personalSwitch = document.getElementById("flexSwitchPersonal");
+    var mobileSwitch = document.getElementById("flexSwitchMobile");
+    var $table = $('#table')
+    var $column = $('#accountType')
+
+
+    $('#table tbody').on('click', 'tr', function(e) {
 
     let columns = $(this).find('td').map(function() {
         return $(this).text();
@@ -56,6 +90,61 @@
     window.location.href = "{% url 'account_query' 0 %}".replace(/0/, accountQuery)
  
 });
+
+    btn.addEventListener("click", function() {
+        var name = searchBar.value;
+        if (name != '') {
+          window.location.assign("{% url 'tableSearchResults' 0 %}".replace(/0/, name))
+    }
+
+    });
+
+    searchBar.addEventListener("keypress", function(e) {
+        if (e.key === 'Enter' && name != '') {
+            var name = searchBar.value;
+            window.location.assign("{% url 'tableSearchResults' 0 %}".replace(/0/, name))
+        }
+    });
+
+    // realSwitch.addEventListener("change", function(e) {
+    //   console.log(e.target.checked);
+      
+    //   var filterAlgorithm = $('[propertyType="filterAlgorithm"]').val()
+     
+     
+     
+     
+     
+    //   //var filter = 'Real'
+    //   //var filterText = this.value.toLowerCase();
+      
+    // // if (e.target.checked == 'true') {
+
+    // //   var filterText = 'Real';
+    // //   $('#resultsTable #accountType').each(function() {
+    // //       var $this = $(this);
+    // //       console.log($this);
+    // //       var text = $this.find('td').text().toLowerCase();
+    // //       console.log(text);
+    // //         if (text.indexOf(filterText) > -1) {
+    // //             $this.show();
+    // //         } else {
+    // //           $this.hide();
+    // //         }        
+    // //     });
+
+    // //   }
+
+    // }); 
+    
+    personalSwitch.addEventListener("change", function(e) {
+      console.log(e.target.checked);
+    }); 
+    
+    mobileSwitch.addEventListener("change", function(e) {
+      console.log(e.target.checked);
+    }); 
+
 
   </script>
 

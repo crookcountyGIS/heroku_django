@@ -22,5 +22,15 @@ body {
     max-width: 100%;
 }
 
+#searchBtnDiv {
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    #searchBtnDiv {
+      padding-top: 10px;
+    }
+  }
+
 
 

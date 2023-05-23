@@ -1,75 +1,74 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from pats.propClasses import Attributes, Root
+from pats.propValueClasses import PvAttributes, PvRoot
+from pats.functions import is_string_numbers, is_string_letters, is_string_alphanumeric, is_address, regex_filter
 import json
 import requests
 import pandas as pd
+import os
+import sys
+import re
+import requests
 
+rootList = []
 
 def base(request):
 
     return render(request, 'pats/base.html')
 
-    
 def index(request):
 
     return render(request, 'pats/index.html')
     
-
 def mapPage(request):
         
     return render(request, 'pats/mapPage.html')
 
+def tableSearchResults(request, value): # this search form needs error redirecting, or failed response built into the page
 
-def tableSearchResults(request, name):
-
-    prop_url = "https://geo.co.crook.or.us/server/rest/services/Hosted/PATS_property/FeatureServer/0/query"
-    propValue_url = "https://geo.co.crook.or.us/server/rest/services/Hosted/PATS_property_values/FeatureServer/0/query"
-
-    searched_name = name.upper()
-    where_clause = f"owner_name LIKE '%{searched_name}%'"
+    prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
     out_fields = "*"
     return_geometry = "false"
     f = "pjson"
 
+    where_clause = regex_filter(value)
+
     url = f"{prop_url}?where={where_clause}&outFields={out_fields}&returnGeometry={return_geometry}&f={f}"
-    url_value = f"{propValue_url}?where={where_clause}&outFields={out_fields}&returnGeometry={return_geometry}&f={f}"
 
-    # set variables
     response = requests.get(url)
-    responseValue = requests.get(url_value)
     jsonResponse = response.json()
-    jsonValueResponse = responseValue.json()
-
+    if jsonResponse['features'] == []:
+        print("I dont think there is anything here.")
 
     df_list = []
-    for keys, value in jsonResponse.items():
-        if keys == 'features':
-            for feature in value:
-                attributes_dict = feature['attributes']
-                df = pd.DataFrame.from_dict(attributes_dict, orient='index').T
-                df_list.append(df)
+    for element in jsonResponse['features']:
+        # print(element['attributes'])
+        df = pd.DataFrame.from_dict(element['attributes'], orient='index').T
+        df_list.append(df)
 
     df = pd.concat(df_list, ignore_index=True)
 
     json_records = df.reset_index().to_json(orient='records')
-    data=[]
     data = json.loads(json_records)
 
     html_table = df.to_html(classes='table table-striped', index=False)
     context = {'html_table': html_table, 'd': data}
-    
+
     return render(request, 'pats/searchResults.html', context)
 
 
 def valuation(request, account):
 
-    prop_url = "https://geo.co.crook.or.us/server/rest/services/Hosted/PATS_property/FeatureServer/0/query"
-    propValue_url = "https://geo.co.crook.or.us/server/rest/services/Hosted/PATS_property_values/FeatureServer/0/query"
+    prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
+    propValue_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/12/query"
 
-    where_clause = f"account_id = {account}"
+    #where_clause = f"account_id = {account}"
+    where_clause = regex_filter(account)
     out_fields = "*"
     return_geometry = "false"
     f = "pjson"
+
 
     url = f"{prop_url}?where={where_clause}&outFields={out_fields}&returnGeometry={return_geometry}&f={f}"
     url_value = f"{propValue_url}?where={where_clause}&outFields={out_fields}&returnGeometry={return_geometry}&f={f}"
@@ -83,13 +82,13 @@ def valuation(request, account):
     # set empty lists
     maptaxlot = []
     structure = []
-    for keys, value in jsonResponse.items():
-        if keys == 'features':
-            for feature in value:
-                mt = feature['attributes']['map_taxlot']
-                mt_find = mt[:mt.find('-', mt.find('-') + 1)]
-                maptaxlot.append(mt_find.replace('-', ''))
 
+    for element in jsonResponse['features']:
+        root = Root.from_dict(element)
+        mt = root.attributes.map_taxlot
+        mt_find = mt[:mt.find('-', mt.find('-') + 1)]
+        maptaxlot.append(mt_find.replace('-', ''))
+        
 
     # set empty dictionaries
     real_market_value = {}
@@ -100,22 +99,28 @@ def valuation(request, account):
     veterans = {}
     year_list = [2018, 2019, 2020, 2021, 2022]
 
-    for keys, value in jsonValueResponse.items():
-        if keys == 'features':
-            for feature in value:
-                for yr in year_list:
-                    if feature['attributes']['year_'] == yr:
-                        real_market_value[yr] = feature['attributes']['rmv_land']
-                        value_structure[yr] = feature['attributes']['rmv_impr']
-                        total_real_market[yr] = feature['attributes']['rmv_total']
-                        max_assessed[yr] = feature['attributes']['max_av']
-                        total_assessed[yr] = feature['attributes']['total_av']
-                        veterans[yr] = feature['attributes']['exempt']
+    for element in jsonValueResponse['features']:
+        value_root = ValueRoot.from_dict(element)
+        
+
+        #if feature['attributes']['year'] == yr:
+            # real_market_value[yr] = feature['attributes']['rmv_land']
+            # value_structure[yr] = feature['attributes']['rmv_impr']
+            # total_real_market[yr] = feature['attributes']['rmv_total']
+            # max_assessed[yr] = feature['attributes']['max_av']
+            # total_assessed[yr] = feature['attributes']['total_av']
+            # veterans[yr] = feature['attributes']['exempt']
 
 
-    context = {'data':jsonResponse, 'value_data':jsonValueResponse, 'maptaxlot': maptaxlot,
-    'value_structure':value_structure, 'max_assessed':max_assessed, 'real_market_value':real_market_value, 'total_real_market':total_real_market, 
-    'total_assessed':total_assessed, 'veterans':veterans}
+    context = {'data':jsonResponse, 
+    'value_data':jsonValueResponse, 
+    'maptaxlot': maptaxlot,
+    'value_structure':value_structure, 
+    'max_assessed':max_assessed, 
+    'real_market_value':real_market_value, 
+    'total_real_market':total_real_market, 
+    'total_assessed':total_assessed, 
+    'veterans':veterans}
     
     return render(request, 'pats/valuation.html', context)
 
@@ -140,8 +145,8 @@ def account_query(request, account):
                 mt_find = mt[:mt.find('-', mt.find('-') + 1)]
                 maptaxlot.append(mt_find.replace('-', ''))
 
-    #j = json.dumps(jsonResponse, indent=4)
-
     context = {'data':jsonResponse, 'maptaxlot': maptaxlot}
 
     return render(request, 'pats/summaryPage.html', context)
+
+
