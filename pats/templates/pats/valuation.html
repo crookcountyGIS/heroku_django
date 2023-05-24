@@ -17,7 +17,7 @@
           <div class="container" style="padding: 0;margin-right: 0;">
               <div class="d-flex">
                   <div class="list-group">
-                    {% for feature in data.features %}
+                    {% for feature in account_info.features %}
                       <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Assessment & Taxation</a>
                       <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Summary</a>
                       <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Valuation</a>
@@ -39,7 +39,7 @@
       </div>
 <div class="col-md">
 
-  {% for feature in data.features %} 
+  {% for feature in account_info.features %} 
 
   <div class="container">
       <div class="header">
@@ -140,6 +140,40 @@
       </div>
       </div>
     </section>
+
+    <div class="pt-3">
+      <table id="table" data-toggle="table" class="table table-light table-striped table-hover">
+        <thead>
+          <tr>
+            <th>Account ID</th>
+            <th>Year</th>
+            <th>RMV Land</th>
+            <th>RMV Imprv</th>
+            <th>RMV Total</th>
+            <th>Max Av</th>
+            <td>Exempt</td>
+            <td>Original Tax</td>
+          </tr>
+        </thead>
+        <tbody>
+        {% if d %}  
+        {% for i in d %}
+          <tr>
+            <td>{{i.account_id}}</td>
+            <td>{{i.year}}</td>
+            <td>{{i.rmv_land}}</td>
+            <td>{{i.rmv_imprv}}</td>
+            <td>{{i.rmv_total}}</td>
+            <td>{{i.total_av}}</td>
+            <td>{{i.max_av}}</td>
+            <td>{{i.exempt}}</td>
+            <td>{{i.original_tax}}</td>
+          </tr>
+        {% endfor %}
+        {% endif %}
+        </tbody>
+      </table>
+    </div>
   
 
   

@@ -76,7 +76,7 @@ class Attributes:
         _veterans_exemption = float(obj.get("veterans_exemption"))
         _x_number = str(obj.get("x_number"))
         _year = str(obj.get("year"))
-        _sqft = int(obj.get("sqft"))
+        _sqft = str(obj.get("sqft"))
         _tax_status = str(obj.get("tax_status"))
         _property_class = str(obj.get("property_class"))
         _property_class_description = str(obj.get("property_class_description"))
