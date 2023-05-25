@@ -56,3 +56,10 @@ def search_account(account):
     (where_clause := f"account_id = '{account}'")
 
     return where_clause
+
+def divide_list_into_chunks(lst, chunk_size):
+    divided_lists = []
+    for i in range(0, len(lst), chunk_size):
+        chunk = lst[i:i + chunk_size]
+        divided_lists.append(chunk)
+    return divided_lists

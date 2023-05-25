@@ -1,19 +1,21 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+#from django.http import HttpResponse
 from pats.propClasses import Attributes, Root
 from pats.propValueClasses import PvAttributes, PvRoot
-from pats.functions import is_string_numbers, is_string_letters, is_string_alphanumeric, is_address, search_all, search_account
+from pats.propSearchClasses import PsAttributes, PsRoot, Feature
+from pats.functions import is_string_numbers, is_string_letters, is_string_alphanumeric, is_address, search_all, search_account, divide_list_into_chunks
 import json
 import requests
 import pandas as pd
-import os
-import sys
-import re
-import requests
-
-
+import time
+from datetime import datetime
 rootList = []
-
+def divide_list_into_chunks(lst, chunk_size):
+    divided_lists = []
+    for i in range(0, len(lst), chunk_size):
+        chunk = lst[i:i + chunk_size]
+        divided_lists.append(chunk)
+    return divided_lists
 def base(request):
 
     return render(request, 'pats/base.html')
@@ -28,49 +30,52 @@ def mapPage(request):
 
 def tableSearchResults(request, value): # this search form needs error redirecting, or failed response built into the page
 
-    split_value = value.split()
-    #print(split_value)
+    splitValue = value.upper().split()
 
     propSearch_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/19/query"
     propTable_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
-    out_fields = "*"
-    return_geometry = "false"
-    f = "pjson"
 
-    jr_list = []
-    for value in split_value:
-        where_clause = search_all(value)
-        url = f"{propSearch_url}?where={where_clause}&outFields={out_fields}&returnGeometry={return_geometry}&f={f}"
+    # Define the query parameters
+    params = {
+        "where": "1=1",  # Retrieve all records
+        "outFields": "*",  # Specify the fields to include in the response
+        "returnGeometry": False,  # Exclude geometry information
+        "f": "json"  # Specify the response format as JSON
+    }
 
-        response = requests.get(url)
-        jsonResponse = response.json()
-        jr_list.append(jsonResponse)
+    # Send the HTTP GET request
+    search_response = requests.get(propSearch_url, params=params)
+    table_response = requests.get(propTable_url, params=params)
 
-    #print(jr_list)
-    # if jsonResponse['features'] == []:
-    #     print("I dont think there is anything here.")
+    # Parse the JSON response into a dictionary
+    search_data = search_response.json()
+    table_data = table_response.json()
+    #print(data)
+    dfList = []
+    for elem in search_data['features']:
+        #print(elem['attributes'])
+        dfList.append(elem['attributes'])
 
-    df_list = []
-    for dicts in jr_list:
+    df_search = pd.DataFrame(dfList)
+    query_string = ' and '.join(f"search_all.str.contains('{value}', case=False, na=False)" for value in splitValue)
+    filtered_df = df_search.query(query_string)
+    #print(filtered_df)
 
-        for element in dicts['features']:
-            accounts = element['attributes']['account_id']
-            where_clause = search_account(accounts)
-            table_url = f"{propTable_url}?where={where_clause}&outFields={out_fields}&returnGeometry={return_geometry}&f={f}"
+    dfTableList = []
+    for elem in table_data['features']:
+        # print(elem['attributes'])
+        dfTableList.append(elem['attributes'])
 
-            responseTable = requests.get(table_url)
-            jsonResponseTable = responseTable.json()
+    df_table = pd.DataFrame(dfTableList, columns=['map_taxlot','account_id','owner_name','situs_address','subdivision','account_type'])
+    #print(df_table)
 
-            for elem in jsonResponseTable['features']:
-                root = Root.from_dict(elem)
-                df_list.append(root.attributes)
+    dfjoin = filtered_df.merge(df_table, left_on='account_id', right_on='account_id')
+    #print(dfjoin)
 
-    df = pd.DataFrame(df_list)
-
-    json_records = df.reset_index().to_json(orient='records')
+    json_records = dfjoin.reset_index().to_json(orient='records')
     data = json.loads(json_records)
 
-    html_table = df.to_html(classes='table table-striped', index=False)
+    html_table = dfjoin.to_html(classes='table table-striped', index=False)
     context = {'html_table': html_table, 'd': data}
 
     return render(request, 'pats/searchResults.html', context)
