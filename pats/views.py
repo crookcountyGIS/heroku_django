@@ -29,6 +29,7 @@ def mapPage(request):
     return render(request, 'pats/mapPage.html')
 
 def tableSearchResults(request, value): # this search form needs error redirecting, or failed response built into the page
+
     splitValue = value.upper().split()
 
     propSearch_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/19/query"
