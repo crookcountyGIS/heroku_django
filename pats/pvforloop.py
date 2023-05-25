@@ -11,6 +11,12 @@ import sys
 import re
 import requests
 
+def divide_list_into_chunks(lst, chunk_size):
+    divided_lists = []
+    for i in range(0, len(lst), chunk_size):
+        chunk = lst[i:i + chunk_size]
+        divided_lists.append(chunk)
+    return divided_lists
 def search_all(value):
 
     str(value).upper()
@@ -49,19 +55,37 @@ def tableSearchResults(value): # this search form needs error redirecting, or fa
     #     print("I dont think there is anything here.")
 
     df_list = []
+    acct_list = []
     for dicts in jr_list:
 
         for element in dicts['features']:
             accounts = element['attributes']['account_id']
-            where_clause = search_account(accounts)
-            table_url = f"{propTable_url}?where={where_clause}&outFields={out_fields}&returnGeometry={return_geometry}&f={f}"
+            acct_list.append(accounts)
 
-            responseTable = requests.get(table_url)
-            jsonResponseTable = responseTable.json()
+    print(len(acct_list) / 50)
+    print(len(acct_list) % 50)
 
-            for elem in jsonResponseTable['features']:
-                root = Root.from_dict(elem)
-                df_list.append(root.attributes)
+    divided_lists = divide_list_into_chunks(acct_list, 50)
+    #print(divided_lists)
+
+    for sublist in divided_lists:
+        #print(sublist)
+        i = 1
+        accounts = []
+        for account in sublist:
+            accounts.append("'" + account + "'")
+        accounts_string = ", ".join(accounts)
+        #print(accounts_string)
+
+        where_clause = f"account_id in ({accounts_string})"
+        table_url = f"{propTable_url}?where={where_clause}&outFields={out_fields}&returnGeometry={return_geometry}&f={f}"
+
+        responseTable = requests.get(table_url)
+        jsonResponseTable = responseTable.json()
+
+        for elem in jsonResponseTable['features']:
+            root = Root.from_dict(elem)
+            df_list.append(root.attributes)
 
     df = pd.DataFrame(df_list)
 
@@ -73,4 +97,4 @@ def tableSearchResults(value): # this search form needs error redirecting, or fa
     print(context)
     return context
 
-tableSearchResults('422 beaver')
+tableSearchResults('smith')

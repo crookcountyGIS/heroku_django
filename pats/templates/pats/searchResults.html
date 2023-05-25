@@ -7,6 +7,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link href="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.css" rel="stylesheet">
 <script src="https://unpkg.com/bootstrap-table@1.21.4/dist/bootstrap-table.min.js"></script>
+<link rel="stylesheet" type="text/css" href="extensions/filter-control/bootstrap-table-filter-control.css">
+<script src="extensions/filter-control/bootstrap-table-filter-control.js"></script>
 {% block content %}
   <div class="container">
     <div class="row">
@@ -44,19 +46,19 @@
           <th>Account</th>
           <th>Owner Name</th>
           <th>Property Addess (Situs)</th>
-          <th>Subdivision</th>
+          <th data-field="#subdivision" data-filter-control="select">Subdivision</th>
           <th data-field="#accountType" data-sortable="true">Property Type</th>
         </tr>
       </thead>
       <tbody>
-      {% if d %}  
+      {% if d %}
       {% for i in d %}
-        <tr>
+        <tr style="font-size: small">
           <td>{{i.map_taxlot}}</td>
           <td id="accountCol">{{i.account_id}}</td>
           <td>{{i.owner_name}}</td>
           <td>{{i.situs_address}}</td>
-          <td>{{i.subdivision}}</td>
+          <td id="subdivision">{{i.subdivision}}</td>
           <td id="accountType">{{i.account_type}}</td>
         </tr>
       {% endfor %}
@@ -106,9 +108,13 @@
         }
     });
 
-    // realSwitch.addEventListener("change", function(e) {
-    //   console.log(e.target.checked);
-      
+    realSwitch.addEventListener("change", function(e) {
+      var isChecked = e.target.checked;
+      console.log(isChecked);
+      //var table = $table.bootstrapTable('getOptions').data;
+      //console.log(table);
+
+    });
     //   var filterAlgorithm = $('[propertyType="filterAlgorithm"]').val()
      
      
@@ -139,7 +145,7 @@
     
     personalSwitch.addEventListener("change", function(e) {
       console.log(e.target.checked);
-    }); 
+    });
     
     mobileSwitch.addEventListener("change", function(e) {
       console.log(e.target.checked);
