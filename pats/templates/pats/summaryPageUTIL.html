@@ -7,27 +7,8 @@
 {% block content %}
 <div class="container" style="margin-left: 0;">
   <div class="row">
-<!--    <div id="navigation" class="col-md" style="max-width: 175px;padding: 0; margin:0; position: static;float: left;">-->
-<!--      <section class="bg-light">-->
-<!--        <div class="container" style="padding: 0;margin-right: 0;">-->
-<!--          <div class="d-flex">-->
-<!--            <div class="list-group">-->
-<!--                {% for feature in data.features %}-->
-<!--              <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Summary</a>-->
-<!--              <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Valuation</a>-->
-<!--              <a href="#" class="list-group-item list-group-item-action">Warnings/Notations</a>-->
-<!--              <a href="#" class="list-group-item list-group-item-action">Tax Information</a>-->
-<!--              <a href="#" class="list-group-item list-group-item-action">Assessment Reports</a>-->
-<!--              <a href="#" class="list-group-item list-group-item-action">Related Accounts</a>-->
-<!--              <a href="#" class="list-group-item list-group-item-action">Development</a>-->
-<!--                {% endfor %}-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </section>-->
-<!--    </div>-->
     <div class="col-md"> {% for feature in data.features %} <div class="header">
-        <h4>Summary for personal property account #{{feature.attributes.account_id}}</h4>
+        <h4>Details for utility account #{{feature.attributes.account_id}}</h4>
       </div>
       <div class="container">
         <div class="row">
