@@ -9,13 +9,9 @@ import requests
 import pandas as pd
 import time
 from datetime import datetime
-rootList = []
-# def divide_list_into_chunks(lst, chunk_size):
-#     divided_lists = []
-#     for i in range(0, len(lst), chunk_size):
-#         chunk = lst[i:i + chunk_size]
-#         divided_lists.append(chunk)
-#     return divided_lists
+from django import template
+from django.contrib.humanize.templatetags.humanize import intcomma
+
 def base(request):
 
     return render(request, 'pats/base.html')
@@ -70,8 +66,8 @@ def tableSearchResults(request, value): # this search form needs error redirecti
     json_records = dfjoin.reset_index().to_json(orient='records')
     data = json.loads(json_records)
 
-    html_table = dfjoin.to_html(classes='table table-striped', index=False)
-    context = {'html_table': html_table, 'd': data}
+    #html_table = dfjoin.to_html(classes='table table-striped', index=False)
+    context = {'d': data}
 
     return render(request, 'pats/searchResults.html', context)
 
@@ -82,7 +78,7 @@ def valuation(request, account):
 
     # Define the query parameters
     params = {
-        "where": "1=1",  # Retrieve all records
+        "where": f"account_id='{account}'",  # Retrieve all records
         "outFields": "*",  # Specify the fields to include in the response
         "returnGeometry": False,  # Exclude geometry information
         "f": "json"  # Specify the response format as JSON
@@ -96,33 +92,46 @@ def valuation(request, account):
     value_data = propValue_response.json()
     prop_data = prop_response.json()
 
-    # set empty lists
-    maptaxlot = []
+    # Create empty lists to append from the dataclasses
     dfList = []
+    yrList = []
 
-    for element in jsonResponse['features']:
-        root = Root.from_dict(element)
-        mt = root.attributes.map_taxlot
-        mt_find = mt[:mt.find('-', mt.find('-') + 1)]
-        maptaxlot.append(mt_find.replace('-', ''))
-
-    propvalue = PvRoot.from_dict(jsonValueResponse)
-
+    # Use dataclass to capture values from JSON
+    propvalue = PvRoot.from_dict(value_data)
     for f in propvalue.features:
         dfList.append(f.attributes)
+        yrList.append(f.attributes.year)
 
-    df_appended = pd.DataFrame(dfList)
-    df = df_appended.sort_values(by='year')
+    # Start creating HTML table from Pandas
+    df_appended = pd.DataFrame(dfList, index=yrList).T
+    df_appended = df_appended.reindex(sorted(df_appended.columns), axis=1)
 
-    json_records = df.reset_index().to_json(orient='records')
+    # Drop unwanted rows and make $$ values
+    rows_to_drop = ['account_id', 'OBJECTID', 'year', 'county_id', 'original_tax', 'tax_code_area']
+    df_filter = df_appended.drop(index=rows_to_drop)
+    df_filter = df_filter.applymap(lambda x: f'${intcomma(int(x))}' if isinstance(x, (int, float)) else x)
+
+    # Rename rows
+    index_mapping = {
+        'rmv_land': 'Real Market Value - Land',
+        'rmv_impr': 'Real Market Value - Structure',
+        'rmv_total': 'Total Real Market Value',
+        'total_av': 'Total Assessed Value',
+        'max_av': 'Maximum Assesses Value',
+        'exempt': "Veteran's Exemption"
+    }
+
+    df_filter = df_filter.rename(index=index_mapping)
+    # Convert to HTML table
+    html_table = df_filter.to_html(classes='table table-striped')
+
+    # Send data over as dictionary
+    json_records = df_filter.reset_index().to_json(orient='records')
     df_data = json.loads(json_records)
 
-    html_table = df.to_html(classes='table table-striped', index=False)
-
-    context = {'account_info':jsonResponse,
-               'value_data':jsonValueResponse,
-               'maptaxlot': maptaxlot,
-               'html_table': html_table, 
+    context = {'account_info': prop_data,
+               'value_data': value_data,
+               'html_table': html_table,
                'd': df_data}
 
     return render(request, 'pats/valuation.html', context)
