@@ -43,18 +43,24 @@
                 <br /> Tax Status: {{feature.attributes.tax_status}}
               </p>
             </div>
+            <div id="real_prop_info">
+              <h5>Real Property Information</h5>
+                <p>Real Account #:
+                <br /> Map and Tax lot:
+                <br /> Unit:
+                <br /> Park Name:
+              </p>
+            </div>
             <div id="ownership">
               <h5>Ownership</h5>
               <a href="">View Complete Ownership Report</a>
-              <ui>
-                <p>Mailing To: <br />{{feature.attributes.owner_name}}
-                  <br />{{feature.attributes.owner_mailing_address1}}
-                  <br />{{feature.attributes.owner_mailing_city}}, {{feature.attributes.owner_mailing_state}}
-                  {{feature.attributes.owner_mailing_zip}}
-                </p>
-                <a href="https://co.crook.or.us/assessor/webform/mailing-address-change-request-form">Change of Mailing Address Form</a>
-                <br /> {% for i in maptaxlot %} <a href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{{ i }}">View Overview Map</a> {% endfor %}
-              </ui>
+              <p>Mailing To: <br />{{feature.attributes.owner_name}}
+                <br />{{feature.attributes.owner_mailing_address1}}
+                <br />{{feature.attributes.owner_mailing_city}}, {{feature.attributes.owner_mailing_state}}
+                {{feature.attributes.owner_mailing_zip}}
+              </p>
+              <a href="https://co.crook.or.us/assessor/webform/mailing-address-change-request-form">Change of Mailing Address Form</a>
+              <br /> {% for i in maptaxlot %} <a href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{{ i }}">View Overview Map</a> {% endfor %}
             </div>
           </div>
           <div class="col-md-4" id="col2">
@@ -83,59 +89,10 @@
             </div>
           </div>
           <div class="col-md-4" id="col3">
-            <div id="zoning">
-              <h5>Zoning</h5>
-              <ui>
-                <p>Zoning goes here <br />
-                  <br /> The Assessor’s Office is not responsible for zoning. For any questions concerning zoning outside the City of Prineville contact the Crook County Community Development Department at 541-447-3211. For questions concerning zoning within the City of Prineville contact the City of Prineville’s Community Development Department at 541-447-5627.
-                </p>
-              </ui>
-            </div>
-            <div id="valuation">
-              <h5>Valuation</h5>
-              <p>
-                <a href="http://apps.lanecounty.org/PropertyAssessmentTaxationSearch/crook/Real/Valuation/{{feature.attributes.account_id}}">Current Year Value Summary</a>
-                <br /> &nbsp;&nbsp;As of Jan. 1 2022&nbsp; - 2023 Tax Year <br />
-              <p>
-                <strong>Real Market Values: </strong>"pop up goes here"
-              </p>
-              <table class="table table-striped">
-                <tr>
-                  <td class="table-dark">Land</td>
-                  <td>${{feature.attributes.rmv_land|intcomma}}</td>
-                </tr>
-                <tr>
-                  <td class="table-dark">Structures</td>
-                  <td>${{feature.attributes.rmv_improvements|intcomma}}</td>
-                </tr>
-                <tr>
-                  <td class="table-dark">Total</td>
-                  <td class="table-dark">${{feature.attributes.rmv_total|intcomma}}</td>
-                </tr>
-              </table>
-              <p>
-                <strong>Assessed Values:</strong>
-              </p>
-              <table class="table table-striped">
-                <tr>
-                  <td class="table-dark">Specially Assessed</td>
-                  <td>${{feature.attributes.maximum_av|intcomma}}</td>
-                </tr>
-                <tr>
-                  <td class="table-dark">Assessed Value</td>
-                  <td>${{feature.attributes.taxable_av|intcomma}}</td>
-                </tr>
-                <tr>
-                  <td class="table-dark">Veterans Exemption</td>
-                  <td>${{feature.attributes.veterans_exemption|intcomma}}</td>
-                </tr>
-              </table>
-              </p>
-            </div>
+            <h1>Hello World ---</h1>
           </div>
         </div>
       </div> {% endfor %}
     </div>
   </div>undefined
-</div>
-{% endblock %}
+</div> {% endblock %}

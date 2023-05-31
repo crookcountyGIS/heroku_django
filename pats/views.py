@@ -9,6 +9,7 @@ import json
 import requests
 import pandas as pd
 import plotly.express as px
+
 def base(request):
 
     return render(request, 'pats/base.html')
@@ -214,27 +215,37 @@ def valuation(request, account):
 
 def account_query(request, account):
 
-    base_url = "https://geo.co.crook.or.us/server/rest/services/Hosted/PATS_property/FeatureServer/0/query"
-    where_clause = f"account_id = {account}"
-    out_fields = "*"
-    return_geometry = "false"
-    f = "pjson"
+    prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
 
-    url = f"{base_url}?where={where_clause}&outFields={out_fields}&returnGeometry={return_geometry}&f={f}"
-    response = requests.get(url)
-    jsonResponse = response.json()
+    # Define the query parameters
+    params = {
+        "where": f"account_id='{account}'",  # Retrieve all records
+        "outFields": "*",  # Specify the fields to include in the response
+        "returnGeometry": False,  # Exclude geometry information
+        "f": "json"  # Specify the response format as JSON
+    }
 
+    prop_response = requests.get(prop_url, params=params)
+    prop_data = prop_response.json()
+
+    rootList = []
     maptaxlot = []
-    structure = []
-    for keys, value in jsonResponse.items():
-        if keys == 'features':
-            for feature in value:
-                mt = feature['attributes']['map_taxlot']
-                mt_find = mt[:mt.find('-', mt.find('-') + 1)]
-                maptaxlot.append(mt_find.replace('-', ''))
+    for elem in prop_data['features']:
+        (root := Root.from_dict(elem))
+        mt = root.attributes.map_taxlot
+        mt_find = mt[:mt.find('-', mt.find('-') + 1)]
+        maptaxlot.append(mt_find.replace('-', ''))
 
-    context = {'data':jsonResponse, 'maptaxlot': maptaxlot}
+    context = {'data': prop_data, 'maptaxlot': maptaxlot}
 
-    return render(request, 'pats/summaryPage.html', context)
+    if root.attributes.account_type == 'Real':
+        return render(request, 'pats/summaryPage.html', context)
+    elif root.attributes.account_type == 'M/S':
+        return render(request, 'pats/summaryPageMS.html', context)
+    else:
+        return render(request, 'pats/summaryPage.html', context)
+
+
+
 
 
