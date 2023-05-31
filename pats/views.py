@@ -8,7 +8,7 @@ from pats.functions import is_string_numbers, is_string_letters, is_string_alpha
 import json
 import requests
 import pandas as pd
-
+import plotly.express as px
 def base(request):
 
     return render(request, 'pats/base.html')
@@ -106,7 +106,19 @@ def valuation(request, account):
     # Drop unwanted rows and make $$ values
     rows_to_drop = ['account_id', 'OBJECTID', 'year', 'county_id', 'original_tax', 'tax_code_area']
     df_filter = df_appended.drop(index=rows_to_drop)
+    x_data = df_filter.keys()
+    y_data = list(df_filter.loc['rmv_total', :])
+    y_data2 = list(df_filter.loc['max_av', :])
+
+    fig = px.line(x=x_data, y=y_data)
+    fig.add_trace(px.line(x=x_data, y=y_data2).data[0])
+    fig.update_layout(title="RMV Total and Max AV Over Time", xaxis_title="Year", yaxis_title="Value")
+    # fig.show()
+
+    chart = fig.to_html()
+
     df_filter = df_filter.applymap(lambda x: f'${intcomma(int(x))}' if isinstance(x, (int, float)) else x)
+
 
     # Rename rows
     index_mapping = {
@@ -129,7 +141,8 @@ def valuation(request, account):
     context = {'account_info': prop_data,
                'value_data': value_data,
                'html_table': html_table,
-               'd': df_data}
+               'd': df_data,
+               'chart': chart}
 
     return render(request, 'pats/valuation.html', context)
 
