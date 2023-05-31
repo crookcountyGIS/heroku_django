@@ -1,0 +1,65 @@
+{% extends 'pats/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block content %}
+<div class="container" style="margin-left: 0;">
+  <div class="row">
+    <div id="navigation" class="col-md" style="max-width: 175px;padding: 0; margin:0; position: static;float: left;">
+      <section class="bg-light">
+        <div class="container" style="padding: 0;margin-right: 0;">
+          <div class="d-flex">
+            <div class="list-group">
+                {% for feature in data.features %}
+              <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Summary</a>
+              <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Valuation</a>
+              <a href="#" class="list-group-item list-group-item-action">Warnings/Notations</a>
+              <a href="#" class="list-group-item list-group-item-action">Tax Information</a>
+              <a href="#" class="list-group-item list-group-item-action">Assessment Reports</a>
+              <a href="#" class="list-group-item list-group-item-action">Related Accounts</a>
+              <a href="#" class="list-group-item list-group-item-action">Development</a>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="col-md"> {% for feature in data.features %} <div class="header">
+        <h4>Summary for personal property account #{{feature.attributes.account_id}}</h4>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4" id="col1">
+            <div id="account_info">
+              <h5>Account Information</h5>
+              <p>Personal Property Account: {{feature.attributes.account_id}}
+                <br /> Situs Address: {{feature.attributes.situs_address}}
+                <br /> X Number: {{feature.attributes.x_number}}
+              </p>
+            </div>
+            <div id="ownership">
+              <h5>Ownership</h5>
+              <a href="">View Complete Ownership Report</a>
+              <p>Mailing To: <br />{{feature.attributes.owner_name}}
+                <br />{{feature.attributes.owner_mailing_address1}}
+                <br />{{feature.attributes.owner_mailing_city}}, {{feature.attributes.owner_mailing_state}}
+                {{feature.attributes.owner_mailing_zip}}
+              </p>
+              <a href="https://co.crook.or.us/assessor/webform/mailing-address-change-request-form">Change of Mailing Address Form</a>
+              <br />
+              {% for i in maptaxlot %}
+              <a href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{{ i }}">View Overview Map</a>
+              {% endfor %}
+            </div>
+          </div>
+
+        </div>
+
+        {% endfor %}
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}

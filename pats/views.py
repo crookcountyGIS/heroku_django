@@ -242,6 +242,8 @@ def account_query(request, account):
         return render(request, 'pats/summaryPage.html', context)
     elif root.attributes.account_type == 'M/S':
         return render(request, 'pats/summaryPageMS.html', context)
+    elif root.attributes.account_type == 'P/P':
+        return render(request, 'pats/summaryPagePP.html', context)
     else:
         return render(request, 'pats/summaryPage.html', context)
 
