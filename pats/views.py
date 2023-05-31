@@ -10,12 +10,12 @@ import pandas as pd
 import time
 from datetime import datetime
 rootList = []
-def divide_list_into_chunks(lst, chunk_size):
-    divided_lists = []
-    for i in range(0, len(lst), chunk_size):
-        chunk = lst[i:i + chunk_size]
-        divided_lists.append(chunk)
-    return divided_lists
+# def divide_list_into_chunks(lst, chunk_size):
+#     divided_lists = []
+#     for i in range(0, len(lst), chunk_size):
+#         chunk = lst[i:i + chunk_size]
+#         divided_lists.append(chunk)
+#     return divided_lists
 def base(request):
 
     return render(request, 'pats/base.html')
@@ -32,8 +32,8 @@ def tableSearchResults(request, value): # this search form needs error redirecti
 
     splitValue = value.upper().split()
 
+    prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
     propSearch_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/19/query"
-    propTable_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
 
     # Define the query parameters
     params = {
@@ -45,32 +45,27 @@ def tableSearchResults(request, value): # this search form needs error redirecti
 
     # Send the HTTP GET request
     search_response = requests.get(propSearch_url, params=params)
-    table_response = requests.get(propTable_url, params=params)
+    table_response = requests.get(prop_url, params=params)
 
     # Parse the JSON response into a dictionary
     search_data = search_response.json()
-    table_data = table_response.json()
-    #print(data)
+    prop_data = table_response.json()
+
     dfList = []
     for elem in search_data['features']:
-        #print(elem['attributes'])
         dfList.append(elem['attributes'])
 
     df_search = pd.DataFrame(dfList)
     query_string = ' and '.join(f"search_all.str.contains('{value}', case=False, na=False)" for value in splitValue)
     filtered_df = df_search.query(query_string)
-    #print(filtered_df)
 
     dfTableList = []
-    for elem in table_data['features']:
-        # print(elem['attributes'])
+    for elem in prop_data['features']:
         dfTableList.append(elem['attributes'])
 
     df_table = pd.DataFrame(dfTableList, columns=['map_taxlot','account_id','owner_name','situs_address','subdivision','account_type'])
-    #print(df_table)
 
     dfjoin = filtered_df.merge(df_table, left_on='account_id', right_on='account_id')
-    #print(dfjoin)
 
     json_records = dfjoin.reset_index().to_json(orient='records')
     data = json.loads(json_records)
@@ -81,23 +76,25 @@ def tableSearchResults(request, value): # this search form needs error redirecti
     return render(request, 'pats/searchResults.html', context)
 
 def valuation(request, account):
+
     prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
     propValue_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/12/query"
 
-    #where_clause = f"account_id = {account}"
-    where_clause = regex_filter(account)
-    out_fields = "*"
-    return_geometry = "false"
-    f = "pjson"
+    # Define the query parameters
+    params = {
+        "where": "1=1",  # Retrieve all records
+        "outFields": "*",  # Specify the fields to include in the response
+        "returnGeometry": False,  # Exclude geometry information
+        "f": "json"  # Specify the response format as JSON
+    }
 
-    url = f"{prop_url}?where={where_clause}&outFields={out_fields}&returnGeometry={return_geometry}&f={f}"
-    url_value = f"{propValue_url}?where={where_clause}&outFields={out_fields}&returnGeometry={return_geometry}&f={f}"
+    # Send the HTTP GET request
+    propValue_response = requests.get(propValue_url, params=params)
+    prop_response = requests.get(prop_url, params=params)
 
-    # set variables
-    response = requests.get(url)
-    responseValue = requests.get(url_value)
-    jsonResponse = response.json()
-    jsonValueResponse = responseValue.json()
+    # Parse the JSON response into a dictionary
+    value_data = propValue_response.json()
+    prop_data = prop_response.json()
 
     # set empty lists
     maptaxlot = []
