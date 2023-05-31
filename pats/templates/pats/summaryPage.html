@@ -11,7 +11,9 @@
       <section class="bg-light">
         <div class="container" style="padding: 0;margin-right: 0;">
           <div class="d-flex">
-            <div class="list-group"> {% for feature in data.features %} <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Assessment & Taxation</a>
+            <div class="list-group">
+              {% for feature in data.features %}
+              <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Assessment & Taxation</a>
               <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Summary</a>
               <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Valuation</a>
               <a href="#" class="list-group-item list-group-item-action">Tax Information</a>
@@ -20,10 +22,10 @@
               <a href="#" class="list-group-item list-group-item-action">Special Assessments</a>
               <a href="#" class="list-group-item list-group-item-action">Tax Map</a>
               <a href="#" class="list-group-item list-group-item-action">Tax Lot History</a>
-              <a href="#" class="list-group-item list-group-item-action">Tax Related Accounts</a>
+              <a href="#" class="list-group-item list-group-item-action">Related Accounts</a>
               <a href="#" class="list-group-item list-group-item-action">Warnings/Notations</a>
-              <a href="#" class="list-group-item list-group-item-action">Help</a>
-              <a href="#" class="list-group-item list-group-item-action">Development</a> {% endfor %}
+              <a href="#" class="list-group-item list-group-item-action">Development</a>
+              {% endfor %}
             </div>
           </div>
         </div>
@@ -38,7 +40,9 @@
             <div id="account_info">
               <h5>Account Information</h5>
               <p>Mailing Name: {{feature.attributes.owner_name}}
-                <br /> Map and Tax lot: {{feature.attributes.map_taxlot}}
+                {% for i in maptaxlot %}
+                <br /> Map and Tax lot: {{ i }}
+                  {% endfor %}
                 <br /> Situs Address: {{feature.attributes.situs_address}}
                 <br /> Tax Status: {{feature.attributes.tax_status}}
               </p>
@@ -46,15 +50,16 @@
             <div id="ownership">
               <h5>Ownership</h5>
               <a href="">View Complete Ownership Report</a>
-              <ui>
                 <p>Mailing To: <br />{{feature.attributes.owner_name}}
                   <br />{{feature.attributes.owner_mailing_address1}}
                   <br />{{feature.attributes.owner_mailing_city}}, {{feature.attributes.owner_mailing_state}}
                   {{feature.attributes.owner_mailing_zip}}
                 </p>
                 <a href="https://co.crook.or.us/assessor/webform/mailing-address-change-request-form">Change of Mailing Address Form</a>
-                <br /> {% for i in maptaxlot %} <a href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{{ i }}">View Overview Map</a> {% endfor %}
-              </ui>
+                <br />
+                {% for i in maptaxlot %}
+                <a href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{{ i }}">View Overview Map</a>
+                {% endfor %}
             </div>
           </div>
           <div class="col-md-4" id="col2">
@@ -72,24 +77,20 @@
             </div>
             <div id="assessment">
               <h5>Assessment</h5>
-              <ui>
                 <p>Assessor Property Description: information pop-up here <br />
                   {{feature.attributes.subdivision}}
                   <br />Lot {{feature.attributes.lot}} Block {{feature.attributes.block}}
                 </p> Assessor Acres: {{feature.attributes.land_size_acres}}
                 <br /> Property Class: {{feature.attributes.property_class}}
                 </p>
-              </ui>
             </div>
           </div>
           <div class="col-md-4" id="col3">
             <div id="zoning">
               <h5>Zoning</h5>
-              <ui>
                 <p>Zoning goes here <br />
                   <br /> The Assessor’s Office is not responsible for zoning. For any questions concerning zoning outside the City of Prineville contact the Crook County Community Development Department at 541-447-3211. For questions concerning zoning within the City of Prineville contact the City of Prineville’s Community Development Department at 541-447-5627.
                 </p>
-              </ui>
             </div>
             <div id="valuation">
               <h5>Valuation</h5>
@@ -130,12 +131,12 @@
                   <td>${{feature.attributes.veterans_exemption|intcomma}}</td>
                 </tr>
               </table>
-              </p>
             </div>
           </div>
         </div>
-      </div> {% endfor %}
+      </div>
+      {% endfor %}
     </div>
-  </div>undefined
+  </div>
 </div>
 {% endblock %}
