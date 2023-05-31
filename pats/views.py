@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.humanize.templatetags.humanize import intcomma
 #from django.http import HttpResponse
 from pats.propClasses import Attributes, Root
 from pats.propValueClasses import PvAttributes, PvRoot
@@ -7,10 +8,6 @@ from pats.functions import is_string_numbers, is_string_letters, is_string_alpha
 import json
 import requests
 import pandas as pd
-import time
-from datetime import datetime
-from django import template
-from django.contrib.humanize.templatetags.humanize import intcomma
 
 def base(request):
 
