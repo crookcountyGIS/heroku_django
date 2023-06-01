@@ -15,10 +15,11 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a class="nav-link nav-link-search active" href="{% url 'index' %}">General Search</a>
+{#            <a id="generalSearch" class="nav-link nav-link-search active" href="{% url 'index' %}">General Search</a>#}
+            <a id="generalSearch" class="nav-link nav-link-search active" href="#">General Search</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-search" href="#">Search Account</a>
+            <a id="searchAccount" class="nav-link nav-link-search" href="#">Search Account</a>
           </li>
           <li class="nav-item">
             <a class="nav-link nav-link-search" href="#">Search Maptaxlot</a>
@@ -48,21 +49,63 @@
 <script type="text/javascript">
     var btn = document.getElementById("searchBtn");
     var searchBar = document.getElementById("searchBar");
+    var searchAccount = document.getElementById("searchAccount");
+    var generalSearch = document.getElementById("generalSearch");
+
+        // Set a flag to track click status
+    let acctClicked = false;
+    // Add click event listener to the link
+    searchAccount.addEventListener('click', () => {
+      acctClicked = true;
+      genClicked = false;
+      console.log(acctClicked);
+      // Perform any additional actions you want when the link is clicked
+    });
+
+    let genClicked = false;
+    // Add click event listener to the link
+    generalSearch.addEventListener('click', () => {
+      genClicked = true;
+      acctClicked = false;
+      console.log(genClicked);
+      // Perform any additional actions you want when the link is clicked
+    });
+
 
     btn.addEventListener("click", function() {
-        var name = searchBar.value;
-        if (name != '') {
-         window.location.href = "search/" + name
-    }
+        var query = searchBar.value;
+        console.log("search account:" + acctClicked);
+        console.log("search general:" + genClicked);
+        if (query != '' && acctClicked == true) {
 
-    });
-
-    searchBar.addEventListener("keypress", function(e) {
-        if (e.key === 'Enter' && name != '') {
-            var name = searchBar.value;
-            window.location.href = "search/" + name
+          window.location.href = "{% url 'account_query' 0 %}".replace(/0/, query)
         }
+        else if (query != '') {
+
+          window.location.href = "search/" + query
+        }
+        //else {alert("Please enter a valid value.");}
+
+
     });
+
+    searchBar.addEventListener("keydown", function(e) {
+        var query = searchBar.value;
+        console.log("search account:" + acctClicked);
+        console.log("search general:" + genClicked);
+        if (e.key === 'Enter' && query != '' &&  acctClicked == true) {
+
+            window.location.href = "{% url 'account_query' 0 %}".replace(/0/, query)
+        }
+        else if (e.key === 'Enter' && query != '') {
+
+
+            window.location.href = "search/" + query
+        }
+
+        // else {alert("Please enter a valid value.");}
+    });
+
 
 </script>
 
