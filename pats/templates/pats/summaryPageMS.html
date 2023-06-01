@@ -1,0 +1,92 @@
+{% extends 'pats/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block content %}
+<div class="container" style="margin-left: 0;">
+  <div class="row">
+    <div id="navigation" class="col-md" style="max-width: 175px;padding: 0; margin:0; position: static;float: left;">
+      <section class="bg-light">
+        <div class="container" style="padding: 0;margin-right: 0;">
+          <div class="d-flex">
+            <div class="list-group">
+                {% for feature in data.features %}
+              <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Summary</a>
+              <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Valuation</a>
+              <a href="#" class="list-group-item list-group-item-action">Tax Information</a>
+              <a href="#" class="list-group-item list-group-item-action">Assessment Reports</a>
+              <a href="#" class="list-group-item list-group-item-action">Special Assessments</a>
+              <a href="#" class="list-group-item list-group-item-action">Development</a>
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <div class="col-md"> {% for feature in data.features %} <div class="header">
+        <h4>Summary for manufactured structure account #{{feature.attributes.account_id}}</h4>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4" id="col1">
+            <div id="account_info">
+              <h5>Account Information</h5>
+              <p>Account: {{feature.attributes.account_id}}
+                <br /> Situs Address: {{feature.attributes.situs_address}}
+                <br /> X Number: {{feature.attributes.x_number}}
+              </p>
+            </div>
+            <div id="real_prop_info">
+              <h5>Real Property Information</h5>
+                <p>Real Account #: <a href="{% url 'account_query' account=feature.attributes.real_account_id %}" class="">{{feature.attributes.real_account_id}}</a>
+                  {% for i in maptaxlot %}
+                <br /> Map and Tax lot: {{ i }}
+                  {% endfor %}
+                <br /> Unit: {{feature.attributes.unit_number}}
+                <br /> Park Name: {{feature.attributes.park_name}}
+              </p>
+            </div>
+            <div id="ownership">
+              <h5>Ownership</h5>
+              <a href="">View Complete Ownership Report</a>
+              <p>Mailing To: <br />{{feature.attributes.owner_name}}
+                <br />{{feature.attributes.owner_mailing_address1}}
+                <br />{{feature.attributes.owner_mailing_city}}, {{feature.attributes.owner_mailing_state}}
+                {{feature.attributes.owner_mailing_zip}}
+              </p>
+              <a href="https://co.crook.or.us/assessor/webform/mailing-address-change-request-form">Change of Mailing Address Form</a>
+              <br />
+              {% for i in maptaxlot %}
+              <a href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{{ i }}">View Overview Map</a>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-md-4" id="col2">
+            <div id="taxes">
+              <h5>Taxes</h5>
+                <p>Property Tax (Current Year): ${{feature.attributes.current_property_tax|intcomma}}</p>
+                <a href="">Get Current Balance Due (PDF)</a>
+                <p>"Enter if/else statement availability here"</p>
+                <a href="https://co.crook.or.us/tax-collection">Pay Your Property Taxes</a>
+                <br />
+                <a href="">Tax Payments & History</a>
+                <p>Tax Code Area: 00{{feature.attributes.tax_code_area}}</p>
+            </div>
+            <div id="assessment">
+              <h5>Assessment</h5>
+                <p>Assessor Property Description: information pop-up here <br />
+                  {{feature.attributes.subdivision}}
+                  <br />Lot {{feature.attributes.lot}} Block {{feature.attributes.block}}
+                </p> Assessor Acres: {{feature.attributes.land_size_acres}}
+                <br /> Property Class: {{feature.attributes.property_class}}
+            </div>
+          </div>
+        </div>
+      </div>
+        {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
