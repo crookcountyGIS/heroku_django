@@ -2,6 +2,8 @@ html,
 body {
     height:100%;
     width:100%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
 }
 
 .table {
@@ -22,6 +24,17 @@ body {
     max-width: 100%;
 }
 
+#searchBtnDiv {
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    #searchBtnDiv {
+      padding-top: 10px;
+    }
+  }
+
+
 
 @media (max-width: 768px) {
     #searchBtnDiv {
@@ -29,5 +42,74 @@ body {
     }
   }
 
+.logo {
+  position: absolute;
+  right: 3%;
+  top:10px;
+  z-index: 10;
+}
+
+.header {
+  background-color: #6B724A;
+  border-bottom: 1px solid #C8CFAF; 
+}
+
+.navbar-brand {
+  margin-right:60px;
+}
+
+#title {
+  font-size: x-large;
+  color:rgb(255, 255, 255);
+  font-weight: 600;
+}
+#subtitle{
+  font-size:small;
+  color:rgb(255, 255, 255);
+  font-weight: 600;
+  padding-left:15px;
+}
+
+#banner {
+  height: 100px;
+  background-color: #C6DFFD;
+  padding-left:20px;
+  padding-top: 15px;
+}
+
+.nav-link-header {
+  color: white;
+}
 
 
+
+.nav-link-search {
+  color: wheat;
+  font-weight: 100;
+}
+
+.nav-link-search:hover {
+  color: rgb(189, 168, 129);
+  text-decoration: underline;
+}
+
+.banner-btn {
+  margin-top: 15px;
+}
+
+#footer {
+  background-color: #2B4F73;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  font-weight: lighter;
+  font-size: xx-small;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.nav-search {
+  background: linear-gradient(270deg,#306088 5.05%,#274161 77.07%);
+  height: 40px;
+}
