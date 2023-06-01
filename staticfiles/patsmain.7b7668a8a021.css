@@ -1,0 +1,35 @@
+html,
+body {
+    height:100%;
+    width:100%;
+}
+
+.table {
+    border: 1px solid black;
+    width: 100%;
+}
+
+.header h4 {
+    text-align: center;
+    margin: 0;
+    border: 1px solid black;
+  }
+
+
+.col-md-4 {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+
+@media (max-width: 768px) {
+    #searchBtnDiv {
+      margin-top: 10px;
+    }
+  }
+
+.test {
+  color: red;
+}
+

@@ -21,63 +21,38 @@
 <title>Crook County Property Assessment & Taxation Search</title>
 </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-secondary navbar-light">
+    <nav class="navbar navbar-expand-md bg-body-tertiary header">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">PATS Links:</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarScroll">
-          <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'index' %}">PATS Home</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Help
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <a class="navbar-brand" href="#"><div id="title">Crook County Property Information</div><div id="subtitle">Property Assessment & Taxaxtion Search</div></a>
+            <li class="nav-item dropdown banner-btn">
+              <a class="nav-link dropdown-toggle nav-link-header" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Other Tools
               </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                <li><a class="dropdown-item" href="#">Online Help</a></li>
-                <li><a class="dropdown-item" href="#">PATS Training Guide</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Crook County Web Map</a></li>
+                <li><a class="dropdown-item" href="#">Survey Research Tool</a></li>
+                <li><a class="dropdown-item" href="#">Tax Maps</a></li>
               </ul>
             </li>
-          </ul>
-        </div>
+            <li class="nav-item dropdown banner-btn">
+              <a class="nav-link dropdown-toggle nav-link-header" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Other Links
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Crook County Website</a></li>
+                <li><a class="dropdown-item" href="#">Pay Taxes</a></li>
+                <li><a class="dropdown-item" href="#">Contact Us</a></li>
+              </ul>
+            </li>
       </div>
     </nav>
-  <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#"><h1>Crook County Property Information</h1></a>
-      <img src="{% static 'pats/crook_county_logo_lgr.jpg' %}" alt="" width="350" height="75" class="d-inline-block align-text-left">
-    </div>
-  </nav>
-
-  <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
-    <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" href="{% url 'index' %}">New Search</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">New Search by Account #</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{0}">Interactive Map</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+    <img src="{% static 'pats/logo.png' %}" alt="" width="150" height="150" class="logo">
   
-{% block content %}
-{% endblock %}
+    {% block content %}
+    {% endblock %}
 
-</body>
+    <div id="footer">© 2023 - CROOK COUNTY. All rights reserved. Disclaimer | Privacy | Help | Contact Us</div>
+  </body>
 </html>
 
