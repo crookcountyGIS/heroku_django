@@ -37,17 +37,17 @@
           </div>
       </section>
       </div>
-<div class="col-md">
+<div class="container col-md">
 
   {% for feature in account_info.features %} 
 
-  <div class="container">
+
       <div class="header">
         <h4>Valuation for account #{{feature.attributes.account_id}}</h4>
       </div>
-    </div>
-    <section class="bg dark text-dark text-left">
-      <div class="container">
+
+
+
         <div class="col">
           <div id="account_info">
             <h5>Account Information</h5>
@@ -60,10 +60,10 @@
   {% endfor %}
           <img src="" alt="">
         </div>
-      </div>
-    </section>
-    <section>
-      <div class="container">
+
+
+
+
         <div class="col">
           <h5>Value History</h5>
           {{ html_table|safe }}
@@ -131,17 +131,17 @@
             </tbody>
           </table>
         </div>
-      </div>
-    </section>
-    <section>
-      <div class="container">
+
+
+
+      
       <div class="card">
           <div class="card-body">
               <canvas id="chLine"></canvas>
           </div>
       </div>
-      </div>
-    </section>
+
+
 
 
 <!--  experimental tables -->
