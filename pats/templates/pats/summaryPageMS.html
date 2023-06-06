@@ -25,10 +25,10 @@
         </div>
       </section>
     </div>
-    <div class="col-md"> {% for feature in data.features %} <div class="header">
+    <div class="col-md p-0"> {% for feature in data.features %} <div class="header">
         <h4>Summary for manufactured structure account #{{feature.attributes.account_id}}</h4>
       </div>
-      <div class="container">
+        <!--container was here -->
         <div class="row">
           <div class="col-md-4" id="col1">
             <div id="account_info">
@@ -84,7 +84,7 @@
             </div>
           </div>
         </div>
-      </div>
+
         {% endfor %}
     </div>
   </div>
