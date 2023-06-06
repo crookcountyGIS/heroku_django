@@ -70,8 +70,6 @@ body {
   color: white;
 }
 
-
-
 .nav-link-search {
   color: wheat;
   font-weight: 100;
@@ -101,4 +99,8 @@ body {
 .nav-search {
   background: linear-gradient(270deg,#306088 5.05%,#274161 77.07%);
   height: 40px;
+}
+
+#searchAccount {
+
 }

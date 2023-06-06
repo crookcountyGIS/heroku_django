@@ -59,7 +59,10 @@
       acctClicked = true;
       genClicked = false;
       console.log(acctClicked);
-      // Perform any additional actions you want when the link is clicked
+      if (acctClicked == true) {
+          searchAccount.style.backgroundColor = 'white';
+          generalSearch.style.backgroundColor = 'transparent';
+      }
     });
 
     let genClicked = false;
@@ -68,6 +71,12 @@
       genClicked = true;
       acctClicked = false;
       console.log(genClicked);
+      if (genClicked == true) {
+          generalSearch.style.backgroundColor = 'white';
+          searchAccount.style.backgroundColor = 'transparent';
+      }
+
+
       // Perform any additional actions you want when the link is clicked
     });
 
@@ -99,7 +108,7 @@
         }
         // else {alert("Please enter a valid value.");}
     });
-    
+
 </script>
 
 {% endblock %}
