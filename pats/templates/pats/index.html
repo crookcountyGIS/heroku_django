@@ -117,6 +117,7 @@
         mtClicked = true;
         ownerClicked = false;
         addressClicked = false;
+        console.log(mtClicked);
         if (mtClicked == true) {
             mtsearch.style.backgroundColor = 'white';
             mtsearch.style.color = '#2b4f73';
@@ -179,6 +180,9 @@
         if (query != '' && acctClicked == true) {
           window.location.href = "{% url 'account_query' 0 %}".replace(/0/, query)
         }
+        else if (query != '' && mtClicked == true) {
+          window.location.href = "{% url 'mt_query' 0 %}".replace(/0/, query)
+        }
         else if (query != '') {
           window.location.href = "search/" + query
         }
@@ -190,6 +194,9 @@
         console.log("search general:" + genClicked);
         if (e.key === 'Enter' && query != '' &&  acctClicked == true) {
             window.location.href = "{% url 'account_query' 0 %}".replace(/0/, query)
+        }
+        else if (e.key === 'Enter' && query != '' && mtClicked == true) {
+          window.location.href = "{% url 'mt_query' 0 %}".replace(/0/, query)
         }
         else if (e.key === 'Enter' && query != '') {
             window.location.href = "search/" + query

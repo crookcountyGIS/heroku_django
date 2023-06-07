@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.humanize.templatetags.humanize import intcomma
 from pats.propClasses import Attributes, Root
 from pats.propValueClasses import PvAttributes, PvRoot
@@ -179,6 +179,38 @@ def account_query(request, account):
         return render(request, 'pats/summaryPageUTIL.html', context)
 
     else:
+        return render(request, 'pats/summaryPage.html', context)
+
+def mt_query(request, maptaxlot):
+
+    maptaxlot = maptaxlot[:8] + "-" + maptaxlot[8:]
+    prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
+
+    params = {
+        "where": f"map_taxlot LIKE '%{maptaxlot}%'",  # Retrieve all records
+        "outFields": "*",  # Specify the fields to include in the response
+        "returnGeometry": False,  # Exclude geometry information
+        "f": "json"  # Specify the response format as JSON
+    }
+
+    prop_response = requests.get(prop_url, params=params)
+    prop_data = prop_response.json()
+
+    print(prop_data)
+    maptaxlot = []
+    for elem in prop_data['features']:
+        root = Root.from_dict(elem)
+        (account := root.attributes.account_id)
+        mt = root.attributes.map_taxlot
+        mt_find = mt[:mt.find('-', mt.find('-') + 1)]
+        maptaxlot.append(mt_find.replace('-', ''))
+
+
+    print(len(prop_data['features']))
+    if len(prop_data['features']) == 1:
+        return redirect(f"account_query:'{account}'")
+    else:
+        context = {'data': prop_data, 'maptaxlot': maptaxlot}
         return render(request, 'pats/summaryPage.html', context)
 
 
