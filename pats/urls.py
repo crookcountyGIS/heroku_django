@@ -9,6 +9,7 @@ urlpatterns = [
     path('map/', views.mapPage, name='mapPage'),
     path('<str:account>/', views.account_query, name='account_query'),
     path('<str:account>/valuation/', views.valuation, name='valuation'),
+    path('maptaxlot/<str:maptaxlot>/', views.mt_query, name='mt_query'),
     path('search/<str:value>/', views.tableSearchResults, name='tableSearchResults'),
    
 ]

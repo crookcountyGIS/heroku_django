@@ -18,7 +18,6 @@
               <div class="d-flex">
                   <div class="list-group">
                     {% for feature in account_info.features %}
-                      <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Assessment & Taxation</a>
                       <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Summary</a>
                       <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Valuation</a>
                       <a href="#" class="list-group-item list-group-item-action">Tax Information</a>
