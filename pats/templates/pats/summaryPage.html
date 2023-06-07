@@ -7,7 +7,7 @@
 {% block content %}
 <div class="container" style="margin-left: 0;">
   <div class="row">
-    <div id="navigation" class="col-md" style="max-width: 175px;padding: 0; margin:0; position: static;float: left;">
+    <div id="navigation" class="col-md" style="max-width: 200px;padding: 0; margin:0;">
       <section class="bg-light">
         <div class="container" style="padding: 0;margin-right: 0;">
           <div class="d-flex">
@@ -34,21 +34,21 @@
 
 {% for feature in data.features %}
 
-<div class="container col-md">
+<div class="container col-md p-0">
 <div class="header">
   <h4>Summary for account #{{feature.attributes.account_id}}</h4>
 </div>
 
   <div class="row">
     <div class="col-lg-4 col-md-6 col-sm-12">
-      <div id="account_info" style="float:left; margin-top:20px;">  
+      <div id="account_info" style="float:left; margin-top:20px;">
         <h5 >Account Information</h5>
         Mailing Name: {{feature.attributes.owner_name}}<br />
         Map and Tax lot: {{feature.attributes.map_taxlot}}<br />
         Situs Address: {{feature.attributes.situs_address}}<br />
         Tax Status: {{feature.attributes.tax_status}}
       </div>
-      <div id="ownership" style="float:left; margin-top:20px;">   
+      <div id="ownership" style="float:left; margin-top:20px;">
         <h5>Ownership</h5>
         <a href="">View Complete Ownership Report</a>
         <p>Mailing To: <br />{{feature.attributes.owner_name}}
