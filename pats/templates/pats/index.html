@@ -15,20 +15,19 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-{#            <a id="generalSearch" class="nav-link nav-link-search active" href="{% url 'index' %}">General Search</a>#}
             <a id="generalSearch" class="nav-link nav-link-search active" href="#">General Search</a>
           </li>
           <li class="nav-item">
             <a id="searchAccount" class="nav-link nav-link-search" href="#">Search Account</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-search" href="#">Search Maptaxlot</a>
+            <a id="searchMT" class="nav-link nav-link-search" href="#">Search Maptaxlot</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-search" href="#">Search Owner</a>
+            <a id="searchOwner" class="nav-link nav-link-search" href="#">Search Owner</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link nav-link-search" href="#">Search Address</a>
+            <a id="searchAddress" class="nav-link nav-link-search" href="#">Search Address</a>
           </li>
         </ul>
       </div>
@@ -47,41 +46,129 @@
 </div>
 
 <script type="text/javascript">
+
+    function genSearchDefault() {
+        generalSearch.style.backgroundColor = 'white';
+        generalSearch.style.color = '#2b4f73';
+    }
+
     var btn = document.getElementById("searchBtn");
     var searchBar = document.getElementById("searchBar");
     var searchAccount = document.getElementById("searchAccount");
     var generalSearch = document.getElementById("generalSearch");
+    var mtsearch = document.getElementById("searchMT");
+    var ownerSearch = document.getElementById("searchOwner");
+    var addressSearch = document.getElementById("searchAddress");
 
     // Set a flag to track click status
     let acctClicked = false;
+    let genClicked = false;
+    let mtClicked = false;
+    let ownerClicked = false;
+    let addressClicked = false;
+
     // Add click event listener to the link
     searchAccount.addEventListener('click', () => {
       acctClicked = true;
       genClicked = false;
+      mtClicked = false;
+      ownerClicked = false;
+      addressClicked = false;
       console.log(acctClicked);
       if (acctClicked == true) {
           searchAccount.style.backgroundColor = 'white';
           searchAccount.style.color = '#2b4f73';
           generalSearch.style.backgroundColor = 'transparent';
           generalSearch.style.color = 'wheat';
+          mtsearch.style.backgroundColor = 'transparent';
+          mtsearch.style.color = 'wheat';
+          ownerSearch.style.backgroundColor = 'transparent';
+          ownerSearch.style.color = 'wheat';
+          addressSearch.style.backgroundColor = 'transparent';
+          addressSearch.style.color = 'wheat';
       }
     });
 
-    let genClicked = false;
     // Add click event listener to the link
     generalSearch.addEventListener('click', () => {
-      genClicked = true;
       acctClicked = false;
+      genClicked = true;
+      mtClicked = false;
+      ownerClicked = false;
+      addressClicked = false;
       console.log(genClicked);
       if (genClicked == true) {
           generalSearch.style.backgroundColor = 'white';
           generalSearch.style.color = '#2b4f73';
           searchAccount.style.backgroundColor = 'transparent';
           searchAccount.style.color = 'wheat';
+          mtsearch.style.backgroundColor = 'transparent';
+          mtsearch.style.color = 'wheat';
+          ownerSearch.style.backgroundColor = 'transparent';
+          ownerSearch.style.color = 'wheat';
+          addressSearch.style.backgroundColor = 'transparent';
+          addressSearch.style.color = 'wheat';
       }
+    });
 
+    mtsearch.addEventListener('click', () => {
+        acctClicked = false;
+        genClicked = false;
+        mtClicked = true;
+        ownerClicked = false;
+        addressClicked = false;
+        if (mtClicked == true) {
+            mtsearch.style.backgroundColor = 'white';
+            mtsearch.style.color = '#2b4f73';
+            searchAccount.style.backgroundColor = 'transparent';
+            searchAccount.style.color = 'wheat';
+            generalSearch.style.backgroundColor = 'transparent';
+            generalSearch.style.color = 'wheat';
+            ownerSearch.style.backgroundColor = 'transparent';
+            ownerSearch.style.color = 'wheat';
+            addressSearch.style.backgroundColor = 'transparent';
+            addressSearch.style.color = 'wheat';
+        }
+    });
 
-      // Perform any additional actions you want when the link is clicked
+    ownerSearch.addEventListener('click', () => {
+        acctClicked = false;
+        genClicked = false;
+        mtClicked = false;
+        ownerClicked = true;
+        addressClicked = false;
+        if (ownerClicked == true) {
+            ownerSearch.style.backgroundColor = 'white';
+            ownerSearch.style.color = '#2b4f73';
+            mtsearch.style.backgroundColor = 'transparent';
+            mtsearch.style.color = 'wheat';
+            searchAccount.style.backgroundColor = 'transparent';
+            searchAccount.style.color = 'wheat';
+            generalSearch.style.backgroundColor = 'transparent';
+            generalSearch.style.color = 'wheat';
+            addressSearch.style.backgroundColor = 'transparent';
+            addressSearch.style.color = 'wheat';
+        }
+    });
+
+    addressSearch.addEventListener('click', () => {
+        acctClicked = false;
+        genClicked = false;
+        mtClicked = false;
+        ownerClicked = false;
+        addressClicked = true;
+        if (addressClicked == true) {
+            addressSearch.style.backgroundColor = 'white';
+            addressSearch.style.color = '#2b4f73';
+            mtsearch.style.backgroundColor = 'transparent';
+            mtsearch.style.color = 'wheat';
+            searchAccount.style.backgroundColor = 'transparent';
+            searchAccount.style.color = 'wheat';
+            generalSearch.style.backgroundColor = 'transparent';
+            generalSearch.style.color = 'wheat';
+            ownerSearch.style.backgroundColor = 'transparent';
+            ownerSearch.style.color = 'wheat';
+        }
     });
 
 
@@ -95,9 +182,6 @@
         else if (query != '') {
           window.location.href = "search/" + query
         }
-        //else {alert("Please enter a valid value.");}
-
-
     });
 
     searchBar.addEventListener("keydown", function(e) {
@@ -110,7 +194,6 @@
         else if (e.key === 'Enter' && query != '') {
             window.location.href = "search/" + query
         }
-        // else {alert("Please enter a valid value.");}
     });
 
 </script>
