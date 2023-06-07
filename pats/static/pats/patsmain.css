@@ -3,12 +3,6 @@ body {
     height:100%;
     width:100%;
     font-family: Arial, Helvetica, sans-serif;
-    font-weight: 600;
-}
-
-.table {
-    border: 1px solid black;
-    width: 100%;
 }
 
 .header h4 {
@@ -72,7 +66,12 @@ body {
 
 .nav-link-search {
   color: wheat;
-  font-weight: 100;
+}
+
+.navbar-text {
+  color: wheat;
+  font-weight: bolder;
+
 }
 
 .nav-link-search:hover {
@@ -98,5 +97,6 @@ body {
 
 .nav-search {
   background: linear-gradient(270deg,#306088 5.05%,#274161 77.07%);
-  height: 40px;
+  height: 30px;
+  font-size: .75em;
 }
