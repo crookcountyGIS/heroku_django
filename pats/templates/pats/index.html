@@ -112,9 +112,9 @@
     });
 
     mtsearch.addEventListener('click', () => {
+        mtClicked = true;
         acctClicked = false;
         genClicked = false;
-        mtClicked = true;
         ownerClicked = false;
         addressClicked = false;
         console.log(mtClicked);
@@ -180,7 +180,7 @@
         if (query != '' && acctClicked == true) {
           window.location.href = "{% url 'account_query' 0 %}".replace(/0/, query)
         }
-        else if (query != '' && mtClicked == true) {
+        else if (query != '' && mtClicked == true && acctClicked == false) {
           window.location.href = "{% url 'mt_query' 0 %}".replace(/0/, query)
         }
         else if (query != '') {
@@ -195,7 +195,7 @@
         if (e.key === 'Enter' && query != '' &&  acctClicked == true) {
             window.location.href = "{% url 'account_query' 0 %}".replace(/0/, query)
         }
-        else if (e.key === 'Enter' && query != '' && mtClicked == true) {
+        else if (e.key === 'Enter' && query != '' && mtClicked == true && acctClicked == false) {
           window.location.href = "{% url 'mt_query' 0 %}".replace(/0/, query)
         }
         else if (e.key === 'Enter' && query != '') {

@@ -196,22 +196,32 @@ def mt_query(request, maptaxlot):
     prop_response = requests.get(prop_url, params=params)
     prop_data = prop_response.json()
 
-    print(prop_data)
     maptaxlot = []
+    dfTableList = []
     for elem in prop_data['features']:
+        dfTableList.append(elem['attributes'])
         root = Root.from_dict(elem)
-        (account := root.attributes.account_id)
         mt = root.attributes.map_taxlot
         mt_find = mt[:mt.find('-', mt.find('-') + 1)]
         maptaxlot.append(mt_find.replace('-', ''))
 
+    df_table = pd.DataFrame(dfTableList,
+                            columns=['map_taxlot', 'account_id', 'owner_name', 'situs_address', 'subdivision',
+                                     'account_type'])
 
-    print(len(prop_data['features']))
+    json_records = df_table.reset_index().to_json(orient='records')
+    data = json.loads(json_records)
+
     if len(prop_data['features']) == 1:
-        return redirect(f"account_query:'{account}'")
-    else:
         context = {'data': prop_data, 'maptaxlot': maptaxlot}
         return render(request, 'pats/summaryPage.html', context)
+    else:
+        context = {'d': data}
+        return render(request, 'pats/searchResults.html', context)
+
+
+
+
 
 
 
