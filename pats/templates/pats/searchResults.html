@@ -12,7 +12,7 @@
 {% block content %}
   <div class="container">
     <div class="row">
-      <div class="col-md pt-3" style="max-width: 100px;padding: 0; margin:0; position: static;float: left;">
+      <div style="max-width: 100px;padding: 0; margin:0; position: static;float: left;">
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="flexSwitchReal" checked>
           <label class="form-check-label" for="flexSwitchReal">Real</label>
@@ -26,49 +26,50 @@
           <label class="form-check-label" for="flexSwitchMobile">Mobile</label>
         </div>
       </div>
-
       <div class="col">
         <div class="pt-3">
           <p class="mb-0">New Search</p>
           <div class="row align-items-start pt-1">
-              <div class="col-lg-4 col-sm-6">
-      <input id="searchBar" class="form-control" type="text" placeholder="Search Here" aria-label="default input example">
+            <div class="col-lg-4 col-sm-6">
+              <input id="searchBar" class="form-control" type="text" placeholder="Search Here" aria-label="default input example">
+            </div>
+            <div id ="searchBtnDiv" class="col">
+              <button id="searchBtn" type="button" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </div>
+        <div class="pt-3">
+          <table id="table" data-toggle="table" class="table table-light table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Map / Taxlot</th>
+                <th>Account</th>
+                <th>Owner Name</th>
+                <th>Property Addess (Situs)</th>
+                <th data-field="#subdivision" data-filter-control="select">Subdivision</th>
+                <th data-field="#accountType" data-sortable="true">Property Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% if d %}
+              {% for i in d %}
+              <tr style="font-size: small">
+                <td>{{i.map_taxlot}}</td>
+                <td id="accountCol">{{i.account_id}}</td>
+                <td>{{i.owner_name}}</td>
+                <td>{{i.situs_address}}</td>
+                <td id="subdivision">{{i.subdivision}}</td>
+                <td id="accountType">{{i.account_type}}</td>
+              </tr>
+              {% endfor %}
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
       </div>
-      <div id ="searchBtnDiv" class="col">
-      <button id="searchBtn" type="button" class="btn btn-primary">Submit</button>
-      </div>
-      </div>
-    <div class="pt-3">
-    <table id="table" data-toggle="table" class="table table-light table-striped table-hover">
-      <thead>
-        <tr>
-          <th>Map / Taxlot</th>
-          <th>Account</th>
-          <th>Owner Name</th>
-          <th>Property Addess (Situs)</th>
-          <th data-field="#subdivision" data-filter-control="select">Subdivision</th>
-          <th data-field="#accountType" data-sortable="true">Property Type</th>
-        </tr>
-      </thead>
-      <tbody>
-      {% if d %}
-      {% for i in d %}
-        <tr style="font-size: small">
-          <td>{{i.map_taxlot}}</td>
-          <td id="accountCol">{{i.account_id}}</td>
-          <td>{{i.owner_name}}</td>
-          <td>{{i.situs_address}}</td>
-          <td id="subdivision">{{i.subdivision}}</td>
-          <td id="accountType">{{i.account_type}}</td>
-        </tr>
-      {% endfor %}
-      {% endif %}
-      </tbody>
-    </table>
+    </div>
   </div>
-  </div>
-  </div>
-</div>
+
 
   <script type="text/javascript">
 
