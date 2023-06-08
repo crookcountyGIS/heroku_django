@@ -217,9 +217,10 @@ def mt_query(request, maptaxlot):
     json_records = df_table.reset_index().to_json(orient='records')
     data = json.loads(json_records)
 
-    if len(prop_data['features']) == 1:
-        context = {'data': prop_data, 'maptaxlot': maptaxlot}
-        return render(request, 'pats/summaryPage.html', context)
+    if len(df_table) == 1:
+        account_id = df_table.iloc[0]['account_id']
+        return redirect('account_query', account=account_id)
+
     else:
         context = {'d': data}
         return render(request, 'pats/searchResults.html', context)
@@ -242,9 +243,14 @@ def owner_query(request, name):
     # Parse the JSON response into a dictionary
     prop_data = table_response.json()
 
+    maptaxlot = []
     dfList = []
     for elem in prop_data['features']:
         dfList.append(elem['attributes'])
+        root = Root.from_dict(elem)
+        mt = root.attributes.map_taxlot
+        mt_find = mt[:mt.find('-', mt.find('-') + 1)]
+        maptaxlot.append(mt_find.replace('-', ''))
 
     df_search = pd.DataFrame(dfList)
     query_string = ' and '.join(f"owner_name.str.contains('{name}', case=False, na=False)" for name in splitValue)
@@ -257,9 +263,13 @@ def owner_query(request, name):
     json_records = df_table.reset_index().to_json(orient='records')
     data = json.loads(json_records)
 
-    context = {'d': data}
+    if len(df_table) == 1:
+        account_id = df_table.iloc[0]['account_id']
+        return redirect('account_query', account=account_id)
 
-    return render(request, 'pats/searchResults.html', context)
+    else:
+        context = {'d': data}
+        return render(request, 'pats/searchResults.html', context)
 
 
 def address_query(request, address):
@@ -279,9 +289,14 @@ def address_query(request, address):
     # Parse the JSON response into a dictionary
     prop_data = table_response.json()
 
+    maptaxlot = []
     dfList = []
     for elem in prop_data['features']:
         dfList.append(elem['attributes'])
+        root = Root.from_dict(elem)
+        mt = root.attributes.map_taxlot
+        mt_find = mt[:mt.find('-', mt.find('-') + 1)]
+        maptaxlot.append(mt_find.replace('-', ''))
 
     df_search = pd.DataFrame(dfList)
     query_string = ' and '.join(
@@ -295,9 +310,13 @@ def address_query(request, address):
     json_records = df_table.reset_index().to_json(orient='records')
     data = json.loads(json_records)
 
-    context = {'d': data}
+    if len(df_table) == 1:
+        account_id = df_table.iloc[0]['account_id']
+        return redirect('account_query', account=account_id)
 
-    return render(request, 'pats/searchResults.html', context)
+    else:
+        context = {'d': data}
+        return render(request, 'pats/searchResults.html', context)
 
 
 
