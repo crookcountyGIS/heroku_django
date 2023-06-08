@@ -277,6 +277,9 @@
       table = document.getElementById("table");
       tr = table.getElementsByTagName("tr");
       for (i = 0; i < tr.length; i++) {
+        if (i === 0) { // Skip filtering for the first row (headers)
+          continue;
+        }
         td = tr[i].getElementsByTagName("td");
         var displayRow = false;
         for (j = 0; j < td.length; j++) {
