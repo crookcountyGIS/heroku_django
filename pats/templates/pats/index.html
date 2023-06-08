@@ -186,6 +186,9 @@
         else if (query != '' && ownerClicked == true) {
           window.location.href = "{% url 'owner_query' 0 %}".replace(/0/, query)
         }
+        else if (query != '' && addressClicked == true) {
+          window.location.href = "{% url 'address_query' 0 %}".replace(/0/, query)
+        }
         else if (query != '') {
           window.location.href = "search/" + query
         }
@@ -201,8 +204,11 @@
         else if (e.key === 'Enter' && query != '' && mtClicked == true) {
           window.location.href = "{% url 'mt_query' 0 %}".replace(/0/, query)
         }
-        else if (query != '' && ownerClicked == true) {
+        else if (e.key === 'Enter' && query != '' && ownerClicked == true) {
           window.location.href = "{% url 'owner_query' 0 %}".replace(/0/, query)
+        }
+        else if (e.key === 'Enter' &&query != '' && addressClicked == true) {
+          window.location.href = "{% url 'address_query' 0 %}".replace(/0/, query)
         }
         else if (e.key === 'Enter' && query != '') {
             window.location.href = "search/" + query

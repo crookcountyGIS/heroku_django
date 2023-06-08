@@ -7,19 +7,21 @@ import requests
 import pandas as pd
 import plotly.express as px
 
-def base(request):
 
+def base(request):
     return render(request, 'pats/base.html')
 
-def index(request):
 
+def index(request):
     return render(request, 'pats/index.html')
-    
+
+
 def mapPage(request):
-        
     return render(request, 'pats/mapPage.html')
 
-def tableSearchResults(request, value): # this search form needs error redirecting, or failed response built into the page
+
+def tableSearchResults(request,
+                       value):  # this search form needs error redirecting, or failed response built into the page
 
     splitValue = value.upper().split()
 
@@ -54,20 +56,22 @@ def tableSearchResults(request, value): # this search form needs error redirecti
     for elem in prop_data['features']:
         dfTableList.append(elem['attributes'])
 
-    df_table = pd.DataFrame(dfTableList, columns=['map_taxlot','account_id','owner_name','situs_address','subdivision','account_type'])
+    df_table = pd.DataFrame(dfTableList,
+                            columns=['map_taxlot', 'account_id', 'owner_name', 'situs_address', 'subdivision',
+                                     'account_type'])
 
     dfjoin = filtered_df.merge(df_table, left_on='account_id', right_on='account_id')
 
     json_records = dfjoin.reset_index().to_json(orient='records')
     data = json.loads(json_records)
 
-    #html_table = dfjoin.to_html(classes='table table-striped', index=False)
+    # html_table = dfjoin.to_html(classes='table table-striped', index=False)
     context = {'d': data}
 
     return render(request, 'pats/searchResults.html', context)
 
-def valuation(request, account):
 
+def valuation(request, account):
     prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
     propValue_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/12/query"
 
@@ -110,7 +114,8 @@ def valuation(request, account):
 
     fig = px.line(x=x_data, y=y_data)
     fig.add_trace(px.line(x=x_data, y=y_data2).data[0])
-    fig.update_layout(title="Total Real Market Value and Maximum Assessed Value Over Time", xaxis_title="Year", yaxis_title="Value")
+    fig.update_layout(title="Total Real Market Value and Maximum Assessed Value Over Time", xaxis_title="Year",
+                      yaxis_title="Value")
     # fig.show()
     chart = fig.to_html()
 
@@ -142,8 +147,8 @@ def valuation(request, account):
 
     return render(request, 'pats/valuation.html', context)
 
-def account_query(request, account):
 
+def account_query(request, account):
     prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
 
     # Define the query parameters
@@ -181,8 +186,8 @@ def account_query(request, account):
     else:
         return render(request, 'pats/summaryPage.html', context)
 
-def mt_query(request, maptaxlot):
 
+def mt_query(request, maptaxlot):
     maptaxlot = maptaxlot[:8] + "-" + maptaxlot[8:]
     prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
 
@@ -219,8 +224,8 @@ def mt_query(request, maptaxlot):
         context = {'d': data}
         return render(request, 'pats/searchResults.html', context)
 
-def owner_query(request, name):
 
+def owner_query(request, name):
     splitValue = name.upper().split()
 
     prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
@@ -232,10 +237,8 @@ def owner_query(request, name):
         "returnGeometry": False,  # Exclude geometry information
         "f": "json"  # Specify the response format as JSON
     }
-
     # Send the HTTP GET request
     table_response = requests.get(prop_url, params=params)
-
     # Parse the JSON response into a dictionary
     prop_data = table_response.json()
 
@@ -245,26 +248,56 @@ def owner_query(request, name):
 
     df_search = pd.DataFrame(dfList)
     query_string = ' and '.join(f"owner_name.str.contains('{name}', case=False, na=False)" for name in splitValue)
+
     filtered_df = df_search.query(query_string)
-
-    # dfTableList = []
-    # for elem in prop_data['features']:
-    #     dfTableList.append(elem['attributes'])
-
-    df_table = pd.DataFrame(filtered_df, columns=['map_taxlot','account_id','owner_name','situs_address','subdivision','account_type'])
-
-    #dfjoin = filtered_df.merge(df_table, left_on='account_id', right_on='account_id')
+    df_table = pd.DataFrame(filtered_df,
+                            columns=['map_taxlot', 'account_id', 'owner_name', 'situs_address', 'subdivision',
+                                     'account_type'])
 
     json_records = df_table.reset_index().to_json(orient='records')
     data = json.loads(json_records)
 
-    #html_table = dfjoin.to_html(classes='table table-striped', index=False)
     context = {'d': data}
 
     return render(request, 'pats/searchResults.html', context)
 
 
+def address_query(request, address):
+    splitValue = address.upper().split()
 
+    prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
+
+    # Define the query parameters
+    params = {
+        "where": "1=1",  # Retrieve all records
+        "outFields": "*",  # Specify the fields to include in the response
+        "returnGeometry": False,  # Exclude geometry information
+        "f": "json"  # Specify the response format as JSON
+    }
+    # Send the HTTP GET request
+    table_response = requests.get(prop_url, params=params)
+    # Parse the JSON response into a dictionary
+    prop_data = table_response.json()
+
+    dfList = []
+    for elem in prop_data['features']:
+        dfList.append(elem['attributes'])
+
+    df_search = pd.DataFrame(dfList)
+    query_string = ' and '.join(
+        f"situs_address.str.contains('{address}', case=False, na=False)" for address in splitValue)
+
+    filtered_df = df_search.query(query_string)
+    df_table = pd.DataFrame(filtered_df,
+                            columns=['map_taxlot', 'account_id', 'owner_name', 'situs_address', 'subdivision',
+                                     'account_type'])
+
+    json_records = df_table.reset_index().to_json(orient='records')
+    data = json.loads(json_records)
+
+    context = {'d': data}
+
+    return render(request, 'pats/searchResults.html', context)
 
 
 
