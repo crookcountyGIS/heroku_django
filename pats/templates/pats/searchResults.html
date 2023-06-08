@@ -62,7 +62,7 @@
         <div style="background-color: #F2F2F2; padding:5px;">
           <div class="row align-items-start pt-1">
             <div class="col-lg-4 col-sm-6">
-              <input id="searchBar" class="form-control" type="text" placeholder="refine search  ***adjust as typed?" aria-label="default input example">
+              <input id="searchBar" onkeyup="filterResults()" class="form-control" type="text" placeholder="refine search  ***adjust as typed?" aria-label="default input example">
             </div>
           </div>
         </div>
@@ -267,30 +267,32 @@
     });
 
     searchBar.addEventListener("keydown", function(e) {
-        var query = searchBar.value;
-        console.log("search account:" + acctClicked);
-        console.log("search general:" + genClicked);
-        if (e.key === 'Enter' && query != '' &&  acctClicked == true) {
-            window.location.href = "{% url 'account_query' 0 %}".replace(/0/, query)
-        }
-        else if (e.key === 'Enter' && query != '' && mtClicked == true) {
-          window.location.href = "{% url 'mt_query' 0 %}".replace(/0/, query)
-        }
-        else if (e.key === 'Enter' && query != '' && ownerClicked == true) {
-          window.location.href = "{% url 'owner_query' 0 %}".replace(/0/, query)
-        }
-        else if (e.key === 'Enter' &&query != '' && addressClicked == true) {
-          window.location.href = "{% url 'address_query' 0 %}".replace(/0/, query)
-        }
-        else if (e.key === 'Enter' && query != '') {
-            window.location.href = "search/" + query
-        }
+
     });
 
-
-
-
-
+    function filterResults() {
+      var filter, table, tr, td, i, j, txtValue;
+      input = document.getElementById("searchBar");
+      filter = input.value.toUpperCase();
+      table = document.getElementById("table");
+      tr = table.getElementsByTagName("tr");
+      for (i = 0; i < tr.length; i++) {
+        td = tr[i].getElementsByTagName("td");
+        var displayRow = false;
+        for (j = 0; j < td.length; j++) {
+          txtValue = td[j].textContent || td[j].innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            displayRow = true;
+            break;
+          }
+        }
+        if (displayRow) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
 
     realSwitch.addEventListener("change", function(e) {
       var isChecked = e.target.checked;
