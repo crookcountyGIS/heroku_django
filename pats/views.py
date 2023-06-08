@@ -219,6 +219,52 @@ def mt_query(request, maptaxlot):
         context = {'d': data}
         return render(request, 'pats/searchResults.html', context)
 
+def owner_query(request, name):
+
+    splitValue = name.upper().split()
+
+    prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
+
+    # Define the query parameters
+    params = {
+        "where": "1=1",  # Retrieve all records
+        "outFields": "*",  # Specify the fields to include in the response
+        "returnGeometry": False,  # Exclude geometry information
+        "f": "json"  # Specify the response format as JSON
+    }
+
+    # Send the HTTP GET request
+    table_response = requests.get(prop_url, params=params)
+
+    # Parse the JSON response into a dictionary
+    prop_data = table_response.json()
+
+    dfList = []
+    for elem in prop_data['features']:
+        dfList.append(elem['attributes'])
+
+    df_search = pd.DataFrame(dfList)
+    query_string = ' and '.join(f"owner_name.str.contains('{name}', case=False, na=False)" for name in splitValue)
+    filtered_df = df_search.query(query_string)
+
+    # dfTableList = []
+    # for elem in prop_data['features']:
+    #     dfTableList.append(elem['attributes'])
+
+    df_table = pd.DataFrame(filtered_df, columns=['map_taxlot','account_id','owner_name','situs_address','subdivision','account_type'])
+
+    #dfjoin = filtered_df.merge(df_table, left_on='account_id', right_on='account_id')
+
+    json_records = df_table.reset_index().to_json(orient='records')
+    data = json.loads(json_records)
+
+    #html_table = dfjoin.to_html(classes='table table-striped', index=False)
+    context = {'d': data}
+
+    return render(request, 'pats/searchResults.html', context)
+
+
+
 
 
 
