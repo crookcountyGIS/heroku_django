@@ -15,7 +15,7 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a id="generalSearch" class="nav-link nav-link-search active" href="#">General Search</a>
+            <a id="generalSearch" class="nav-link nav-link-search-active" href="#">General Search</a>
           </li>
           <li class="nav-item">
             <a id="searchAccount" class="nav-link nav-link-search" href="#">Search Account</a>
@@ -47,10 +47,6 @@
 
 <script type="text/javascript">
 
-    function genSearchDefault() {
-        generalSearch.style.backgroundColor = 'white';
-        generalSearch.style.color = '#2b4f73';
-    }
 
     var btn = document.getElementById("searchBtn");
     var searchBar = document.getElementById("searchBar");
@@ -67,27 +63,28 @@
     let ownerClicked = false;
     let addressClicked = false;
 
-    // Add click event listener to the link
+
+
+    //Revised link style modifier
     searchAccount.addEventListener('click', () => {
       acctClicked = true;
       genClicked = false;
       mtClicked = false;
       ownerClicked = false;
       addressClicked = false;
-      console.log(acctClicked);
-      if (acctClicked == true) {
-          searchAccount.style.backgroundColor = 'white';
-          searchAccount.style.color = '#2b4f73';
-          generalSearch.style.backgroundColor = 'transparent';
-          generalSearch.style.color = 'wheat';
-          mtsearch.style.backgroundColor = 'transparent';
-          mtsearch.style.color = 'wheat';
-          ownerSearch.style.backgroundColor = 'transparent';
-          ownerSearch.style.color = 'wheat';
-          addressSearch.style.backgroundColor = 'transparent';
-          addressSearch.style.color = 'wheat';
+      var a = document.getElementsByClassName('nav-link-search-active')
+      for (i = 0; i < a.length; i++) {
+          a[i].classList.add('nav-link-search');
+          a[i].classList.remove('nav-link-search-active');
       }
+      searchAccount.classList.remove('nav-link-search');
+      searchAccount.classList.add('nav-link-search-active');
     });
+
+
+
+    // Add click event listener to the link
+
 
     // Add click event listener to the link
     generalSearch.addEventListener('click', () => {
@@ -96,19 +93,13 @@
       mtClicked = false;
       ownerClicked = false;
       addressClicked = false;
-      console.log(genClicked);
-      if (genClicked == true) {
-          generalSearch.style.backgroundColor = 'white';
-          generalSearch.style.color = '#2b4f73';
-          searchAccount.style.backgroundColor = 'transparent';
-          searchAccount.style.color = 'wheat';
-          mtsearch.style.backgroundColor = 'transparent';
-          mtsearch.style.color = 'wheat';
-          ownerSearch.style.backgroundColor = 'transparent';
-          ownerSearch.style.color = 'wheat';
-          addressSearch.style.backgroundColor = 'transparent';
-          addressSearch.style.color = 'wheat';
+      var a = document.getElementsByClassName('nav-link-search-active')
+      for (i = 0; i < a.length; i++) {
+          a[i].classList.add('nav-link-search');
+          a[i].classList.remove('nav-link-search-active');
       }
+      generalSearch.classList.remove('nav-link-search');
+      generalSearch.classList.add('nav-link-search-active');
     });
 
     mtsearch.addEventListener('click', () => {
@@ -117,19 +108,13 @@
         genClicked = false;
         ownerClicked = false;
         addressClicked = false;
-        console.log(mtClicked);
-        if (mtClicked == true) {
-            mtsearch.style.backgroundColor = 'white';
-            mtsearch.style.color = '#2b4f73';
-            searchAccount.style.backgroundColor = 'transparent';
-            searchAccount.style.color = 'wheat';
-            generalSearch.style.backgroundColor = 'transparent';
-            generalSearch.style.color = 'wheat';
-            ownerSearch.style.backgroundColor = 'transparent';
-            ownerSearch.style.color = 'wheat';
-            addressSearch.style.backgroundColor = 'transparent';
-            addressSearch.style.color = 'wheat';
-        }
+        var a = document.getElementsByClassName('nav-link-search-active')
+      for (i = 0; i < a.length; i++) {
+          a[i].classList.add('nav-link-search');
+          a[i].classList.remove('nav-link-search-active');
+      }
+      mtsearch.classList.remove('nav-link-search');
+      mtsearch.classList.add('nav-link-search-active');
     });
 
     ownerSearch.addEventListener('click', () => {
@@ -138,18 +123,13 @@
         mtClicked = false;
         ownerClicked = true;
         addressClicked = false;
-        if (ownerClicked == true) {
-            ownerSearch.style.backgroundColor = 'white';
-            ownerSearch.style.color = '#2b4f73';
-            mtsearch.style.backgroundColor = 'transparent';
-            mtsearch.style.color = 'wheat';
-            searchAccount.style.backgroundColor = 'transparent';
-            searchAccount.style.color = 'wheat';
-            generalSearch.style.backgroundColor = 'transparent';
-            generalSearch.style.color = 'wheat';
-            addressSearch.style.backgroundColor = 'transparent';
-            addressSearch.style.color = 'wheat';
-        }
+        var a = document.getElementsByClassName('nav-link-search-active')
+      for (i = 0; i < a.length; i++) {
+          a[i].classList.add('nav-link-search');
+          a[i].classList.remove('nav-link-search-active');
+      }
+      ownerSearch.classList.remove('nav-link-search');
+      ownerSearch.classList.add('nav-link-search-active');
     });
 
     addressSearch.addEventListener('click', () => {
@@ -158,18 +138,13 @@
         mtClicked = false;
         ownerClicked = false;
         addressClicked = true;
-        if (addressClicked == true) {
-            addressSearch.style.backgroundColor = 'white';
-            addressSearch.style.color = '#2b4f73';
-            mtsearch.style.backgroundColor = 'transparent';
-            mtsearch.style.color = 'wheat';
-            searchAccount.style.backgroundColor = 'transparent';
-            searchAccount.style.color = 'wheat';
-            generalSearch.style.backgroundColor = 'transparent';
-            generalSearch.style.color = 'wheat';
-            ownerSearch.style.backgroundColor = 'transparent';
-            ownerSearch.style.color = 'wheat';
-        }
+        var a = document.getElementsByClassName('nav-link-search-active')
+      for (i = 0; i < a.length; i++) {
+          a[i].classList.add('nav-link-search');
+          a[i].classList.remove('nav-link-search-active');
+      }
+      addressSearch.classList.remove('nav-link-search');
+      addressSearch.classList.add('nav-link-search-active');
     });
 
 
