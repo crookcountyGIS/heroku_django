@@ -124,3 +124,15 @@ body {
 .list-group {
   width: 200px;
 }
+
+.card {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Adjust the shadow properties as desired */
+}
+
+.card-header h5 {
+  font-size: 18px; /* Adjust the font size as desired */
+}
+
+.card-body {
+  font-size: small;
+}
