@@ -127,7 +127,7 @@ body {
 
 .card {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Adjust the shadow properties as desired */
-  width: 286px;
+  width: 325px;
 }
 
 .card-header h5 {
