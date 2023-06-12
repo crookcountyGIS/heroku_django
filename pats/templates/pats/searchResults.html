@@ -57,7 +57,7 @@
       </div>
       <div class="col" >
         <div>
-          Searching: <span id="searchTerm" style="color:rgb(138, 0, 0)">{search term}</span>
+          Searching: <span id="searchTerm" style="color:rgb(138, 0, 0)">{{ search_term|safe }}</span>
         </div>
         <div style="background-color: #F2F2F2; padding:5px;">
           <div class="row align-items-start pt-1">
@@ -140,7 +140,7 @@
 
         searchTerm = document.getElementById("searchTerm");
         console.log(searchTerm.textContent);
-        searchTerm.innerHTML = window.location.href
+        //searchTerm.innerHTML = window.location.href
     }
 
     // Add click event listener to the link

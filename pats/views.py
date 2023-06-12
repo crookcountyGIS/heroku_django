@@ -66,7 +66,7 @@ def tableSearchResults(request,
     data = json.loads(json_records)
 
     # html_table = dfjoin.to_html(classes='table table-striped', index=False)
-    context = {'d': data}
+    context = {'d': data, 'search_term': value}
 
     return render(request, 'pats/searchResults.html', context)
 
@@ -222,7 +222,7 @@ def mt_query(request, maptaxlot):
         return redirect('account_query', account=account_id)
 
     else:
-        context = {'d': data}
+        context = {'d': data, 'search_term': maptaxlot}
         return render(request, 'pats/searchResults.html', context)
 
 
