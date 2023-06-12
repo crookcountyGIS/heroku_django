@@ -44,20 +44,23 @@
 </nav>
   <div class="container-fluid container-search">
     <div class="row">
-      <div style="max-width: 150px; float: left;font-size: small;">
-        <div class="form-check form-switch">
+      <div class="card text-dark bg-light mb-3 p-0" style="max-width: 150px; float: left;font-size: small;">
+  <div id="filterHeader" class="card-header">Filters</div>
+  <div class="card-body">
+    <div class="form-check">
           <input class="form-check-input" type="checkbox" id="flexSwitchReal" checked>
           <label class="form-check-label" for="flexSwitchReal">Real</label>
         </div>
-        <div class="form-check form-switch">
+        <div class="form-check">
           <input class="form-check-input" type="checkbox" id="flexSwitchPersonal" checked>
           <label class="form-check-label" for="flexSwitchPersonal">Personal</label>
         </div>
-        <div class="form-check form-switch">
+        <div class="form-check">
           <input class="form-check-input" type="checkbox" id="flexSwitchMobile" checked>
           <label class="form-check-label" for="flexSwitchMobile">Mobile</label>
         </div>
-      </div>
+  </div>
+</div>
       <div class="col">
         <div>
           Searching: <span id="searchTerm" style="color:rgb(138, 0, 0)">{{ search_term|safe }}</span>

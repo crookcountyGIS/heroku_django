@@ -38,24 +38,20 @@
 <div class="header">
   <h4>Summary for account #{{feature.attributes.account_id}}</h4>
 </div>
+
   <div class="row px-3">
     <div class="col-lg-4 col-md-6 col-sm-12">
-      <div class="card text-dark bg-light mb-3" id="account_info" style="float:left; margin-top:20px;"">
-    <div class="card-header"><h5><strong>Account Information</strong></h5></div>
-  <div class="card-body">
-      <strong>Mailing Name:</strong> {{feature.attributes.owner_name}}<br />
-        <strong>Map and Tax lot:</strong> {{feature.attributes.map_taxlot}}<br />
-        <strong>Situs Address:</strong> {{feature.attributes.situs_address}}<br />
-        <strong>Tax Status:</strong> {{feature.attributes.tax_status}}
-  </div>
-</div>
-
-
-  <div class="card text-dark bg-light mb-3" id="ownership" style="float:left; margin-top:20px;">
-      <div class="card-header"><h5><strong>Ownership</strong></h5></div>
-  <div class="card-body">
-    <a href="">View Complete Ownership Report</a>
-        <p><strong>Mailing To:</strong> <br />{{feature.attributes.owner_name}}
+      <div id="account_info" style="float:left; margin-top:20px;">
+        <h5 >Account Information</h5>
+        Mailing Name: {{feature.attributes.owner_name}}<br />
+        Map and Tax lot: {{feature.attributes.map_taxlot}}<br />
+        Situs Address: {{feature.attributes.situs_address}}<br />
+        Tax Status: {{feature.attributes.tax_status}}
+      </div>
+      <div id="ownership" style="float:left; margin-top:20px;">
+        <h5>Ownership</h5>
+        <a href="">View Complete Ownership Report</a>
+        <p>Mailing To: <br />{{feature.attributes.owner_name}}
           <br />{{feature.attributes.owner_mailing_address1}}
           <br />{{feature.attributes.owner_mailing_city}},
           {{feature.attributes.owner_mailing_state}}
@@ -64,44 +60,37 @@
           {% for i in maptaxlot %}
           <a href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{{ i }}">View Overview Map</a>
           {% endfor %}
-  </div>
-</div>
-
-
+      </div>
     </div>
-<div class="col-lg-4 col-md-6 col-sm-12">
-    <div class="card text-dark bg-light mb-3" id="taxes" style="float:left; margin-top:20px;">
-        <div class="card-header"><h5><strong>Taxes</strong></h5></div>
-  <div class="card-body">
-    <p><strong>Property Tax (Current Year):</strong> {{feature.attributes.current_property_tax|intcomma}}</p>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <div id="taxes" style="float:left; margin-top:20px;">
+        <h5>Taxes</h5>
+        <ui>
+          <p>Property Tax (Current Year): {{feature.attributes.current_property_tax|intcomma}}</p>
           <a href="">Get Current Balance Due (PDF)</a>
           <p>"Enter if/else statement availability here"</p>
           <a href="https://co.crook.or.us/tax-collection">Pay Your Property Taxes</a><br />
           <a href="">Tax Payments & History</a><br />
-          <strong>Tax Code Area:</strong> 00{{feature.attributes.tax_code_area}}
-  </div>
-</div>
-
-
-    <div class="card text-dark bg-light mb-3" id="assessment" style="float:left; margin-top:20px;">
-  <div class="card-header"><h5><strong>Assessment</strong></h5></div>
-  <div class="card-body">
-    <p><strong>Assessor Property Description:</strong> information pop-up here<br />
+          Tax Code Area: 00{{feature.attributes.tax_code_area}}
+        </ui>
+      </div>
+      <div id="assessment" style="float:left; margin-top:20px;">
+        <h5>Assessment</h5>
+        <ui>
+          <p>Assessor Property Description: information pop-up here<br />
           {{feature.attributes.subdivision}}<br />Lot {{feature.attributes.lot}} Block {{feature.attributes.block}}</p>
-          <strong>Assessor Acres:</strong> {{feature.attributes.land_size_acres}}<br />
-          <strong>Property Class:</strong> {{feature.attributes.property_class}}</p>
-  </div>
-</div>
+          Assessor Acres: {{feature.attributes.land_size_acres}}<br />
+          Property Class: {{feature.attributes.property_class}}</p>
+        </ui>
+      </div>
+    </div>
 
-
-
+    <div class="col-lg-4 col-md-6 col-sm-12">
       <div id="zoning" style="float:left; margin-top:20px;">
         <h5>Zoning</h5>
           Zoning goes here<br /><br />
           <div style="font-size: 10px;">"The Assessor’s Office is not responsible for zoning. For any questions concerning zoning outside the City of Prineville contact the Crook County Community Development Department at 541-447-3211. For questions concerning zoning within the City of Prineville contact the City of Prineville’s Community Development Department at 541-447-5627.</div>
       </div>
-
-
       <div id="valuation" style="float:left; margin-top:20px;">
         <h5>Valuation</h5>
         <p><a href="http://apps.lanecounty.org/PropertyAssessmentTaxationSearch/crook/Real/Valuation/{{feature.attributes.account_id}}">Current Year Value Summary</a><br />
@@ -138,7 +127,7 @@
           </table>
         </p>
       </div>
-
+  </div>
 </div>
 </div>
     </div>
