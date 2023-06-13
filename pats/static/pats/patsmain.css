@@ -142,3 +142,20 @@ body {
   width: 100%;
 
 }
+
+#val_table {
+   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+#val_table th {
+  /* CSS rules for the <tr> elements within the table with ID 'val_table' */
+  text-align: left;
+}
+
+#val_table tr {
+    font-size: 14px;
+}
+
+#val_table thead {
+
+}
