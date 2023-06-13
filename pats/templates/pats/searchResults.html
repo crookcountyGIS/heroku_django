@@ -44,20 +44,25 @@
 </nav>
   <div class="container-fluid container-search">
     <div class="row">
-      <div style="max-width: 150px; float: left;font-size: small;">
-        <div class="form-check form-switch">
+      <div class="card text-dark bg-light mb-3 p-0" style="max-width: 150px; float: left;font-size: small;">
+  <div id="filterHeader" class="card-header"><h6>Filters</h6></div>
+  <div class="card-body">
+      <h7>Account Type</h7>
+      <hr />
+    <div class="form-check">
           <input class="form-check-input" type="checkbox" id="flexSwitchReal" checked>
           <label class="form-check-label" for="flexSwitchReal">Real</label>
         </div>
-        <div class="form-check form-switch">
+        <div class="form-check">
           <input class="form-check-input" type="checkbox" id="flexSwitchPersonal" checked>
           <label class="form-check-label" for="flexSwitchPersonal">Personal</label>
         </div>
-        <div class="form-check form-switch">
+        <div class="form-check">
           <input class="form-check-input" type="checkbox" id="flexSwitchMobile" checked>
           <label class="form-check-label" for="flexSwitchMobile">Mobile</label>
         </div>
-      </div>
+  </div>
+</div>
       <div class="col">
         <div>
           Searching: <span id="searchTerm" style="color:rgb(138, 0, 0)">{{ search_term|safe }}</span>
@@ -97,7 +102,7 @@
             </tbody>
           </table>
         </div>
-  
+
       </div>
     </div>
   </div>
@@ -215,31 +220,6 @@
     });
 
 
-    btn.addEventListener("click", function() {
-        var query = searchBar.value;
-        console.log("search account:" + acctClicked);
-        console.log("search general:" + genClicked);
-        if (query != '' && acctClicked == true) {
-          window.location.href = "{% url 'account_query' 0 %}".replace(/0/, query)
-        }
-        else if (query != '' && mtClicked == true) {
-          window.location.href = "{% url 'mt_query' 0 %}".replace(/0/, query)
-        }
-        else if (query != '' && ownerClicked == true) {
-          window.location.href = "{% url 'owner_query' 0 %}".replace(/0/, query)
-        }
-        else if (query != '' && addressClicked == true) {
-          window.location.href = "{% url 'address_query' 0 %}".replace(/0/, query)
-        }
-        else if (query != '') {
-          window.location.href = "search/" + query
-        }
-    });
-
-    searchBar.addEventListener("keydown", function(e) {
-
-    });
-
     function filterResults() {
       var filter, table, tr, td, i, j, txtValue;
       input = document.getElementById("searchBar");
@@ -267,18 +247,61 @@
       }
     }
 
-    realSwitch.addEventListener("change", function(e) {
-      var isChecked = e.target.checked;
-      console.log(isChecked);
-    });
 
-    personalSwitch.addEventListener("change", function(e) {
-      console.log(e.target.checked);
-    });
+var activeFilters =  ["Real", "P/P", "M/S"];
+    // Array to store active filters
 
-    mobileSwitch.addEventListener("change", function(e) {
-      console.log(e.target.checked);
+function filterTable() {
+  var table = document.getElementById("table");
+  var tr = table.getElementsByTagName("tr");
+
+  for (var i = 0; i < tr.length; i++) {
+    if (i === 0) {
+      // Skip filtering for the first row (headers)
+      continue;
+    }
+
+    var td = tr[i].getElementsByTagName("td");
+    var type = td[5].textContent;
+
+    if (activeFilters.length === 0 || activeFilters.includes(type)) {
+      tr[i].style.display = "";
+    } else {
+      tr[i].style.display = "none";
+    }
+  }
+}
+
+function updateFilters(filterValue, isChecked) {
+  if (isChecked && !activeFilters.includes(filterValue)) {
+    activeFilters.push(filterValue);
+  } else if (!isChecked && activeFilters.includes(filterValue)) {
+    activeFilters = activeFilters.filter(function(value) {
+      return value !== filterValue;
     });
+  }
+}
+
+realSwitch.addEventListener("change", function(e) {
+  var isChecked = e.target.checked;
+  console.log(isChecked);
+  updateFilters("Real", isChecked);
+  filterTable();
+});
+
+personalSwitch.addEventListener("change", function(e) {
+  var isChecked = e.target.checked;
+  console.log(isChecked);
+  updateFilters("P/P", isChecked);
+  filterTable();
+});
+
+mobileSwitch.addEventListener("change", function(e) {
+  var isChecked = e.target.checked;
+  console.log(isChecked);
+  updateFilters("M/S", isChecked);
+  filterTable();
+});
 
 
   </script>

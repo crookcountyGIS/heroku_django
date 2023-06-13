@@ -4,12 +4,7 @@
 {% load bootstrap5 %} 
 {% bootstrap_css %} 
 {% bootstrap_javascript %}
-<!-- Chart.js CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js" integrity="sha512-v3ygConQmvH0QehvQa6gSvTE2VdBZ6wkLOlmK7Mcy2mZ0ZF9saNbbk19QeaoTHdWIEiTlWmrwAL4hS8ElnGFbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
 {% block content %}
-
 <div class="container" style="margin-left: 0;">
   <div class="row">
     <div id="navigation" class="col-md" style="max-width: 200px; padding: 0; margin:0; position: static;float: left;">
@@ -36,175 +31,48 @@
           </div>
       </section>
       </div>
-<div class="container col-md p-0">
+    <div class="container col-md p-0">
+    {% for feature in account_info.features %}
+    <div class="header">
+    <h4>Valuation for account #{{feature.attributes.account_id}}</h4>
+    </div>
 
-  {% for feature in account_info.features %} 
+    <div class="container p-3">
 
-
-      <div class="header">
-        <h4>Valuation for account #{{feature.attributes.account_id}}</h4>
-      </div>
-
-
-  <div class="container p-3">
-        <div class="col">
-          <div id="account_info">
-            <h5>Account Information</h5>
-            <p>Mailing Name: {{feature.attributes.owner_name}}
-              <br /> Map and Tax lot: {{feature.attributes.map_taxlot}}
-              <br /> Situs Address: {{feature.attributes.situs_address}}
-              <br /> Tax Status: {{feature.attributes.tax_status}}
-            </p>
-          </div>
-  {% endfor %}
-          <img src="" alt="">
+        <div class="row">
+        <div class="col-4">
+    <div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
+    <div class="card-header"> <h5>Account Information</h5></div>
+    <div class="card-body">
+        <p><strong>Mailing Name:</strong> {{feature.attributes.owner_name}}
+    <br /> <strong>Map and Tax lot:</strong> {{feature.attributes.map_taxlot}}
+    <br /> <strong>Situs Address:</strong> {{feature.attributes.situs_address}}
+    <br /> <strong>Tax Status:</strong> {{feature.attributes.tax_status}}
+    </p>
+    </div>
+    </div>
+    </div>
+        <div class="col-8">
+           {{ chart|safe }}
         </div>
+    </div>
+
+    {% endfor %}
+
+    <div class="col">
+
+    <h5>Value History</h5>
+
+    {{ html_table|safe }}
 
 
+    </div>
 
-
-        <div class="col">
-          <h5>Value History</h5>
-          {{ html_table|safe }}
-          {{ chart|safe }}
-          <table class="table table-striped table-hover">
-            <thead class="table-dark">
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">2018-2019</th>
-                <th scope="col">2019-2020</th>
-                <th scope="col">2020-2021</th>
-                <th scope="col">2021-2022</th>
-                <th scope="col">2022-2023</th>
-              </tr>
-            </thead>
-            <tbody class="table">
-              <tr>
-                <th scope="row">Real Market Value - Land</th>
-                <td>${{real_market_value.2018|intcomma}}</td>
-                <td>${{real_market_value.2019|intcomma}}</td>
-                <td>${{real_market_value.2020|intcomma}}</td>
-                <td>${{real_market_value.2021|intcomma}}</td>
-                <td>${{real_market_value.2022|intcomma}}</td>
-              </tr>
-              <tr>
-                <th scope="row">Real Market Value - Structure</th>
-                <td>${{value_structure.2018|intcomma}}</td>
-                <td>${{value_structure.2019|intcomma}}</td>
-                <td>${{value_structure.2020|intcomma}}</td>
-                <td>${{value_structure.2021|intcomma}}</td>
-                <td>${{value_structure.2022|intcomma}}</td>
-              </tr>
-              <tr class="table-danger">
-                <th scope="row">Total Real Market Value</th>
-                <td>${{total_real_market.2018|intcomma}}</td>
-                <td>${{total_real_market.2019|intcomma}}</td>
-                <td>${{total_real_market.2020|intcomma}}</td>
-                <td>${{total_real_market.2021|intcomma}}</td>
-                <td>${{total_real_market.2022|intcomma}}</td>
-              </tr>
-              <tr class="table-primary">
-                <th scope="row">Maximum Assessed Value</th>
-                <td>${{max_assessed.2018|intcomma}}</td>
-                <td>${{max_assessed.2019|intcomma}}</td>
-                <td>${{max_assessed.2020|intcomma}}</td>
-                <td>${{max_assessed.2021|intcomma}}</td>
-                <td>${{max_assessed.2022|intcomma}}</td>
-              </tr>
-              <tr>
-                <th scope="row">Total Assessed Value</th>
-                <td>${{total_assessed.2018|intcomma}}</td>
-                <td>${{total_assessed.2019|intcomma}}</td>
-                <td>${{total_assessed.2020|intcomma}}</td>
-                <td>${{total_assessed.2021|intcomma}}</td>
-                <td>${{total_assessed.2022|intcomma}}</td>
-              </tr>
-              <tr>
-                <th scope="row">Veterans Exemption</th>
-                <td>${{veterans.2018|intcomma}}</td>
-                <td>${{veterans.2019|intcomma}}</td>
-                <td>${{veterans.2020|intcomma}}</td>
-                <td>${{veterans.2021|intcomma}}</td>
-                <td>${{veterans.2022|intcomma}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-
-
-      
-      <div class="card">
-          <div class="card-body">
-              <canvas id="chLine"></canvas>
-          </div>
-      </div>
-
-
-
-</div>
-<!--  experimental tables -->
-
-  <!--  experimental tables -->
-  
-
-  
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-      const ctx = document.getElementById('chLine');
-  
-      const trmv2018 = "{{ total_real_market.2018 | safe}}";
-      const trmv2019 = "{{ total_real_market.2019 | safe}}";
-      const trmv2020 = "{{ total_real_market.2020 | safe}}";
-      const trmv2021 = "{{ total_real_market.2021 | safe}}";
-      const trmv2022 = "{{ total_real_market.2022 | safe}}";
-  
-      const mav2018 = "{{ max_assessed.2018 | safe}}";
-      const mav2019 = "{{ max_assessed.2019 | safe}}";
-      const mav2020 = "{{ max_assessed.2020 | safe}}";
-      const mav2021 = "{{ max_assessed.2021 | safe}}";
-      const mav2022 = "{{ max_assessed.2022 | safe}}";
-    
-      new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['2018', '2019', '2020', '2021', '2022'],
-        datasets: [{
-          label: 'Total Real Market Value',
-          data: [trmv2018, trmv2019, trmv2020, trmv2021, trmv2022],
-          borderWidth: 3,
-          backgroundColor: "#9C0A00",
-  
-        },
-        {
-          label: "Maximum Assessed Value",
-          data: [mav2018, mav2019, mav2020, mav2021, mav2022],
-          borderWidth: 3,
-          backgroundColor: "#0071DB",
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-              ticks: {
-                  // Include a dollar sign in the ticks
-                  callback: function(value, index, ticks) {
-                    return '$' + Chart.Ticks.formatters.numeric.apply(this, [value, index, ticks]);
-                  }
-              }
-          }
-        }
-      }
-    });
-    </script>
-   
-
+    </div>
 
 </div>
 </div>
 </div>
-
 {% endblock %}
 
 
