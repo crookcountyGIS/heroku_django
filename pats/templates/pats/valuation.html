@@ -5,6 +5,38 @@
 {% bootstrap_css %} 
 {% bootstrap_javascript %}
 {% block content %}
+<nav class="navbar navbar-expand-lg nav-search">
+  <div class="container-fluid ">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a id="newSearch" class="nav-link nav-link-search" href="{% url 'index' %}">New Search</a>
+        </li>
+        <li class="navbar-text">
+          <span style="margin-right:10px;">|</span>
+        </li>
+        <li class="navbar-text">
+          <span style="margin-right:5px;">Search Type:</span>
+        </li>
+        <li class="nav-item">
+            <a id="generalSearch" class="nav-link nav-link-search active" href="#">General Search</a>
+          </li>
+          <li class="nav-item">
+            <a id="searchAccount" class="nav-link nav-link-search" href="#">Search Account</a>
+          </li>
+          <li class="nav-item">
+            <a id="searchMT" class="nav-link nav-link-search" href="#">Search Maptaxlot</a>
+          </li>
+          <li class="nav-item">
+            <a id="searchOwner" class="nav-link nav-link-search" href="#">Search Owner</a>
+          </li>
+          <li class="nav-item">
+            <a id="searchAddress" class="nav-link nav-link-search" href="#">Search Address</a>
+          </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 <div class="container" style="margin-left: 0;">
   <div class="row">
     <div id="navigation" class="col-md" style="max-width: 200px; padding: 0; margin:0; position: static;float: left;">
@@ -41,16 +73,6 @@
 
 
 
-    <div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
-    <div class="card-header"> <h5>Account Information</h5></div>
-    <div class="card-body">
-        <p><strong>Mailing Name:</strong> {{feature.attributes.owner_name}}
-    <br /> <strong>Map and Tax lot:</strong> {{feature.attributes.map_taxlot}}
-    <br /> <strong>Situs Address:</strong> {{feature.attributes.situs_address}}
-    <br /> <strong>Tax Status:</strong> {{feature.attributes.tax_status}}
-    </p>
-    </div>
-    </div>
 
 
            {{ chart|safe }}
