@@ -194,7 +194,7 @@ def account_query(request, account):
     context = {'data': prop_data, 'maptaxlot': maptaxlot}
 
     if root.attributes.account_type == 'Real':
-        return render(request, 'pats/summaryPageV2.html', context)
+        return render(request, 'pats/summaryPage.html', context)
 
     elif root.attributes.account_type == 'M/S':
         return render(request, 'pats/summaryPageMS.html', context)
@@ -206,7 +206,7 @@ def account_query(request, account):
         return render(request, 'pats/summaryPageUTIL.html', context)
 
     else:
-        return render(request, 'pats/summaryPageV2.html', context)
+        return render(request, 'pats/summaryPage.html', context)
 
 
 def mt_query(request, maptaxlot):
