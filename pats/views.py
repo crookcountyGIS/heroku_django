@@ -115,6 +115,7 @@ def valuation(request, account):
     fig.add_trace(px.line(x=x_data, y=y_data2).data[0])
     fig.update_layout(title="Total Real Market Value and Maximum Assessed Value Over Time", xaxis_title="Year",
                       yaxis_title="Value")
+
     # fig.show()
     chart = fig.to_html()
 

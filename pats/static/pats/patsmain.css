@@ -128,6 +128,10 @@ body {
 .card {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Adjust the shadow properties as desired */
   width: 325px;
+  border-radius: 15px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+
 }
 
 .card-header h5 {
@@ -145,6 +149,9 @@ body {
 
 #val_table {
    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+   border-radius: 6px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
 }
 
 #val_table th {
@@ -156,6 +163,8 @@ body {
     font-size: 14px;
 }
 
-#val_table thead {
 
+.main-svg {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
 }
