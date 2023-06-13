@@ -6,6 +6,7 @@ import json
 import requests
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 
 
 def base(request):
@@ -107,16 +108,37 @@ def valuation(request, account):
     # Drop unwanted rows and make $$ values
     rows_to_drop = ['account_id', 'OBJECTID', 'year', 'county_id', 'original_tax', 'tax_code_area']
     df_filter = df_appended.drop(index=rows_to_drop)
-    x_data = df_filter.keys()
-    y_data = list(df_filter.loc['rmv_total', :])
-    y_data2 = list(df_filter.loc['max_av', :])
 
-    fig = px.line(x=x_data, y=y_data)
-    fig.add_trace(px.line(x=x_data, y=y_data2).data[0])
-    fig.update_layout(title="Total Real Market Value and Maximum Assessed Value Over Time", xaxis_title="Year",
+    df_rmv_av = df_filter.iloc[2:4, :]
+    df_chart = df_rmv_av.T
+    fig = go.Figure()
+
+    fig.add_trace(go.Scatter(
+        x=df_chart.index,
+        y=df_chart['rmv_total'],
+        mode='lines+markers+text',  # Add 'markers' mode to display markers
+        name='RMV Total',
+        line=dict(color='#4300F0', width=3, dash='dash'),
+        marker=dict(color='#4300F0', size=8),  # Marker color and size
+        text=df_chart.rmv_total
+    ))
+
+    fig.add_trace(go.Scatter(
+        x=df_chart.index,
+        y=df_chart['total_av'],
+        mode='lines+markers+text',  # Add 'markers' mode to display markers
+        name='AV Total',
+        line=dict(color='#18F02E', width=3, dash='dash'),
+        marker=dict(color='#18F02E', size=8),  # Marker color and size
+        text=df_chart.total_av
+    ))
+
+    fig.update_layout(margin=dict(l=5, r=5, t=50, b=5),
+                      title="Total Real Market Value and Total Assessed Value Over Time", xaxis_title="Year",
                       yaxis_title="Value")
-
-    # fig.show()
+    fig.update_traces(textposition="bottom right", texttemplate='%{text:$,.0f}',
+                      hovertemplate='%{text:$,.0f}<br />%{x}',
+                      selector=dict(type='scatter'))
     chart = fig.to_html()
 
     df_filter = df_filter.applymap(lambda x: f'${intcomma(int(x))}' if isinstance(x, (int, float)) else x)
