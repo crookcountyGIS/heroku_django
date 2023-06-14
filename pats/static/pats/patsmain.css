@@ -142,7 +142,7 @@ body {
   border-radius: 15px;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
-
+  min-width: 295px;
 }
 
 .card-header h5 {
