@@ -38,12 +38,15 @@ body {
 }
 
 .display-4 {
-  background-color: white;
-  border: none;
-  text-align: center;
-  margin-top: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
+  text-align: left;
+  margin-left: 20px;
+  margin-right:20px;
+  margin-top:10px;
+  color: #212529;
+  background: linear-gradient(to right, rgba(39,65,97, .5)20%, rgba(39,65,97,0) 90% );
+  font-weight: 800;
+  font-size: 1.5rem;
+  padding: 10px;
 }
 
 .navbar-brand {
@@ -117,6 +120,11 @@ body {
   background: linear-gradient(270deg,#306088 5.05%,#274161 77.07%);
   height: 33px;
   font-size: .75em;
+}
+
+.nav-link-menu {
+  color:white;
+  font-weight: bold;
 }
 
 .container-search {
