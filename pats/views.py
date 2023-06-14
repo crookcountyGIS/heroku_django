@@ -207,8 +207,9 @@ def account_query(request, account):
     for zones in zoning_data['features']:
         (zone := zones['attributes']['zone'])
         (zone_desc := zones['attributes']['zone_desc'])
+        (zone_link := zones['attributes']['zone_link'])
 
-    context = {'data': prop_data, 'maptaxlot': maptaxlot, 'zone': zone, 'zone_desc': zone_desc}
+    context = {'data': prop_data, 'maptaxlot': maptaxlot, 'zone': zone, 'zone_desc': zone_desc, 'zone_link': zone_link}
 
     if root.attributes.account_type == 'Real':
         return render(request, 'pats/summaryPage.html', context)
