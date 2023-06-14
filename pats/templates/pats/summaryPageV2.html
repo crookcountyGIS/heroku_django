@@ -1,0 +1,261 @@
+{% extends 'pats/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" integrity="sha512-ZnR2wlLbSbr8/c9AgLg3jQPAattCUImNsae6NHYnS9KrIwRdcY9DxFotXhNAKIKbAXlRnujIqUWoXXwqyFOeIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% block content %}
+  {% for feature in data.features %}
+<nav class="navbar navbar-expand-lg nav-search">
+  <div class="container-fluid ">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a id="newSearch" class="nav-link nav-link-search" href="{% url 'index' %}">New Search</a>
+        </li>
+        <li class="navbar-text">
+          <span style="margin-right:10px;">|</span>
+        </li>
+        <li class="navbar-text">
+          <span style="margin-right:5px;">Search Type:</span>
+        </li>
+        <li class="nav-item">
+            <a id="generalSearch" class="nav-link nav-link-search active" href="#">General Search</a>
+          </li>
+          <li class="nav-item">
+            <a id="searchAccount" class="nav-link nav-link-search" href="#">Search Account</a>
+          </li>
+          <li class="nav-item">
+            <a id="searchMT" class="nav-link nav-link-search" href="#">Search Maptaxlot</a>
+          </li>
+          <li class="nav-item">
+            <a id="searchOwner" class="nav-link nav-link-search" href="#">Search Owner</a>
+          </li>
+          <li class="nav-item">
+            <a id="searchAddress" class="nav-link nav-link-search" href="#">Search Address</a>
+          </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+
+
+
+
+                <li class="nav-item">
+                        <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline">Summary</span>
+                        </a>
+                    </li>
+
+                 <li class="nav-item">
+                        <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-table"></i> <span class="ms-1 d-none d-sm-inline">Valuation</span>
+                        </a>
+                    </li>
+                 </ul>
+
+
+
+
+            </div>
+        </div>
+        <div class="col py-3">
+
+  <div class="col p-0">
+      <div class="display-4">
+        <h4>Account: {{feature.attributes.account_id}}</h4>
+          <hr />
+      </div>
+
+
+      <div class="row p-3">
+
+        <div class="col">
+
+          <div class="card text-dark bg-light mb-3" id="account_info" style="float:left; margin-top:20px;">
+            <div class="card-header">
+              <h5>
+                <strong>Account Information</strong>
+              </h5>
+            </div>
+            <div class="card-body">
+              <strong>Mailing Name:</strong> {{feature.attributes.owner_name}}
+              <br />
+              <strong>Map and Tax lot:</strong> {{feature.attributes.map_taxlot}}
+              <br />
+              <strong>Situs Address:</strong> {{feature.attributes.situs_address}}
+              <br />
+              <strong>Tax Status:</strong> {{feature.attributes.tax_status}}
+            </div>
+          </div>
+
+          <div class="card text-dark bg-light mb-3" id="ownership" style="float:left; margin-top:20px;">
+            <div class="card-header">
+              <h5>
+                <strong>Ownership</strong>
+              </h5>
+            </div>
+            <div class="card-body">
+              <a href="">View Complete Ownership Report</a>
+              <p>
+                <strong>Mailing To:</strong>
+                <br />{{feature.attributes.owner_name}}
+                <br />{{feature.attributes.owner_mailing_address1}}
+                <br />{{feature.attributes.owner_mailing_city}}, {{feature.attributes.owner_mailing_state}}
+                {{feature.attributes.owner_mailing_zip}}
+              </p>
+              <a href="https://co.crook.or.us/assessor/webform/mailing-address-change-request-form">Change of Mailing Address Form</a>
+              <br /> {% for i in maptaxlot %} <a href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{{ i }}">View Overview Map</a> {% endfor %}
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="col">
+
+          <div class="card text-dark bg-light mb-3" id="taxes" style="float:left; margin-top:20px;">
+            <div class="card-header">
+              <h5>
+                <strong>Taxes</strong>
+              </h5>
+            </div>
+            <div class="card-body">
+                <strong>Property Tax (Current Year):</strong> {{feature.attributes.current_property_tax|intcomma}} <br />
+              <a href="">Get Current Balance Due (PDF)</a> <br />
+              "Enter if/else statement availability here" <br />
+              <a href="https://co.crook.or.us/tax-collection">Pay Your Property Taxes</a>
+              <br />
+              <a href="">Tax Payments & History</a>
+              <br />
+              <strong>Tax Code Area:</strong> 00{{feature.attributes.tax_code_area}}
+            </div>
+          </div>
+
+          <div class="card text-dark bg-light mb-3" id="assessment" style="float:left; margin-top:20px;">
+            <div class="card-header">
+              <h5>
+                <strong>Assessment</strong>
+              </h5>
+            </div>
+            <div class="card-body">
+              <p>
+                <strong>Assessor Property Description:</strong> information pop-up here <br />
+                {{feature.attributes.subdivision}}
+                <br />Lot {{feature.attributes.lot}} Block {{feature.attributes.block}}
+              </p>
+              <strong>Assessor Acres:</strong> {{feature.attributes.land_size_acres}}
+              <br />
+              <strong>Property Class:</strong> {{feature.attributes.property_class}}
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+
+
+        <div class="col">
+          <div class="card text-dark bg-light mb-3" id="zoning" style="float:left; margin-top:20px;">
+            <div class="card-header">
+              <h5>
+                <strong>Zoning</strong>
+              </h5>
+            </div>
+            <div class="card-body">
+            {{ zone|safe }} <br />
+            {{ zone_desc|safe }}
+            </div>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#zoningModal" style="width: 150px; margin-left: 16px; margin-bottom: 16px;">Disclaimer</button>
+          </div>
+
+
+          <div class="card text-dark bg-light mb-3" id="valuation" style="float:left; margin-top:20px;">
+            <div class="card-header">
+              <h5>
+                <strong>Valuation</strong>
+              </h5>
+            </div>
+            <div class="card-body">
+              <p>
+                <a href="http://apps.lanecounty.org/PropertyAssessmentTaxationSearch/crook/Real/Valuation/{{feature.attributes.account_id}}">Current Year Value Summary</a>
+                <br /> &nbsp;&nbsp;As of Jan. 1 2022&nbsp; - 2023 Tax Year <br />
+              <p>
+                <strong>Real Market Values: </strong>"pop up goes here"
+              </p>
+              <table class="table table-striped">
+                <tr>
+                  <td class="table-dark">Land</td>
+                  <td>${{feature.attributes.rmv_land|intcomma}}</td>
+                </tr>
+                <tr>
+                  <td class="table-dark">Structures</td>
+                  <td>${{feature.attributes.rmv_improvements|intcomma}}</td>
+                </tr>
+                <tr>
+                  <td class="table-dark">Total</td>
+                  <td>${{feature.attributes.rmv_total|intcomma}}</td>
+                </tr>
+              </table>
+              <p>
+                <strong>Assessed Values:</strong>
+              </p>
+              <table class="table table-striped">
+                <tr>
+                  <td class="table-dark">Specially Assessed</td>
+                  <td>${{feature.attributes.maximum_av|intcomma}}</td>
+                </tr>
+                <tr>
+                  <td class="table-dark">Assessed Value</td>
+                  <td>${{feature.attributes.taxable_av|intcomma}}</td>
+                </tr>
+                <tr>
+                  <td class="table-dark">Veterans Exemption</td>
+                  <td>${{feature.attributes.veterans_exemption|intcomma}}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="zoningModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>The Assessor’s Office is not responsible for zoning. For any questions concerning zoning outside the City of Prineville contact the Crook County Community Development Department at 541-447-3211. For questions concerning zoning within the City of Prineville contact the City of Prineville’s Community Development Department at 541-447-5627.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+{% endfor %}
+{% endblock %}
