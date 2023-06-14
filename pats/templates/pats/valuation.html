@@ -1,10 +1,12 @@
-{% extends 'pats/base.html' %} 
-{% load static %} 
-{% load humanize %} 
-{% load bootstrap5 %} 
-{% bootstrap_css %} 
+{% extends 'pats/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
 {% bootstrap_javascript %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" integrity="sha512-ZnR2wlLbSbr8/c9AgLg3jQPAattCUImNsae6NHYnS9KrIwRdcY9DxFotXhNAKIKbAXlRnujIqUWoXXwqyFOeIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% block content %}
+{% for feature in account_info.features %}
 <nav class="navbar navbar-expand-lg nav-search">
   <div class="container-fluid ">
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -37,85 +39,106 @@
     </div>
   </div>
 </nav>
-<div class="container" style="margin-left: 0;">
-  <div class="row">
-    <div id="navigation" class="col-md" style="max-width: 200px; padding: 0; margin:0; position: static;float: left;">
-      <section class="bg-light">
-          <div class="container" style="padding: 0;margin-right: 0;">
-              <div class="d-flex">
-                  <div class="list-group">
-                    {% for feature in account_info.features %}
-                      <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Summary</a>
-                      <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Valuation</a>
-                      <a href="#" class="list-group-item list-group-item-action">Tax Information</a>
-                      <a href="#" class="list-group-item list-group-item-action">Sales</a>
-                      <a href="#" class="list-group-item list-group-item-action">Land and Structures</a>
-                      <a href="#" class="list-group-item list-group-item-action">Special Assessments</a>
-                      <a href="#" class="list-group-item list-group-item-action">Tax Map</a>
-                      <a href="#" class="list-group-item list-group-item-action">Tax Lot History</a>
-                      <a href="#" class="list-group-item list-group-item-action">Tax Related Accounts</a>
-                      <a href="#" class="list-group-item list-group-item-action">Warnings/Notations</a>
-                      <a href="#" class="list-group-item list-group-item-action">Help</a>
-                      <a href="#" class="list-group-item list-group-item-action">Development</a>
-                    {% endfor %}
-                      </div>
-              </div>
-          </div>
-      </section>
-      </div>
-    <div class="container col-md p-0">
-    {% for feature in account_info.features %}
-    <div class="header">
-    <h4>Valuation for account #{{feature.attributes.account_id}}</h4>
-    </div>
+
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+
+
+
+
+                <li class="nav-item">
+                        <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-database"></i> <span class="ms-1 d-none d-sm-inline">Summary</span>
+                        </a>
+                    </li>
+
+                 <li class="nav-item">
+                        <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-graph-up"></i> <span class="ms-1 d-none d-sm-inline">Valuation</span>
+                        </a>
+                    </li>
+
+                 <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-bank"></i> <span class="ms-1 d-none d-sm-inline">Tax Information</span>
+                        </a>
+                </li>
+
+                  <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-cash"></i> <span class="ms-1 d-none d-sm-inline">Sales</span>
+                        </a>
+                </li>
+
+                      <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-building"></i> <span class="ms-1 d-none d-sm-inline">Land and Structures</span>
+                        </a>
+                </li>
+                      <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-map"></i> <span class="ms-1 d-none d-sm-inline">Tax Map</span>
+                        </a>
+                </li>
+
+                      <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-clock-history"></i> <span class="ms-1 d-none d-sm-inline">Tax Lot History</span>
+                        </a>
+                </li>
+
+                      <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-link-45deg"></i> <span class="ms-1 d-none d-sm-inline">Related Accounts</span>
+                        </a>
+                </li>
+
+             <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-exclamation-square"></i> <span class="ms-1 d-none d-sm-inline">Warnings/Notations</span>
+                        </a>
+                </li>
+
+                      <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-house-add"></i> <span class="ms-1 d-none d-sm-inline">Development</span>
+                        </a>
+                </li>
+
+                   </ul>
+
+
+            </div>
+        </div>
+        <div class="col py-3">
+          <div class="col p-0">
+            <div class="display-4">
+              <i class="fs-4 bi-database"></i> Valuation for Account: {{feature.attributes.account_id}}
+            </div>
+
+
+
+      <div class="row p-3">
+
+
 
     <div class="container p-3">
-
-
-
-
-
            {{ chart|safe }}
 
-
-
-    {% endfor %}
-
     <div class="col">
-
     <h5>Value History</h5>
-
     {{ html_table|safe }}
-
-
     </div>
-
     </div>
 
 </div>
+          </div>
+        </div>
+    </div>
 </div>
-</div>
+
+{% endfor %}
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
