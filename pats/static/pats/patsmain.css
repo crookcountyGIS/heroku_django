@@ -178,3 +178,6 @@ body {
   border-radius: 6px;
 }
 
+.card.text-dark.bg-light.mb-3 {
+  margin-right: 20px;
+}

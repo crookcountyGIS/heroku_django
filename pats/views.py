@@ -191,7 +191,24 @@ def account_query(request, account):
         mt_find = mt[:mt.find('-', mt.find('-') + 1)]
         maptaxlot.append(mt_find.replace('-', ''))
 
-    context = {'data': prop_data, 'maptaxlot': maptaxlot}
+    zoning_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/18/query"
+
+    # Define the query parameters
+    zoning_params = {
+        "where": f"maptaxlot='{maptaxlot[0]}'",  # Retrieve all records
+        "outFields": "*",  # Specify the fields to include in the response
+        "returnGeometry": False,  # Exclude geometry information
+        "f": "json"  # Specify the response format as JSON
+    }
+
+    zoning_response = requests.get(zoning_url, params=zoning_params)
+    zoning_data = zoning_response.json()
+
+    for zones in zoning_data['features']:
+        (zone := zones['attributes']['zone'])
+        (zone_desc := zones['attributes']['zone_desc'])
+
+    context = {'data': prop_data, 'maptaxlot': maptaxlot, 'zone': zone, 'zone_desc': zone_desc}
 
     if root.attributes.account_type == 'Real':
         return render(request, 'pats/summaryPage.html', context)

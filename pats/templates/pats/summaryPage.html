@@ -37,7 +37,9 @@
     </div>
   </div>
 </nav>
-<div style="margin-left: 10px;">
+<div id="summaryPage" style="margin-left: 10px;">
+
+
   <div class="row">
     <div id="navigation" class="col-md" style="max-width: 200px;padding: 0; margin:0;">
       <section class="bg-light">
@@ -58,14 +60,22 @@
           </div>
         </div>
       </section>
-    </div> {% for feature in data.features %}
+    </div>
+
+
+
+      {% for feature in data.features %}
   <div class="col p-0">
       <div class="display-4">
         <h4>Account: {{feature.attributes.account_id}}</h4>
           <hr />
       </div>
+
+
       <div class="row p-3">
+
         <div class="col">
+
           <div class="card text-dark bg-light mb-3" id="account_info" style="float:left; margin-top:20px;">
             <div class="card-header">
               <h5>
@@ -82,6 +92,7 @@
               <strong>Tax Status:</strong> {{feature.attributes.tax_status}}
             </div>
           </div>
+
           <div class="card text-dark bg-light mb-3" id="ownership" style="float:left; margin-top:20px;">
             <div class="card-header">
               <h5>
@@ -101,8 +112,12 @@
               <br /> {% for i in maptaxlot %} <a href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{{ i }}">View Overview Map</a> {% endfor %}
             </div>
           </div>
+
         </div>
+
+
         <div class="col">
+
           <div class="card text-dark bg-light mb-3" id="taxes" style="float:left; margin-top:20px;">
             <div class="card-header">
               <h5>
@@ -110,11 +125,9 @@
               </h5>
             </div>
             <div class="card-body">
-              <p>
-                <strong>Property Tax (Current Year):</strong> {{feature.attributes.current_property_tax|intcomma}}
-              </p>
-              <a href="">Get Current Balance Due (PDF)</a>
-              <p>"Enter if/else statement availability here"</p>
+                <strong>Property Tax (Current Year):</strong> {{feature.attributes.current_property_tax|intcomma}} <br />
+              <a href="">Get Current Balance Due (PDF)</a> <br />
+              "Enter if/else statement availability here" <br />
               <a href="https://co.crook.or.us/tax-collection">Pay Your Property Taxes</a>
               <br />
               <a href="">Tax Payments & History</a>
@@ -122,6 +135,7 @@
               <strong>Tax Code Area:</strong> 00{{feature.attributes.tax_code_area}}
             </div>
           </div>
+
           <div class="card text-dark bg-light mb-3" id="assessment" style="float:left; margin-top:20px;">
             <div class="card-header">
               <h5>
@@ -140,7 +154,11 @@
               </p>
             </div>
           </div>
+
         </div>
+
+
+
         <div class="col">
           <div class="card text-dark bg-light mb-3" id="zoning" style="float:left; margin-top:20px;">
             <div class="card-header">
@@ -149,9 +167,13 @@
               </h5>
             </div>
             <div class="card-body">
-              <p>"The Assessor’s Office is not responsible for zoning. For any questions concerning zoning outside the City of Prineville contact the Crook County Community Development Department at 541-447-3211. For questions concerning zoning within the City of Prineville contact the City of Prineville’s Community Development Department at 541-447-5627.</p>
+            {{ zone|safe }} <br />
+            {{ zone_desc|safe }}
             </div>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#zoningModal" style="width: 150px; margin-left: 16px; margin-bottom: 16px;">Disclaimer</button>
           </div>
+
+
           <div class="card text-dark bg-light mb-3" id="valuation" style="float:left; margin-top:20px;">
             <div class="card-header">
               <h5>
@@ -176,7 +198,7 @@
                 </tr>
                 <tr>
                   <td class="table-dark">Total</td>
-                  <td class="table-dark">${{feature.attributes.rmv_total|intcomma}}</td>
+                  <td>${{feature.attributes.rmv_total|intcomma}}</td>
                 </tr>
               </table>
               <p>
@@ -196,168 +218,32 @@
                   <td>${{feature.attributes.veterans_exemption|intcomma}}</td>
                 </tr>
               </table>
-              </p>
             </div>
           </div>
         </div>
-      </div>
 
-  <div class="accordion" id="accordionExample" style="margin-bottom: 100px;">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingOne">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          <strong>Account Information</strong>
-      </button>
-    </h2>
-    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <strong>Mailing Name:</strong> {{feature.attributes.owner_name}}
-              <br />
-              <strong>Map and Tax lot:</strong> {{feature.attributes.map_taxlot}}
-              <br />
-              <strong>Situs Address:</strong> {{feature.attributes.situs_address}}
-              <br />
-              <strong>Tax Status:</strong> {{feature.attributes.tax_status}}
-      </div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-        <strong>Ownership</strong>
-      </button>
-    </h2>
-    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <a href="">View Complete Ownership Report</a>
-              <p>
-                <strong>Mailing To:</strong>
-                <br />{{feature.attributes.owner_name}}
-                <br />{{feature.attributes.owner_mailing_address1}}
-                <br />{{feature.attributes.owner_mailing_city}}, {{feature.attributes.owner_mailing_state}}
-                {{feature.attributes.owner_mailing_zip}}
-              </p>
-              <a href="https://co.crook.or.us/assessor/webform/mailing-address-change-request-form">Change of Mailing Address Form</a>
-              <br /> {% for i in maptaxlot %} <a href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{{ i }}">View Overview Map</a> {% endfor %}
-      </div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingThree">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-        <strong>Taxes</strong>
-      </button>
-    </h2>
-    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <p>
-                <strong>Property Tax (Current Year):</strong> {{feature.attributes.current_property_tax|intcomma}}
-              </p>
-              <a href="">Get Current Balance Due (PDF)</a>
-              <p>"Enter if/else statement availability here"</p>
-              <a href="https://co.crook.or.us/tax-collection">Pay Your Property Taxes</a>
-              <br />
-              <a href="">Tax Payments & History</a>
-              <br />
-              <strong>Tax Code Area:</strong> 00{{feature.attributes.tax_code_area}}
-      </div>
-    </div>
-  </div>
-    <div class="accordion-item">
-    <h2 class="accordion-header" id="headingThree">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-         <strong>Assessment</strong>
-      </button>
-    </h2>
-    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <p>
-                <strong>Assessor Property Description:</strong> information pop-up here <br />
-                {{feature.attributes.subdivision}}
-                <br />Lot {{feature.attributes.lot}} Block {{feature.attributes.block}}
-              </p>
-              <strong>Assessor Acres:</strong> {{feature.attributes.land_size_acres}}
-              <br />
-              <strong>Property Class:</strong> {{feature.attributes.property_class}}
-              </p>
-      </div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingThree">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          <strong>Zoning</strong>
-      </button>
-    </h2>
-    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <p>The Assessor’s Office is not responsible for zoning. For any questions concerning zoning outside the City of Prineville contact the Crook County Community Development Department at 541-447-3211. For questions concerning zoning within the City of Prineville contact the City of Prineville’s Community Development Department at 541-447-5627.</p>
-      </div>
-    </div>
-  </div>
-    <div class="accordion-item">
-    <h2 class="accordion-header" id="headingThree">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-            <strong>Valuation</strong>
-      </button>
-    </h2>
-    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
 
-                <a href="http://apps.lanecounty.org/PropertyAssessmentTaxationSearch/crook/Real/Valuation/{{feature.attributes.account_id}}">Current Year Value Summary</a>
-                <br /> &nbsp;&nbsp;As of Jan. 1 2022&nbsp; - 2023 Tax Year <br />
-
-          <div class="row">
-              <div class="col">
-          <p>
-                <strong>Real Market Values: </strong>"pop up goes here"
-              </p>
-              <table class="table table-striped" style="max-width: 300px;">
-                <tr>
-                  <td class="table-dark">Land</td>
-                  <td>${{feature.attributes.rmv_land|intcomma}}</td>
-                </tr>
-                <tr>
-                  <td class="table-dark">Structures</td>
-                  <td>${{feature.attributes.rmv_improvements|intcomma}}</td>
-                </tr>
-                <tr>
-                  <td class="table-dark">Total</td>
-                  <td class="table-dark">${{feature.attributes.rmv_total|intcomma}}</td>
-                </tr>
-              </table>
-
-          </div>
-               <div class="col">
-              <p>
-                <strong>Assessed Values:</strong>
-              </p>
-
-              <table class="table table-striped" style="max-width: 300px;">
-                <tr>
-                  <td class="table-dark">Specially Assessed</td>
-                  <td>${{feature.attributes.maximum_av|intcomma}}</td>
-                </tr>
-                <tr>
-                  <td class="table-dark">Assessed Value</td>
-                  <td>${{feature.attributes.taxable_av|intcomma}}</td>
-                </tr>
-                <tr>
-                  <td class="table-dark">Veterans Exemption</td>
-                  <td>${{feature.attributes.veterans_exemption|intcomma}}</td>
-                </tr>
-              </table>
-              </div>
-              </div>
-
-      </div>
-    </div>
-  </div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
 
-
-
+<!-- Modal -->
+<div class="modal fade" id="zoningModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>The Assessor’s Office is not responsible for zoning. For any questions concerning zoning outside the City of Prineville contact the Crook County Community Development Department at 541-447-3211. For questions concerning zoning within the City of Prineville contact the City of Prineville’s Community Development Department at 541-447-5627.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
     </div>
   </div>
 </div>
