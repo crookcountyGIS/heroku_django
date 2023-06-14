@@ -47,6 +47,8 @@ body {
   font-weight: 800;
   font-size: 1.5rem;
   padding: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+   border-radius: 6px;
 }
 
 .navbar-brand {
@@ -172,23 +174,31 @@ body {
    border-radius: 6px;
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
+   max-width: 1062px;
 }
 
 #val_table th {
   /* CSS rules for the <tr> elements within the table with ID 'val_table' */
   text-align: left;
+  border-radius: 6px;
 }
 
 #val_table tr {
     font-size: 14px;
 }
 
-
 .main-svg {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
+  max-width: 1062px;
 }
 
 .card.text-dark.bg-light.mb-3 {
   margin-right: 20px;
 }
+
+.plotly-graph-div.js-plotly-plot {
+  margin-bottom: 20px;
+  max-width: 1062px;
+}
+

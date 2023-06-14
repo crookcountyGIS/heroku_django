@@ -45,34 +45,26 @@
         <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
             <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                  <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
-
-
-
-
                 <li class="nav-item">
                         <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="nav-link align-middle px-0 nav-link-menu">
                             <i class="fs-4 bi-database"></i> <span class="ms-1 d-none d-sm-inline">Summary</span>
                         </a>
                     </li>
-
                  <li class="nav-item">
                         <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="nav-link align-middle px-0 nav-link-menu">
                             <i class="fs-4 bi-graph-up"></i> <span class="ms-1 d-none d-sm-inline">Valuation</span>
                         </a>
                     </li>
-
                  <li class="nav-item">
                         <a href="" class="nav-link align-middle px-0 nav-link-menu">
                             <i class="fs-4 bi-bank"></i> <span class="ms-1 d-none d-sm-inline">Tax Information</span>
                         </a>
-                </li>
-
-                  <li class="nav-item">
+                 </li>
+                     <li class="nav-item">
                         <a href="" class="nav-link align-middle px-0 nav-link-menu">
                             <i class="fs-4 bi-cash"></i> <span class="ms-1 d-none d-sm-inline">Sales</span>
                         </a>
                 </li>
-
                       <li class="nav-item">
                         <a href="" class="nav-link align-middle px-0 nav-link-menu">
                             <i class="fs-4 bi-building"></i> <span class="ms-1 d-none d-sm-inline">Land and Structures</span>
@@ -83,61 +75,46 @@
                             <i class="fs-4 bi-map"></i> <span class="ms-1 d-none d-sm-inline">Tax Map</span>
                         </a>
                 </li>
-
-                      <li class="nav-item">
+                     <li class="nav-item">
                         <a href="" class="nav-link align-middle px-0 nav-link-menu">
                             <i class="fs-4 bi-clock-history"></i> <span class="ms-1 d-none d-sm-inline">Tax Lot History</span>
                         </a>
                 </li>
-
-                      <li class="nav-item">
+                     <li class="nav-item">
                         <a href="" class="nav-link align-middle px-0 nav-link-menu">
                             <i class="fs-4 bi-link-45deg"></i> <span class="ms-1 d-none d-sm-inline">Related Accounts</span>
                         </a>
                 </li>
-
              <li class="nav-item">
                         <a href="" class="nav-link align-middle px-0 nav-link-menu">
                             <i class="fs-4 bi-exclamation-square"></i> <span class="ms-1 d-none d-sm-inline">Warnings/Notations</span>
                         </a>
                 </li>
-
                       <li class="nav-item">
                         <a href="" class="nav-link align-middle px-0 nav-link-menu">
                             <i class="fs-4 bi-house-add"></i> <span class="ms-1 d-none d-sm-inline">Development</span>
                         </a>
                 </li>
-
                    </ul>
-
-
             </div>
         </div>
         <div class="col py-3">
           <div class="col p-0">
             <div class="display-4">
-              <i class="fs-4 bi-database"></i> Valuation for Account: {{feature.attributes.account_id}}
+              <i class="fs-4 bi-graph-up"></i> Valuation for Account: {{feature.attributes.account_id}}
             </div>
-
-
-
       <div class="row p-3">
-
-
-
-    <div class="container p-3">
+    <div class="container p-3 val-chart">
            {{ chart|safe }}
-
     <div class="col">
     <h5>Value History</h5>
     {{ html_table|safe }}
     </div>
     </div>
-
 </div>
-          </div>
-        </div>
-    </div>
+</div>
+</div>
+</div>
 </div>
 
 {% endfor %}
