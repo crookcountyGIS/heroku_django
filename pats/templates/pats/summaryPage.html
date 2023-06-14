@@ -215,10 +215,11 @@
               </h5>
             </div>
             <div class="card-body">
-            {{ zone|safe }} <br />
-            {{ zone_desc|safe }}
+            <strong>Zone:</strong> {{ zone|safe }} <br />
+            <strong>Zone Description:</strong> {{ zone_desc|safe }} <br />
+            <a href="{{ zone_link|safe }}">Zone Link</a>
             </div>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#zoningModal" style="width: 150px; margin-left: 16px; margin-bottom: 16px;">Disclaimer</button>
+              <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#zoningModal" style="width: 100px; margin-left: 16px; margin-bottom: 16px;">Disclaimer</button>
           </div>
 
 
