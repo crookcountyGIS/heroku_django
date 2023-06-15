@@ -23,6 +23,14 @@ def relatedaccounts(account):
     prop_response = requests.get(prop_url, params=params)
     prop_data = prop_response.json()
 
+    dfPropList = []
+    for elem in prop_data['features']:
+        dfPropList.append(elem['attributes'])
+
+    dfprop = pd.DataFrame(dfPropList,
+                         columns=['account_id', 'owner_name'])
+    print(dfprop)
+
     related_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/14/query"
 
     related_response = requests.get(related_url, params=params)
@@ -30,17 +38,15 @@ def relatedaccounts(account):
 
     dfRelList = []
     for elem in related_data['features']:
-        print(elem)
+        #print(elem)
         dfRelList.append(elem['attributes'])
 
     dfrel = pd.DataFrame(dfRelList,
                               columns=['realted_account_id', 'account_type', 'account_desc'])
     dfrel.columns = ['Related Account', 'Account Type', 'Account Description']
-    #dfRelTable = dfrel.sort_values(by='Related Account', ascending=True)
-    #html_rel_table = dfrel.to_html(classes='table table-dark', table_id='las_table', index=False)
+    dfRelTable = dfrel.sort_values(by='Related Account', ascending=True)
 
-    #context = {'data': prop_data, 'html_rel_table': html_rel_table}
-
-    print(dfrel)
+    dfjoin = dfRelTable.merge(dfprop, left_on='Related Account', right_on='account_id', how='left')
+    print(dfjoin)
 
 relatedaccounts(19173)
