@@ -184,6 +184,8 @@ def account_query(request, account):
     prop_response = requests.get(prop_url, params=params)
     prop_data = prop_response.json()
 
+
+
     maptaxlot = []
     for elem in prop_data['features']:
         (root := Root.from_dict(elem))
@@ -209,7 +211,10 @@ def account_query(request, account):
         (zone_desc := zones['attributes']['zone_desc'])
         (zone_link := zones['attributes']['zone_link'])
 
-    context = {'data': prop_data, 'maptaxlot': maptaxlot, 'zone': zone, 'zone_desc': zone_desc, 'zone_link': zone_link}
+    if root.attributes.account_type == 'UTIL':
+        (context := {'data': prop_data})
+    else:
+        (context := {'data': prop_data, 'maptaxlot': maptaxlot, 'zone': zone, 'zone_desc': zone_desc, 'zone_link': zone_link})
 
     if root.attributes.account_type == 'Real':
         return render(request, 'pats/summaryPage.html', context)
