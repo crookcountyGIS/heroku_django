@@ -37,6 +37,20 @@ body {
   border-bottom: 1px solid #C8CFAF; 
 }
 
+.display-4 {
+  text-align: left;
+  margin-left: 20px;
+  margin-right:20px;
+  margin-top:10px;
+  color: #212529;
+  background: linear-gradient(to right, rgba(39,65,97, .5)20%, rgba(39,65,97,0) 90% );
+  font-weight: 800;
+  font-size: 1.5rem;
+  padding: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+   border-radius: 6px;
+}
+
 .navbar-brand {
   margin-right:60px;
 }
@@ -85,6 +99,8 @@ body {
   text-decoration: underline;
 }
 
+
+
 .banner-btn {
   margin-top: 15px;
 }
@@ -108,6 +124,11 @@ body {
   font-size: .75em;
 }
 
+.nav-link-menu {
+  color:white;
+  font-weight: bold;
+}
+
 .container-search {
   padding-top:20px;
   padding-bottom:20px; 
@@ -121,3 +142,65 @@ body {
   cursor: pointer
 }
 
+.list-group {
+  width: 200px;
+}
+
+.card {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Adjust the shadow properties as desired */
+  width: 100%;
+  border-radius: 15px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  min-width: 295px;
+}
+
+.card-header h5 {
+  font-size: 18px; /* Adjust the font size as desired */
+}
+
+.card-body {
+  font-size: small;
+
+}
+
+#filterHeader {
+  width: 100%;
+
+}
+
+#val_table {
+   max-width: 1062px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+#val_table th {
+  /* CSS rules for the <tr> elements within the table with ID 'val_table' */
+  text-align: left;
+
+}
+
+#val_table tr {
+    font-size: 15px;
+}
+
+.main-svg {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  max-width: 1062px;
+}
+
+.card.text-dark.bg-light.mb-3 {
+  margin-right: 20px;
+}
+
+.plotly-graph-div.js-plotly-plot {
+  margin-bottom: 20px;
+  max-width: 1062px;
+}
+
+.search-card-container {
+  background:linear-gradient(to top, #ffffff, #808080, #ffffff);
+  height: calc(100vh - 120px);
+}

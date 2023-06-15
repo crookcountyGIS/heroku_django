@@ -1,231 +1,121 @@
-{% extends 'pats/base.html' %} 
-{% load static %} 
-{% load humanize %} 
-{% load bootstrap5 %} 
-{% bootstrap_css %} 
+{% extends 'pats/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
 {% bootstrap_javascript %}
-<!-- Chart.js CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.2.1/chart.min.js" integrity="sha512-v3ygConQmvH0QehvQa6gSvTE2VdBZ6wkLOlmK7Mcy2mZ0ZF9saNbbk19QeaoTHdWIEiTlWmrwAL4hS8ElnGFbA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" integrity="sha512-ZnR2wlLbSbr8/c9AgLg3jQPAattCUImNsae6NHYnS9KrIwRdcY9DxFotXhNAKIKbAXlRnujIqUWoXXwqyFOeIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 {% block content %}
+{% for feature in account_info.features %}
+<nav class="navbar navbar-expand-lg nav-search">
+  <div class="container-fluid ">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a id="newSearch" class="nav-link nav-link-search" href="{% url 'index' %}">New Search</a>
+        </li>
+        <li class="navbar-text">
+          <span style="margin-right:10px;">|</span>
+        </li>
+        <li class="navbar-text">
+          <span style="margin-right:5px;">Search Type:</span>
+        </li>
+        <li class="nav-item">
+            <a id="generalSearch" class="nav-link nav-link-search active" href="#">General Search</a>
+          </li>
+          <li class="nav-item">
+            <a id="searchAccount" class="nav-link nav-link-search" href="#">Search Account</a>
+          </li>
+          <li class="nav-item">
+            <a id="searchMT" class="nav-link nav-link-search" href="#">Search Maptaxlot</a>
+          </li>
+          <li class="nav-item">
+            <a id="searchOwner" class="nav-link nav-link-search" href="#">Search Owner</a>
+          </li>
+          <li class="nav-item">
+            <a id="searchAddress" class="nav-link nav-link-search" href="#">Search Address</a>
+          </li>
+      </ul>
+    </div>
+  </div>
+</nav>
 
-<div class="container" style="margin-left: 0;">
-  <div class="row">
-    <div id="navigation" class="col-md" style="max-width: 175px;padding: 0; margin:0; position: static;float: left;">
-      <section class="bg-light">
-          <div class="container" style="padding: 0;margin-right: 0;">
-              <div class="d-flex">
-                  <div class="list-group">
-                    {% for feature in account_info.features %}
-                      <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Summary</a>
-                      <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="list-group-item list-group-item-action">Valuation</a>
-                      <a href="#" class="list-group-item list-group-item-action">Tax Information</a>
-                      <a href="#" class="list-group-item list-group-item-action">Sales</a>
-                      <a href="#" class="list-group-item list-group-item-action">Land and Structures</a>
-                      <a href="#" class="list-group-item list-group-item-action">Special Assessments</a>
-                      <a href="#" class="list-group-item list-group-item-action">Tax Map</a>
-                      <a href="#" class="list-group-item list-group-item-action">Tax Lot History</a>
-                      <a href="#" class="list-group-item list-group-item-action">Tax Related Accounts</a>
-                      <a href="#" class="list-group-item list-group-item-action">Warnings/Notations</a>
-                      <a href="#" class="list-group-item list-group-item-action">Help</a>
-                      <a href="#" class="list-group-item list-group-item-action">Development</a>
-                    {% endfor %}
-                      </div>
-              </div>
-          </div>
-      </section>
-      </div>
-<div class="container col-md">
-
-  {% for feature in account_info.features %} 
-
-
-      <div class="header">
-        <h4>Valuation for account #{{feature.attributes.account_id}}</h4>
-      </div>
-
-
-  <div class="container p-3">
-        <div class="col">
-          <div id="account_info">
-            <h5>Account Information</h5>
-            <p>Mailing Name: {{feature.attributes.owner_name}}
-              <br /> Map and Tax lot: {{feature.attributes.map_taxlot}}
-              <br /> Situs Address: {{feature.attributes.situs_address}}
-              <br /> Tax Status: {{feature.attributes.tax_status}}
-            </p>
-          </div>
-  {% endfor %}
-          <img src="" alt="">
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                 <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                <li class="nav-item">
+                        <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-database"></i> <span class="ms-1 d-none d-sm-inline">Summary</span>
+                        </a>
+                    </li>
+                 <li class="nav-item">
+                        <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-graph-up"></i> <span class="ms-1 d-none d-sm-inline">Valuation</span>
+                        </a>
+                    </li>
+                 <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-bank"></i> <span class="ms-1 d-none d-sm-inline">Tax Information</span>
+                        </a>
+                 </li>
+                     <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-cash"></i> <span class="ms-1 d-none d-sm-inline">Sales</span>
+                        </a>
+                </li>
+                      <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-building"></i> <span class="ms-1 d-none d-sm-inline">Land and Structures</span>
+                        </a>
+                </li>
+                      <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-map"></i> <span class="ms-1 d-none d-sm-inline">Tax Map</span>
+                        </a>
+                </li>
+                     <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-clock-history"></i> <span class="ms-1 d-none d-sm-inline">Tax Lot History</span>
+                        </a>
+                </li>
+                     <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-link-45deg"></i> <span class="ms-1 d-none d-sm-inline">Related Accounts</span>
+                        </a>
+                </li>
+             <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-exclamation-square"></i> <span class="ms-1 d-none d-sm-inline">Warnings/Notations</span>
+                        </a>
+                </li>
+                      <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-house-add"></i> <span class="ms-1 d-none d-sm-inline">Development</span>
+                        </a>
+                </li>
+                   </ul>
+            </div>
         </div>
-
-
-
-
-        <div class="col">
-          <h5>Value History</h5>
-          {{ html_table|safe }}
-          {{ chart|safe }}
-          <table class="table table-striped table-hover">
-            <thead class="table-dark">
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">2018-2019</th>
-                <th scope="col">2019-2020</th>
-                <th scope="col">2020-2021</th>
-                <th scope="col">2021-2022</th>
-                <th scope="col">2022-2023</th>
-              </tr>
-            </thead>
-            <tbody class="table">
-              <tr>
-                <th scope="row">Real Market Value - Land</th>
-                <td>${{real_market_value.2018|intcomma}}</td>
-                <td>${{real_market_value.2019|intcomma}}</td>
-                <td>${{real_market_value.2020|intcomma}}</td>
-                <td>${{real_market_value.2021|intcomma}}</td>
-                <td>${{real_market_value.2022|intcomma}}</td>
-              </tr>
-              <tr>
-                <th scope="row">Real Market Value - Structure</th>
-                <td>${{value_structure.2018|intcomma}}</td>
-                <td>${{value_structure.2019|intcomma}}</td>
-                <td>${{value_structure.2020|intcomma}}</td>
-                <td>${{value_structure.2021|intcomma}}</td>
-                <td>${{value_structure.2022|intcomma}}</td>
-              </tr>
-              <tr class="table-danger">
-                <th scope="row">Total Real Market Value</th>
-                <td>${{total_real_market.2018|intcomma}}</td>
-                <td>${{total_real_market.2019|intcomma}}</td>
-                <td>${{total_real_market.2020|intcomma}}</td>
-                <td>${{total_real_market.2021|intcomma}}</td>
-                <td>${{total_real_market.2022|intcomma}}</td>
-              </tr>
-              <tr class="table-primary">
-                <th scope="row">Maximum Assessed Value</th>
-                <td>${{max_assessed.2018|intcomma}}</td>
-                <td>${{max_assessed.2019|intcomma}}</td>
-                <td>${{max_assessed.2020|intcomma}}</td>
-                <td>${{max_assessed.2021|intcomma}}</td>
-                <td>${{max_assessed.2022|intcomma}}</td>
-              </tr>
-              <tr>
-                <th scope="row">Total Assessed Value</th>
-                <td>${{total_assessed.2018|intcomma}}</td>
-                <td>${{total_assessed.2019|intcomma}}</td>
-                <td>${{total_assessed.2020|intcomma}}</td>
-                <td>${{total_assessed.2021|intcomma}}</td>
-                <td>${{total_assessed.2022|intcomma}}</td>
-              </tr>
-              <tr>
-                <th scope="row">Veterans Exemption</th>
-                <td>${{veterans.2018|intcomma}}</td>
-                <td>${{veterans.2019|intcomma}}</td>
-                <td>${{veterans.2020|intcomma}}</td>
-                <td>${{veterans.2021|intcomma}}</td>
-                <td>${{veterans.2022|intcomma}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-
-
-      
-      <div class="card">
-          <div class="card-body">
-              <canvas id="chLine"></canvas>
-          </div>
-      </div>
-
-
-
+        <div class="col py-3">
+          <div class="col p-0">
+            <div class="display-4">
+              <i class="fs-4 bi-graph-up"></i> Valuation for Account: {{feature.attributes.account_id}}
+            </div>
+      <div class="row p-3">
+    <div class="container p-3 val-chart">
+           {{ chart|safe }}
+    <div class="col">
+    <h5>Value History</h5>
+    {{ html_table|safe }}
+    </div>
+    </div>
 </div>
-<!--  experimental tables -->
-
-  <!--  experimental tables -->
-  
-
-  
-    
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-      const ctx = document.getElementById('chLine');
-  
-      const trmv2018 = "{{ total_real_market.2018 | safe}}";
-      const trmv2019 = "{{ total_real_market.2019 | safe}}";
-      const trmv2020 = "{{ total_real_market.2020 | safe}}";
-      const trmv2021 = "{{ total_real_market.2021 | safe}}";
-      const trmv2022 = "{{ total_real_market.2022 | safe}}";
-  
-      const mav2018 = "{{ max_assessed.2018 | safe}}";
-      const mav2019 = "{{ max_assessed.2019 | safe}}";
-      const mav2020 = "{{ max_assessed.2020 | safe}}";
-      const mav2021 = "{{ max_assessed.2021 | safe}}";
-      const mav2022 = "{{ max_assessed.2022 | safe}}";
-    
-      new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['2018', '2019', '2020', '2021', '2022'],
-        datasets: [{
-          label: 'Total Real Market Value',
-          data: [trmv2018, trmv2019, trmv2020, trmv2021, trmv2022],
-          borderWidth: 3,
-          backgroundColor: "#9C0A00",
-  
-        },
-        {
-          label: "Maximum Assessed Value",
-          data: [mav2018, mav2019, mav2020, mav2021, mav2022],
-          borderWidth: 3,
-          backgroundColor: "#0071DB",
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-              ticks: {
-                  // Include a dollar sign in the ticks
-                  callback: function(value, index, ticks) {
-                    return '$' + Chart.Ticks.formatters.numeric.apply(this, [value, index, ticks]);
-                  }
-              }
-          }
-        }
-      }
-    });
-    </script>
-   
-
-
+</div>
 </div>
 </div>
 </div>
 
+{% endfor %}
 {% endblock %}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

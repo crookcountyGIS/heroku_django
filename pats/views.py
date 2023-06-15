@@ -6,6 +6,7 @@ import json
 import requests
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 
 
 def base(request):
@@ -65,8 +66,7 @@ def tableSearchResults(request,
     json_records = dfjoin.reset_index().to_json(orient='records')
     data = json.loads(json_records)
 
-    # html_table = dfjoin.to_html(classes='table table-striped', index=False)
-    context = {'d': data}
+    context = {'d': data, 'search_term': value}
 
     return render(request, 'pats/searchResults.html', context)
 
@@ -108,15 +108,37 @@ def valuation(request, account):
     # Drop unwanted rows and make $$ values
     rows_to_drop = ['account_id', 'OBJECTID', 'year', 'county_id', 'original_tax', 'tax_code_area']
     df_filter = df_appended.drop(index=rows_to_drop)
-    x_data = df_filter.keys()
-    y_data = list(df_filter.loc['rmv_total', :])
-    y_data2 = list(df_filter.loc['max_av', :])
 
-    fig = px.line(x=x_data, y=y_data)
-    fig.add_trace(px.line(x=x_data, y=y_data2).data[0])
-    fig.update_layout(title="Total Real Market Value and Maximum Assessed Value Over Time", xaxis_title="Year",
+    df_rmv_av = df_filter.iloc[2:4, :]
+    df_chart = df_rmv_av.T
+    fig = go.Figure()
+
+    fig.add_trace(go.Scatter(
+        x=df_chart.index,
+        y=df_chart['rmv_total'],
+        mode='lines+markers+text',  # Add 'markers' mode to display markers
+        name='RMV Total',
+        line=dict(color='#4300F0', width=3, dash='dash'),
+        marker=dict(color='#4300F0', size=8),  # Marker color and size
+        text=df_chart.rmv_total
+    ))
+
+    fig.add_trace(go.Scatter(
+        x=df_chart.index,
+        y=df_chart['total_av'],
+        mode='lines+markers+text',  # Add 'markers' mode to display markers
+        name='AV Total',
+        line=dict(color='#18F02E', width=3, dash='dash'),
+        marker=dict(color='#18F02E', size=8),  # Marker color and size
+        text=df_chart.total_av
+    ))
+
+    fig.update_layout(margin=dict(l=5, r=5, t=50, b=5),
+                      title="Total Real Market Value and Total Assessed Value Over Time", xaxis_title="Year",
                       yaxis_title="Value")
-    # fig.show()
+    fig.update_traces(textposition="bottom right", texttemplate='%{text:$,.0f}',
+                      hovertemplate='%{text:$,.0f}<br />%{x}',
+                      selector=dict(type='scatter'))
     chart = fig.to_html()
 
     df_filter = df_filter.applymap(lambda x: f'${intcomma(int(x))}' if isinstance(x, (int, float)) else x)
@@ -133,7 +155,7 @@ def valuation(request, account):
 
     df_filter = df_filter.rename(index=index_mapping)
     # Convert to HTML table
-    html_table = df_filter.to_html(classes='table table-striped')
+    html_table = df_filter.to_html(classes='table table-dark', table_id='val_table')
 
     # Send data over as dictionary
     json_records = df_filter.reset_index().to_json(orient='records')
@@ -162,6 +184,8 @@ def account_query(request, account):
     prop_response = requests.get(prop_url, params=params)
     prop_data = prop_response.json()
 
+
+
     maptaxlot = []
     for elem in prop_data['features']:
         (root := Root.from_dict(elem))
@@ -169,7 +193,28 @@ def account_query(request, account):
         mt_find = mt[:mt.find('-', mt.find('-') + 1)]
         maptaxlot.append(mt_find.replace('-', ''))
 
-    context = {'data': prop_data, 'maptaxlot': maptaxlot}
+    zoning_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/18/query"
+
+    # Define the query parameters
+    zoning_params = {
+        "where": f"maptaxlot='{maptaxlot[0]}'",  # Retrieve all records
+        "outFields": "*",  # Specify the fields to include in the response
+        "returnGeometry": False,  # Exclude geometry information
+        "f": "json"  # Specify the response format as JSON
+    }
+
+    zoning_response = requests.get(zoning_url, params=zoning_params)
+    zoning_data = zoning_response.json()
+
+    for zones in zoning_data['features']:
+        (zone := zones['attributes']['zone'])
+        (zone_desc := zones['attributes']['zone_desc'])
+        (zone_link := zones['attributes']['zone_link'])
+
+    if root.attributes.account_type == 'UTIL':
+        (context := {'data': prop_data})
+    else:
+        (context := {'data': prop_data, 'maptaxlot': maptaxlot, 'zone': zone, 'zone_desc': zone_desc, 'zone_link': zone_link})
 
     if root.attributes.account_type == 'Real':
         return render(request, 'pats/summaryPage.html', context)
@@ -222,7 +267,7 @@ def mt_query(request, maptaxlot):
         return redirect('account_query', account=account_id)
 
     else:
-        context = {'d': data}
+        context = {'d': data, 'search_term': maptaxlot}
         return render(request, 'pats/searchResults.html', context)
 
 
