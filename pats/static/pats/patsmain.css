@@ -204,3 +204,9 @@ body {
   background:linear-gradient(to top, #ffffff, #808080, #ffffff);
   height: calc(100vh - 120px);
 }
+
+#las_table th {
+  /* CSS rules for the <tr> elements within the table with ID 'val_table' */
+  text-align: left;
+
+}

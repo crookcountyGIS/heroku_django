@@ -74,7 +74,7 @@
                 </li>
 
                       <li class="nav-item">
-                        <a href="{% url 'landandstructures' account=feature.attributes.account_id %}" class="nav-link align-middle px-0 nav-link-menu">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
                             <i class="fs-4 bi-building"></i> <span class="ms-1 d-none d-sm-inline">Land and Structures</span>
                         </a>
                 </li>
@@ -116,7 +116,7 @@
         <div class="col py-3">
           <div class="col p-0">
             <div class="display-4">
-              <i class="fs-4 bi-database"></i> Summary for Account: {{feature.attributes.account_id}}
+              <i class="fs-4 bi-database"></i> Land and Structures for Account: {{feature.attributes.account_id}}
             </div>
 
 
@@ -144,163 +144,34 @@
           <div class="card text-dark bg-light mb-3" id="ownership" style="float:left; margin-top:20px;">
             <div class="card-header">
               <h5>
-                <strong>Ownership</strong>
+                <strong>Structures Located on this Property</strong>
               </h5>
             </div>
             <div class="card-body">
-              <a href="">View Complete Ownership Report</a>
-              <p>
-                <strong>Mailing To:</strong>
-                <br />{{feature.attributes.owner_name}}
-                <br />{{feature.attributes.owner_mailing_address1}}
-                <br />{{feature.attributes.owner_mailing_city}}, {{feature.attributes.owner_mailing_state}}
-                {{feature.attributes.owner_mailing_zip}}
-              </p>
-              <a href="https://co.crook.or.us/assessor/webform/mailing-address-change-request-form">Change of Mailing Address Form</a>
-              <br /> {% for i in maptaxlot %} <a href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{{ i }}">View Overview Map</a> {% endfor %}
+                {{ html_las_table|safe }}
             </div>
           </div>
+
+
+             <div class="card text-dark bg-light mb-3" id="taxes" style="float:left; margin-top:20px;">
+            <div class="card-header">
+              <h5>
+                <strong>Land Characteristics for this Property</strong>
+              </h5>
+            </div>
+            <div class="card-body">
+                {{ html_lcl_table|safe }}
+            </div>
+          </div>
+
 
         </div>
 
-
-        <div class="col">
-
-          <div class="card text-dark bg-light mb-3" id="taxes" style="float:left; margin-top:20px;">
-            <div class="card-header">
-              <h5>
-                <strong>Taxes</strong>
-              </h5>
-            </div>
-            <div class="card-body">
-                <strong>Property Tax (Current Year):</strong> {{feature.attributes.current_property_tax|intcomma}} <br />
-              <a href="">Get Current Balance Due (PDF)</a> <br />
-              "Enter if/else statement availability here" <br />
-              <a href="https://co.crook.or.us/tax-collection">Pay Your Property Taxes</a>
-              <br />
-              <a href="">Tax Payments & History</a>
-              <br />
-              <strong>Tax Code Area:</strong> 00{{feature.attributes.tax_code_area}}
-            </div>
-          </div>
-
-          <div class="card text-dark bg-light mb-3" id="assessment" style="float:left; margin-top:20px;">
-            <div class="card-header">
-              <h5>
-                <strong>Assessment</strong>
-              </h5>
-            </div>
-            <div class="card-body">
-              <p>
-                <strong>Assessor Property Description:</strong> information pop-up here <br />
-                {{feature.attributes.subdivision}}
-                <br />Lot {{feature.attributes.lot}} Block {{feature.attributes.block}}
-              </p>
-              <strong>Assessor Acres:</strong> {{feature.attributes.land_size_acres}}
-              <br />
-              <strong>Property Class:</strong> {{feature.attributes.property_class}}
-              </p>
-            </div>
-          </div>
-
-        </div>
-
-
-
-        <div class="col">
-          <div class="card text-dark bg-light mb-3" id="zoning" style="float:left; margin-top:20px;">
-            <div class="card-header">
-              <h5>
-                <strong>Zoning</strong>
-              </h5>
-            </div>
-            <div class="card-body">
-            <strong>Zone:</strong> {{ zone|safe }} <br />
-            <strong>Zone Description:</strong> {{ zone_desc|safe }} <br />
-            <a href="{{ zone_link|safe }}">Zone Link</a>
-            </div>
-              <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#zoningModal" style="width: 100px; margin-left: 16px; margin-bottom: 16px;">Disclaimer</button>
-          </div>
-
-
-          <div class="card text-dark bg-light mb-3" id="valuation" style="float:left; margin-top:20px;">
-            <div class="card-header">
-              <h5>
-                <strong>Valuation</strong>
-              </h5>
-            </div>
-            <div class="card-body">
-              <p>
-                <a href="http://apps.lanecounty.org/PropertyAssessmentTaxationSearch/crook/Real/Valuation/{{feature.attributes.account_id}}">Current Year Value Summary</a>
-                <br /> &nbsp;&nbsp;As of Jan. 1 2022&nbsp; - 2023 Tax Year <br />
-              <p>
-                <strong>Real Market Values: </strong>"pop up goes here"
-              </p>
-              <table class="table table-striped">
-                <tr>
-                  <td class="table-dark">Land</td>
-                  <td>${{feature.attributes.rmv_land|intcomma}}</td>
-                </tr>
-                <tr>
-                  <td class="table-dark">Structures</td>
-                  <td>${{feature.attributes.rmv_improvements|intcomma}}</td>
-                </tr>
-                <tr>
-                  <td class="table-dark">Total</td>
-                  <td>${{feature.attributes.rmv_total|intcomma}}</td>
-                </tr>
-              </table>
-              <p>
-                <strong>Assessed Values:</strong>
-              </p>
-              <table class="table table-striped">
-                <tr>
-                  <td class="table-dark">Specially Assessed</td>
-                  <td>${{feature.attributes.maximum_av|intcomma}}</td>
-                </tr>
-                <tr>
-                  <td class="table-dark">Assessed Value</td>
-                  <td>${{feature.attributes.taxable_av|intcomma}}</td>
-                </tr>
-                <tr>
-                  <td class="table-dark">Veterans Exemption</td>
-                  <td>${{feature.attributes.veterans_exemption|intcomma}}</td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </div>
-
-
 </div>
 </div>
 </div>
 </div>
 </div>
-
-
-<!-- Modal -->
-<div class="modal fade" id="zoningModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel"></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>The Assessor’s Office is not responsible for zoning. For any questions concerning zoning outside the City of Prineville contact the Crook County Community Development Department at 541-447-3211. For questions concerning zoning within the City of Prineville contact the City of Prineville’s Community Development Department at 541-447-5627.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-
-
 
 {% endfor %}
 {% endblock %}
