@@ -200,7 +200,7 @@ body {
   max-width: 1062px;
 }
 
-/*#val_table thead {*/
-/* */
-/*}*/
-
+.search-card-container {
+  background:linear-gradient(to top, #9BA5AE, #020B1A);
+  height: calc(100vh - 120px);
+}
