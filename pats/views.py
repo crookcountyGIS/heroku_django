@@ -155,7 +155,7 @@ def valuation(request, account):
 
     df_filter = df_filter.rename(index=index_mapping)
     # Convert to HTML table
-    html_table = df_filter.to_html(classes='table table-light table-striped', table_id='val_table')
+    html_table = df_filter.to_html(classes='table table-dark', table_id='val_table')
 
     # Send data over as dictionary
     json_records = df_filter.reset_index().to_json(orient='records')

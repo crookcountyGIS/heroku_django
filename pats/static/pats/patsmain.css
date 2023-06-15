@@ -170,21 +170,19 @@ body {
 }
 
 #val_table {
-   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-   border-radius: 6px;
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
    max-width: 1062px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
 }
 
 #val_table th {
   /* CSS rules for the <tr> elements within the table with ID 'val_table' */
   text-align: left;
-  border-radius: 6px;
+
 }
 
 #val_table tr {
-    font-size: 14px;
+    font-size: 15px;
 }
 
 .main-svg {
@@ -201,4 +199,8 @@ body {
   margin-bottom: 20px;
   max-width: 1062px;
 }
+
+/*#val_table thead {*/
+/* */
+/*}*/
 
