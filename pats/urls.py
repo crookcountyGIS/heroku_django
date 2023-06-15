@@ -13,6 +13,7 @@ urlpatterns = [
     path('owner/<str:name>/', views.owner_query, name='owner_query'),
     path('address/<str:address>/', views.address_query, name='address_query'),
     path('search/<str:value>/', views.tableSearchResults, name='tableSearchResults'),
-    path('<str:account>/las', views.landandstructures, name='landandstructures')
+    path('<str:account>/las', views.landandstructures, name='landandstructures'),
+    path('<str:account>/rel', views.relatedaccounts, name='relatedaccounts')
 
 ]
