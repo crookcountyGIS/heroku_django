@@ -201,6 +201,6 @@ body {
 }
 
 .search-card-container {
-  background:linear-gradient(to top, #9BA5AE, #020B1A);
+  background:linear-gradient(to top, #2d557b, #020B1A, #2d557b);
   height: calc(100vh - 120px);
 }
