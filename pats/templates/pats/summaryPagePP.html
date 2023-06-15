@@ -50,11 +50,12 @@
                             <i class="fs-4 bi-database"></i> <span class="ms-1 d-none d-sm-inline">Summary</span>
                         </a>
                     </li>
-                 <li class="nav-item">
-                        <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="nav-link align-middle px-0 nav-link-menu">
-                            <i class="fs-4 bi-graph-up"></i> <span class="ms-1 d-none d-sm-inline">Valuation</span>
+                          <li class="nav-item">
+                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
+                            <i class="fs-4 bi-exclamation-square"></i> <span class="ms-1 d-none d-sm-inline">Warnings/Notations</span>
                         </a>
-                    </li>
+                </li>
+
                  <li class="nav-item">
                         <a href="" class="nav-link align-middle px-0 nav-link-menu">
                             <i class="fs-4 bi-bank"></i> <span class="ms-1 d-none d-sm-inline">Tax Information</span>
@@ -62,34 +63,16 @@
                  </li>
                      <li class="nav-item">
                         <a href="" class="nav-link align-middle px-0 nav-link-menu">
-                            <i class="fs-4 bi-cash"></i> <span class="ms-1 d-none d-sm-inline">Sales</span>
+                            <i class="fs-4 bi-file-text"></i> <span class="ms-1 d-none d-sm-inline">Assessment Reports</span>
                         </a>
                 </li>
-                      <li class="nav-item">
-                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
-                            <i class="fs-4 bi-building"></i> <span class="ms-1 d-none d-sm-inline">Land and Structures</span>
-                        </a>
-                </li>
-                      <li class="nav-item">
-                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
-                            <i class="fs-4 bi-map"></i> <span class="ms-1 d-none d-sm-inline">Tax Map</span>
-                        </a>
-                </li>
-                     <li class="nav-item">
-                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
-                            <i class="fs-4 bi-clock-history"></i> <span class="ms-1 d-none d-sm-inline">Tax Lot History</span>
-                        </a>
-                </li>
+
                      <li class="nav-item">
                         <a href="" class="nav-link align-middle px-0 nav-link-menu">
                             <i class="fs-4 bi-link-45deg"></i> <span class="ms-1 d-none d-sm-inline">Related Accounts</span>
                         </a>
                 </li>
-             <li class="nav-item">
-                        <a href="" class="nav-link align-middle px-0 nav-link-menu">
-                            <i class="fs-4 bi-exclamation-square"></i> <span class="ms-1 d-none d-sm-inline">Warnings/Notations</span>
-                        </a>
-                </li>
+
                       <li class="nav-item">
                         <a href="" class="nav-link align-middle px-0 nav-link-menu">
                             <i class="fs-4 bi-house-add"></i> <span class="ms-1 d-none d-sm-inline">Development</span>
@@ -98,43 +81,61 @@
                    </ul>
             </div>
         </div>
-        <div class="col py-3">
+                <div class="col py-3">
           <div class="col p-0">
-
-
-
-	    <div class="col-md p-0">
-    <div class="header">
-        <h4>Summary for personal property account #{{feature.attributes.account_id}}</h4>
-      </div>
-      <div class="container p-3">
-        <div class="row">
-          <div class="col-md-4" id="col1">
-            <div id="account_info">
-              <h5>Account Information</h5>
-              <p>Personal Property Account: {{feature.attributes.account_id}}
-                <br /> Situs Address: {{feature.attributes.situs_address}}
-                <br /> X Number: {{feature.attributes.x_number}}
-              </p>
+            <div class="display-4">
+              <i class="fs-4 bi-database"></i> Summary for Personal Property Account: {{feature.attributes.account_id}}
             </div>
-            <div id="ownership">
-              <h5>Ownership</h5>
+
+
+      <div class="row p-3">
+
+        <div class="col">
+
+          <div class="card text-dark bg-light mb-3" id="account_info" style="float:left; margin-top:20px;">
+            <div class="card-header">
+              <h5>
+                <strong>Account Information</strong>
+              </h5>
+            </div>
+            <div class="card-body">
+              <strong>Mailing Name:</strong> {{feature.attributes.owner_name}}
+              <br />
+              <strong>Map and Tax lot:</strong> {{feature.attributes.map_taxlot}}
+              <br />
+              <strong>Situs Address:</strong> {{feature.attributes.situs_address}}
+              <br />
+              <strong>Tax Status:</strong> {{feature.attributes.tax_status}}
+            </div>
+          </div>
+
+          <div class="card text-dark bg-light mb-3" id="ownership" style="float:left; margin-top:20px;">
+            <div class="card-header">
+              <h5>
+                <strong>Ownership</strong>
+              </h5>
+            </div>
+            <div class="card-body">
               <a href="">View Complete Ownership Report</a>
-              <p>Mailing To: <br />{{feature.attributes.owner_name}}
+              <p>
+                <strong>Mailing To:</strong>
+                <br />{{feature.attributes.owner_name}}
                 <br />{{feature.attributes.owner_mailing_address1}}
                 <br />{{feature.attributes.owner_mailing_city}}, {{feature.attributes.owner_mailing_state}}
                 {{feature.attributes.owner_mailing_zip}}
               </p>
               <a href="https://co.crook.or.us/assessor/webform/mailing-address-change-request-form">Change of Mailing Address Form</a>
-              <br />
-              {% for i in maptaxlot %}
-              <a href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{{ i }}">View Overview Map</a>
-              {% endfor %}
+              <br /> {% for i in maptaxlot %} <a href="https://geo.co.crook.or.us/portal/apps/webappviewer/index.html?id=370f5ec185b945db9d92999cef827982&query=Taxlots,Maptaxlot,{{ i }}">View Overview Map</a> {% endfor %}
             </div>
           </div>
+
         </div>
-    </div>
-  </div>
+
+
+
+
+
+
 </div>
 </div>
 </div>
