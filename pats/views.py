@@ -20,7 +20,6 @@ def index(request):
 def mapPage(request):
     return render(request, 'pats/mapPage.html')
 
-
 def tableSearchResults(request,
                        value):  # this search form needs error redirecting, or failed response built into the page
 
@@ -459,7 +458,27 @@ def relatedaccounts(request, account):
 
     return render(request, 'pats/relatedaccounts.html', context)
 
+def interactiveMap(request, account):
+    prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
 
+    # Define the query parameters
+    params = {
+        "where": f"account_id='{account}'",  # Retrieve all records
+        "outFields": "*",  # Specify the fields to include in the response
+        "returnGeometry": False,  # Exclude geometry information
+        "f": "json"  # Specify the response format as JSON
+    }
+
+    prop_response = requests.get(prop_url, params=params)
+    prop_data = prop_response.json()
+
+    dfPropList = []
+    for elem in prop_data['features']:
+        dfPropList.append(elem['attributes'])
+
+    context = {'data': prop_data}
+
+    return render(request, 'pats/interactiveMap.html', context)
 
 
 
