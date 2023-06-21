@@ -5,13 +5,8 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" integrity="sha512-ZnR2wlLbSbr8/c9AgLg3jQPAattCUImNsae6NHYnS9KrIwRdcY9DxFotXhNAKIKbAXlRnujIqUWoXXwqyFOeIQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="{% static 'pats/mapPage.css' %}">
-<link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
-<script src="https://js.arcgis.com/4.26/"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{% static 'pats/mapPageV2.js' %}"></script>
 {% block content %}
-  {% for feature in data.features %}
+    {% for feature in data.features %}
 <nav class="navbar navbar-expand-lg nav-search">
   <div class="container-fluid ">
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -125,7 +120,7 @@
         </div>
         <div class="col py-3">
         <!--insert interactivemap-->
-            <div id="viewDiv"></div>
+    {% include "pats/mapPage.html" %}
 </div>
 </div>
 </div>
