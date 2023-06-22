@@ -1,9 +1,130 @@
 {% load static %}
+
 <link rel="stylesheet" href="{% static 'pats/mapPage.css' %}">
-	<link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
-	<script src="https://js.arcgis.com/4.26/"></script>
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script src="{% static 'pats/mapPageV2.js' %}"></script>
-    <div id="viewDiv"></div>
+<link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
+<script src="https://js.arcgis.com/4.26/"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'pats/mapPageV2.js' %}"></script>
+<body>
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+		<div class="container-fluid"> <a class="navbar-brand" href="#"><h2>Crook County Property Information</h2></a> <img src="{% static 'pats/crook_county_logo_lgr.jpg' %}" alt="" width="350" height="75" class="d-inline-block align-text-left"> </div>
+	</nav>
+	<div class="row" id="splitscreen">
+		<div class="col" id="tableinfo" style="background-image: url(&quot;{% static 'pats/city_research.png' %}&quot;);">
+			<div class="d-grid gap-2">
+				<button class="btn btn-secondary btn-lg shadow p-3 mt-3 mb-1 rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="false" aria-controls="collapseExample"> Account Information </button>
+			</div>
+			<div class="collapse" id="collapse1">
+				<div class="card card-body gap-2">
+					<table class="table table-striped">
+						<tr>
+							<td class="table-dark col-4">Mailing Name</td>
+							<td><span id="owner-name"></span></td>
+						</tr>
+						<tr>
+							<td class="table-dark col-4">Map and Tax lot</td>
+							<td><span id="map-tax-lot"></span></td>
+						</tr>
+						<tr>
+							<td class="table-dark col-4">Situs Address</td>
+							<td class="table-light"><span id="situs-address"></span></td>
+						</tr>
+						<tr>
+							<td class="table-dark col-4">Tax Status</td>
+							<td class="table-light"><span id="tax-status"></span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="d-grid gap-2">
+				<button class="btn btn-secondary btn-lg shadow p-3 mb-1 rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapseExample"> Real Market Values </button>
+			</div>
+			<div class="collapse" id="collapse2">
+				<div class="card card-body gap-2">
+					<table class="table table-striped">
+						<tr>
+							<td class="table-dark col-4">Land</td>
+							<td class="table-light"><span id="land"></span></td>
+						</tr>
+						<tr>
+							<td class="table-dark col-4">Structures</td>
+							<td class="table-light"><span id="structures"></span></td>
+						</tr>
+						<tr>
+							<td class="table-dark col-4">Total</td>
+							<td class="table-light"><span id="total"></span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="d-grid gap-2">
+				<button class="btn btn-secondary btn-lg shadow p-3 mb-1 rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapseExample"> Assessed Values </button>
+			</div>
+			<div class="collapse" id="collapse3">
+				<div class="card card-body gap-2">
+					<table class="table table-striped">
+						<tr>
+							<td class="table-dark col-4">Specially Assessed</td>
+							<td class="table-light"><span id="specially_assessed"></span></td>
+						</tr>
+						<tr>
+							<td class="table-dark col-4">Assessed Value</td>
+							<td class="table-light"><span id="assessed_value"></span></td>
+						</tr>
+						<tr>
+							<td class="table-dark col-4">Veterans Exemption</td>
+							<td class="table-light"><span id="vet_exception"></span></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="d-grid gap-2">
+				<button class="btn btn-secondary btn-lg shadow p-3 mb-1 rounded" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapseExample"> Map Information </button>
+			</div>
+			<div class="collapse" id="collapse4">
+				<div class="card card-body gap-2">
+					<div id="legend"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col" id="mapframe">
+			<div class="panel-container">
+				<div class="panel-side shadow p-3 mb-1 rounded">
+					<div id="search header">
+						<h2>Search</h2>
+						<p style="font-size: small;"><i>Enter in your maptaxlot, account #, owner name, or situs address into the search bar</i></p>
+					</div>
+					<div id="searchWidget"></div>
+					<div id="checkboxdiv">
+						<input type="checkbox" id="checkBoxLayer" checked />
+						<label for="checkBoxLayer">Land Group Layer Visibility</label>
+					</div>
+					<div id="checkboxdiv">
+						<input type="checkbox" id="taxlots" checked />
+						<label for="taxlots">Taxlots</label>
+					</div>
+					<div id="checkboxdiv">
+						<input type="checkbox" id="pendingLayer" checked />
+						<label for="pendingLayer">Pending</label>
+					</div>
+					<div id="checkboxdiv">
+						<input type="checkbox" id="subdivisions" />
+						<label for="subdivisions">Subdivisions</label>
+					</div>
+					<div id="checkboxdiv">
+						<input type="checkbox" id="districtsLayer" />
+						<label for="districtsLayer">Districts</label>
+					</div>
+          <div>
+
+
+          </div>
+				</div>
+				<div id="viewDiv">
+    </div>
+			</div>
+		</div>
+    </body>
+
 
 
