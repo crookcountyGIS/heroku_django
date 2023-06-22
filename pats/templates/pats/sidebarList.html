@@ -1,0 +1,68 @@
+<ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+  <li class="nav-item">
+    <a href="{% url 'account_query' account=feature.attributes.account_id %}" class="nav-link align-middle px-0 nav-link-menu">
+      <i class="fs-4 bi-database"></i>
+      <span class="ms-1 d-none d-sm-inline">Summary</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="{% url 'valuation' account=feature.attributes.account_id %}" class="nav-link align-middle px-0 nav-link-menu">
+      <i class="fs-4 bi-graph-up"></i>
+      <span class="ms-1 d-none d-sm-inline">Valuation</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="" class="nav-link align-middle px-0 nav-link-menu">
+      <i class="fs-4 bi-bank"></i>
+      <span class="ms-1 d-none d-sm-inline">Tax Information</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="" class="nav-link align-middle px-0 nav-link-menu">
+      <i class="fs-4 bi-cash"></i>
+      <span class="ms-1 d-none d-sm-inline">Sales</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="{% url 'landandstructures' account=feature.attributes.account_id %}" class="nav-link align-middle px-0 nav-link-menu">
+      <i class="fs-4 bi-building"></i>
+      <span class="ms-1 d-none d-sm-inline">Land and Structures</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="" class="nav-link align-middle px-0 nav-link-menu">
+      <i class="fs-4 bi-map"></i>
+      <span class="ms-1 d-none d-sm-inline">Tax Map</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="" class="nav-link align-middle px-0 nav-link-menu">
+      <i class="fs-4 bi-clock-history"></i>
+      <span class="ms-1 d-none d-sm-inline">Tax Lot History</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="{% url 'relatedaccounts' account=feature.attributes.account_id %}" class="nav-link align-middle px-0 nav-link-menu">
+      <i class="fs-4 bi-link-45deg"></i>
+      <span class="ms-1 d-none d-sm-inline">Related Accounts</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="" class="nav-link align-middle px-0 nav-link-menu">
+      <i class="fs-4 bi-exclamation-square"></i>
+      <span class="ms-1 d-none d-sm-inline">Warnings/Notations</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="" class="nav-link align-middle px-0 nav-link-menu">
+      <i class="fs-4 bi-house-add"></i>
+      <span class="ms-1 d-none d-sm-inline">Development</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="{% url 'interactivemap' account=feature.attributes.account_id %}" class="nav-link align-middle px-0 nav-link-menu">
+      <i class="fs-4 bi-geo-alt"></i>
+      <span class="ms-1 d-none d-sm-inline">Interactive Map</span>
+    </a>
+  </li>
+</ul>
