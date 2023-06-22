@@ -472,15 +472,49 @@ def interactiveMap(request, account):
     prop_response = requests.get(prop_url, params=params)
     prop_data = prop_response.json()
 
+    maptaxlot = []
     dfPropList = []
     for elem in prop_data['features']:
         dfPropList.append(elem['attributes'])
+        root = Root.from_dict(elem)
+        mt = root.attributes.map_taxlot
+        mt_find = mt[:mt.find('-', mt.find('-') + 1)]
+        maptaxlot.append(mt_find.replace('-', ''))
 
-    context = {'data': prop_data}
+
+
+    context = {'data': prop_data, 'maptaxlot':maptaxlot}
 
     return render(request, 'pats/interactiveMap.html', context)
 
+def surveys(request, account):
+    prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
 
+    # Define the query parameters
+    params = {
+        "where": f"account_id='{account}'",  # Retrieve all records
+        "outFields": "*",  # Specify the fields to include in the response
+        "returnGeometry": False,  # Exclude geometry information
+        "f": "json"  # Specify the response format as JSON
+    }
+
+    prop_response = requests.get(prop_url, params=params)
+    prop_data = prop_response.json()
+
+    maptaxlot = []
+    dfPropList = []
+    for elem in prop_data['features']:
+        dfPropList.append(elem['attributes'])
+        root = Root.from_dict(elem)
+        mt = root.attributes.map_taxlot
+        mt_find = mt[:mt.find('-', mt.find('-') + 1)]
+        maptaxlot.append(mt_find.replace('-', ''))
+
+
+
+    context = {'data': prop_data, 'maptaxlot':maptaxlot}
+
+    return render(request, 'pats/surveys.html', context)
 
 
 

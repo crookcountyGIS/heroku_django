@@ -15,6 +15,7 @@ urlpatterns = [
     path('search/<str:value>/', views.tableSearchResults, name='tableSearchResults'),
     path('<str:account>/las', views.landandstructures, name='landandstructures'),
     path('<str:account>/rel', views.relatedaccounts, name='relatedaccounts'),
-    path('<str:account>/interactivemap', views.interactiveMap, name='interactivemap')
+    path('<str:account>/interactivemap', views.interactiveMap, name='interactivemap'),
+    path('<str:account>/surveys', views.surveys, name='surveys')
 
 ]
