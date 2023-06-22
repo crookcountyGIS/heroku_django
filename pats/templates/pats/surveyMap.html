@@ -1,0 +1,17 @@
+{% load static %}
+<link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
+<script src="https://js.arcgis.com/4.26/"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'pats/surveyJS.js' %}"></script>
+<style>
+#viewDiv {
+  padding: 0;
+  margin: 0;
+  height: calc(100vh - 120px);
+  width: 100%;
+}
+</style>
+<div id="viewDiv"></div>
+
+
+

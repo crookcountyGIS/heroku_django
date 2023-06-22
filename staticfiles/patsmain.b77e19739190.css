@@ -1,0 +1,212 @@
+html,
+body {
+    height:100%;
+    width:100%;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.header h4 {
+    text-align: center;
+    margin: 0;
+    border: 1px solid black;
+  }
+
+
+.col-md-4 {
+    flex-basis: 0;
+    flex-grow: 1;
+    max-width: 100%;
+}
+
+
+@media (max-width: 768px) {
+    #searchBtnDiv {
+      margin-top: 10px;
+    }
+  }
+
+.logo {
+  position: absolute;
+  right: 3%;
+  top:10px;
+  z-index: 10;
+}
+
+.header {
+  background-color: #6B724A;
+  border-bottom: 1px solid #C8CFAF; 
+}
+
+.display-4 {
+  text-align: left;
+  margin-left: 20px;
+  margin-right:20px;
+  margin-top:10px;
+  color: #212529;
+  background: linear-gradient(to right, rgba(39,65,97, .5)20%, rgba(39,65,97,0) 90% );
+  font-weight: 800;
+  font-size: 1.5rem;
+  padding: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+   border-radius: 6px;
+}
+
+.navbar-brand {
+  margin-right:60px;
+}
+
+#title {
+  font-size: x-large;
+  color:rgb(255, 255, 255);
+  font-weight: 600;
+}
+#subtitle{
+  font-size:small;
+  color:rgb(255, 255, 255);
+  font-weight: 600;
+  padding-left:15px;
+}
+
+#banner {
+  height: 100px;
+  background-color: #C6DFFD;
+  padding-left:20px;
+  padding-top: 15px;
+}
+
+.nav-link-header {
+  color: white;
+}
+
+.nav-link-search-active {
+  color: #2b4f73;
+  background-color: white;
+}
+
+.nav-link-search {
+  color: wheat;
+  background-color: transparent;
+}
+
+.navbar-text {
+  color: wheat;
+  font-weight: bolder;
+
+}
+
+.nav-link-search:hover {
+  color: rgb(189, 168, 129);
+  text-decoration: underline;
+}
+
+
+
+.banner-btn {
+  margin-top: 15px;
+}
+
+#footer {
+  background-color: #2B4F73;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  height: 30px;
+  font-weight: lighter;
+  font-size: xx-small;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.nav-search {
+  background: linear-gradient(270deg,#306088 5.05%,#274161 77.07%);
+  height: 33px;
+  font-size: .75em;
+}
+
+.nav-link-menu {
+  color:white;
+  font-weight: bold;
+}
+
+.container-search {
+  padding-top:20px;
+  padding-bottom:20px; 
+  position: absolute; 
+  top: 116px; 
+  bottom: 30px; 
+  overflow:auto
+}
+
+.table-search {
+  cursor: pointer
+}
+
+.list-group {
+  width: 200px;
+}
+
+.card {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Adjust the shadow properties as desired */
+  width: 100%;
+  border-radius: 15px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  min-width: 295px;
+}
+
+.card-header h5 {
+  font-size: 18px; /* Adjust the font size as desired */
+}
+
+.card-body {
+  font-size: small;
+
+}
+
+#filterHeader {
+  width: 100%;
+
+}
+
+#val_table {
+   max-width: 1062px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+}
+
+#val_table th {
+  /* CSS rules for the <tr> elements within the table with ID 'val_table' */
+  text-align: left;
+
+}
+
+#val_table tr {
+    font-size: 15px;
+}
+
+.main-svg {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  max-width: 1062px;
+}
+
+.card.text-dark.bg-light.mb-3 {
+  margin-right: 20px;
+}
+
+.plotly-graph-div.js-plotly-plot {
+  margin-bottom: 20px;
+  max-width: 1062px;
+}
+
+.search-card-container {
+  background:linear-gradient(to top, #ffffff, #808080, #ffffff);
+  height: calc(100vh - 120px);
+}
+
+#las_table th {
+  /* CSS rules for the <tr> elements within the table with ID 'val_table' */
+  text-align: left;
+
+}
