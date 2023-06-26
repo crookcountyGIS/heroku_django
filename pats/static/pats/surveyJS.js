@@ -66,7 +66,7 @@ require(["esri/Map",
                     content: "<strong>PDF:</strong> <a href={image}>View</a> <br /> <strong>Prepared For:</strong> {prepared_for} <br /> <strong>Description:</strong> {identification} <br /> <strong>Year:</strong> {rec_y}",
                 }
         });
-        
+
         // load layers
         view.when(() => {
              map.add(fLayer);
