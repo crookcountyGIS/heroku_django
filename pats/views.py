@@ -511,7 +511,6 @@ def surveys(request, account):
         maptaxlot.append(mt_find.replace('-', ''))
 
 
-
     context = {'data': prop_data, 'maptaxlot':maptaxlot}
 
     return render(request, 'pats/surveys.html', context)
