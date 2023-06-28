@@ -191,7 +191,7 @@ landGroup.when(function() {
 function surveyIntersect(resultsMtLayer){
   resultsMtLayer.features.forEach(function(maptaxlot) {
     surveyQuery = new Query({
-    where: "1=1",
+    where: "cs NOT IN ('2787','2424','1391','4188')",
     geometry: maptaxlot.geometry,
     returnGeometry: true,
     spatialRelationship: "intersects",
@@ -259,7 +259,9 @@ row.appendChild(cell);
           fields: surveyLayer.fields,
           objectIdField: "OBJECTID",
           renderer: surveyRenderer,
+          popupTemplate: surveyTemplate
         });
+    console.log("why are surveys popping up 4 times")
     map.remove(surveyLayer);
     map.add(intersectLayer);
 
