@@ -264,7 +264,9 @@ row.appendChild(cell);
     console.log("why are surveys popping up 4 times")
     map.remove(surveyLayer);
     map.add(intersectLayer);
-
+    intersectLayer.when(() => {
+        view.goTo(intersectLayer.fullExtent);
+    })
 }
 // Example JavaScript code to retrieve the data-header attribute value
     });
