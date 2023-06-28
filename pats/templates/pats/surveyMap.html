@@ -10,9 +10,7 @@
   height: calc(100vh - 120px);
   width: 100%;
 }
-  th::after {
-    content: attr(data-header);
-  }
+
 </style>
 <script>
 
@@ -167,14 +165,10 @@ view.when(() => {
 
 });
 
-
-console.log("{{ i|safe }}");
-
 function setDefExp() {
 //map.removeAll();
 //map.add(contLayer)
 mtWhere = "MAPTAXLOT = '{{ i|safe }}'";
-console.log(mtWhere);
 mtQuery = new Query({
     where: mtWhere,
     returnGeometry: true,
@@ -183,12 +177,11 @@ mtQuery = new Query({
 //listNode.innerHTML = "";
 
 landGroup.when(function() {
-    console.log("mtLayer when triggered");
     return mtLayer.queryFeatures(mtQuery);
-    }).then(surveyIntersect);
+    }).then(surveyIntersect)
 }
 
-function surveyIntersect(resultsMtLayer){
+function surveyIntersect(resultsMtLayer) {
   resultsMtLayer.features.forEach(function(maptaxlot) {
     surveyQuery = new Query({
     where: "cs NOT IN ('2787','2424','1391','4188')",
@@ -198,8 +191,8 @@ function surveyIntersect(resultsMtLayer){
     outFields: ["*"],
     outSpatialReference: surveyLayer.spatialReference
 });
-console.log('Basemap SR: ' +view.map.basemap.baseLayers.items[0].spatialReference.wkid);
-console.log('Surveys SR: ' + surveyLayer.spatialReference.wkid);
+//console.log('Basemap SR: ' +view.map.basemap.baseLayers.items[0].spatialReference.wkid);
+//console.log('Surveys SR: ' + surveyLayer.spatialReference.wkid);
 surveyLayer.queryFeatures(surveyQuery).then(function(surveyResults) {
   displayResults(surveyResults);
   });
@@ -209,9 +202,9 @@ surveyLayer.queryFeatures(surveyQuery).then(function(surveyResults) {
  const graphics = [];
 
 function displayResults(results) {
-graphics.splice(0, graphics.length);
-const fragment = document.createDocumentFragment();
-console.log("displaying results...we're here");
+//graphics.splice(0, graphics.length);
+//const fragment = document.createDocumentFragment();
+
 
 const tableBody = document.getElementById("table-body");
 
@@ -252,7 +245,7 @@ cells.forEach(function(value, index) {
 row.appendChild(cell);
 });
 
-    tableBody.appendChild(row);
+   tableBody.appendChild(row);
   });
     const intersectLayer = new FeatureLayer({
           source: graphics,
@@ -261,7 +254,7 @@ row.appendChild(cell);
           renderer: surveyRenderer,
           popupTemplate: surveyTemplate
         });
-    console.log("why are surveys popping up 4 times")
+
     map.remove(surveyLayer);
     map.add(intersectLayer);
     intersectLayer.when(() => {
@@ -272,7 +265,7 @@ row.appendChild(cell);
     });
 </script>
 <div id="viewDiv"></div>
-<table class="table">
+<table class="table surveys">
   <thead>
     <tr>
       <th>Survey</th>
