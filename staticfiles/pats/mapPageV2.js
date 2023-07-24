@@ -213,7 +213,8 @@ require(["esri/Map",
 
         // load layers
         view.when(() => {
-
+            console.log("im in paaaatsssssss")
+            console.log(window.location.href);
             map.add(fLayer);
             map.add(fLayer2);
             map.add(landGroup);

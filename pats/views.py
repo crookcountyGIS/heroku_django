@@ -8,6 +8,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+#class AccessData():
+    
 
 def base(request):
     return render(request, 'pats/base.html')
@@ -509,7 +511,6 @@ def surveys(request, account):
         mt = root.attributes.map_taxlot
         mt_find = mt[:mt.find('-', mt.find('-') + 1)]
         maptaxlot.append(mt_find.replace('-', ''))
-
 
 
     context = {'data': prop_data, 'maptaxlot':maptaxlot}

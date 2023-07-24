@@ -1,0 +1,347 @@
+{% load static %}
+<link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
+<script src="https://js.arcgis.com/4.26/"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{#<script src="{% static 'pats/surveyJS.js' %}"></script>#}
+<style>
+#viewDiv {
+  padding: 0;
+  margin: 0;
+  height: calc(100vh - 120px);
+  width: 100%;
+}
+
+</style>
+<script>
+
+require(["esri/Map",
+"esri/views/MapView",
+"esri/layers/FeatureLayer",
+"esri/layers/MapImageLayer",
+"esri/widgets/BasemapToggle",
+"esri/widgets/Home",
+"esri/widgets/Legend",
+"esri/rest/support/Query",
+"esri/widgets/Search",
+"esri/widgets/Legend",
+"esri/layers/GraphicsLayer",
+        "esri/widgets/Popup",
+
+],
+
+(Map,
+MapView,
+FeatureLayer,
+MapImageLayer,
+BasemapToggle,
+Home,
+Legend,
+Query,
+Search,
+GraphicsLayer,
+Popup) => {
+
+
+ //create map object
+const map = new Map({
+    basemap: "topo-vector"
+});
+
+var lat = 44.30291;
+var long = -120.84585;
+
+// create view
+const view = new MapView({
+    container: "viewDiv",
+    map: map,
+    zoom: 11,
+    center: [long, lat] // longitude, latitude
+});
+
+// let basemapToggle = new BasemapToggle({
+//     view: view,
+//     nextBasemap: "hybrid"
+//   });
+//
+//   // add basemap toggle
+//   view.ui.add(basemapToggle, "top-left");
+
+  // return home button
+let homeWidget = new Home({
+    view: view
+  });
+
+  // adds the home widget to the top left corner of the MapView
+  view.ui.add(homeWidget, "top-left");
+
+// let legend = new Legend({
+//     view: view,
+//     container: "legend"
+// });
+
+var surveyTemplate = {
+            title: "Survey {cs}",
+            content: "<strong>PDF:</strong> <a href={image}>View</a> <br /> <strong>Prepared For:</strong> {prepared_for} <br /> <strong>Description:</strong> {identification} <br /> <strong>Year:</strong> {rec_y}",
+        }
+
+const surveyLayer = new FeatureLayer ({
+    url: "https://geo.co.crook.or.us/server/rest/services/surveyor/surveys/MapServer/0",
+     popupTemplate: surveyTemplate
+});
+
+
+const taxlotRenderer = {
+    type: "simple",
+    symbol: {
+        type: "simple-fill",
+        style: "none",
+        outline : {
+            width: 0.5,
+            color: [0, 0, 0, 1]
+        },
+        color: [0, 0, 0, 0.5]
+     },
+    label: "Taxlots"
+};
+
+const taxlotQueriedRenderer = {
+    type: "simple",
+    symbol: {
+        type: "simple-fill",
+        style: "none",
+        outline : {
+            width: 2,
+            color: "#FF0700"
+        },
+        color: [0, 0, 0, 0.5]
+     },
+    label: "Taxlots"
+};
+
+const surveyRenderer = {
+    type: "simple",
+    symbol: {
+        type: "simple-fill",
+        outline : {
+            width: 1,
+            color: "black"
+        },
+        color: [46, 89, 128, 0.1]
+     },
+    label: "Surveys"
+};
+
+
+const landGroupQueried = new MapImageLayer({
+    url: "https://geo.co.crook.or.us/server/rest/services/publicApp/landGroup/MapServer",
+    sublayers: [{
+            id: 0,
+            visible: false,
+        },
+        {
+            id: 1,
+            renderer: taxlotQueriedRenderer,
+            visible: true,
+            popupTemplate: {
+                title: "{MAPTAXLOT}",
+                content: "Owner Name: {OWNER_NAME} <br /> Zone: {ZONE} <br /> Account: {ACCOUNT} <br /> PATS Link: <a href={PATS_LINK}>PATS Link</a> <br /> Tax Map Link: <a href={TAX_MAP_LINK}>Tax Map Link</a> <br /> Tax Card Link: <a href={TAX_CARD_LINK}>Tax Card Link</a>",
+            },
+            definitionExpression: "MAPTAXLOT = '{{ i|safe }}'"
+        },
+        {
+            id: 3,
+            visible: false
+        },
+        {
+            id: 4,
+            visible: false
+        },
+        {
+            id: 5,
+            visible: false
+        },
+        {
+            id: 6,
+            visible: false,
+            opacity: 0.6
+        },
+        {
+            id: 7,
+            visible: false,
+            opacity: 0.5
+        }
+    ]
+});
+        // add feature from MapServer
+const landGroup = new MapImageLayer({
+    url: "https://geo.co.crook.or.us/server/rest/services/publicApp/landGroup/MapServer",
+    sublayers: [{
+            id: 0,
+            visible: false,
+        },
+        {
+            id: 1,
+            renderer: taxlotRenderer,
+            visible: true,
+            popupTemplate: {
+                title: "{MAPTAXLOT}",
+                content: "Owner Name: {OWNER_NAME} <br /> Zone: {ZONE} <br /> Account: {ACCOUNT} <br /> PATS Link: <a href={PATS_LINK}>PATS Link</a> <br /> Tax Map Link: <a href={TAX_MAP_LINK}>Tax Map Link</a> <br /> Tax Card Link: <a href={TAX_CARD_LINK}>Tax Card Link</a>",
+            }
+        },
+        {
+            id: 3,
+            visible: false
+        },
+        {
+            id: 4,
+            visible: false
+        },
+        {
+            id: 5,
+            visible: false
+        },
+        {
+            id: 6,
+            visible: false,
+            opacity: 0.6
+        },
+        {
+            id: 7,
+            visible: false,
+            opacity: 0.5
+        }
+    ]
+});
+
+
+const mtLayer = landGroup.sublayers.getItemAt(1);
+const mtQueriedLayer = landGroupQueried.sublayers.getItemAt(1);
+
+view.when(() => {
+     map.add(surveyLayer);
+     map.add(landGroup);
+     map.add(landGroupQueried);
+     setDefExp();
+});
+
+
+function setDefExp() {
+//map.removeAll();
+//map.add(contLayer)
+    mtWhere = "MAPTAXLOT = '{{ i|safe }}'";
+    mtQuery = new Query({
+        where: mtWhere,
+        returnGeometry: true,
+    });
+
+//listNode.innerHTML = "";
+
+    landGroup.when(function () {
+        return mtLayer.queryFeatures(mtQuery);
+    }).then(surveyIntersect);
+}
+
+function surveyIntersect(resultsMtLayer) {
+
+  resultsMtLayer.features.forEach(function(maptaxlot) {
+    surveyQuery = new Query({
+    where: "cs NOT IN ('2787','2424','1391','4188')",
+    geometry: maptaxlot.geometry,
+    returnGeometry: true,
+    spatialRelationship: "intersects",
+    outFields: ["*"],
+    outSpatialReference: surveyLayer.spatialReference
+});
+//console.log('Basemap SR: ' +view.map.basemap.baseLayers.items[0].spatialReference.wkid);
+//console.log('Surveys SR: ' + surveyLayer.spatialReference.wkid);
+surveyLayer.queryFeatures(surveyQuery).then(function(surveyResults) {
+  displayResults(surveyResults);
+  });
+})
+}
+
+const graphics = [];
+
+function displayResults(results) {
+//graphics.splice(0, graphics.length);
+//const fragment = document.createDocumentFragment();
+const tableBody = document.getElementById("table-body");
+
+results.features.forEach(function(surveys, index) {
+surveys.popupTemplate = surveyTemplate;
+graphics.push(surveys);
+
+const attributes = surveys.attributes;
+const cs = attributes.cs;
+const trs = attributes.full_tm;
+const year = attributes.rec_y;
+const pp = attributes.pp;
+const prepared_for = attributes.prepared_for;
+const prepared_by = attributes.prepared_by;
+const subdivision = attributes.subdivision;
+const type = attributes.type;
+const description = attributes.identification;
+const link = attributes.image;
+
+const row = document.createElement("tr");
+
+// Create and append cells to the row
+const cells = [
+  cs, trs, year, pp, prepared_for, prepared_by, subdivision, type, description, link
+];
+
+cells.forEach(function(value, index) {
+  const cell = document.createElement("td");
+  if (index === 9) { // Check if it's the 'Link' cell
+    const linkElement = document.createElement("a");
+    linkElement.href = value; // Set the URL
+    linkElement.textContent = "PDF";
+    cell.appendChild(linkElement);
+  } else {
+    cell.textContent = value;
+  }
+//cell.setAttribute("data-header", columnHeaders[index]);
+row.appendChild(cell);
+});
+
+   tableBody.appendChild(row);
+  });
+    const intersectLayer = new FeatureLayer({
+          source: graphics,
+          fields: surveyLayer.fields,
+          objectIdField: "OBJECTID",
+          renderer: surveyRenderer,
+          popupTemplate: surveyTemplate
+        });
+
+    map.remove(surveyLayer);
+    map.add(intersectLayer);
+    intersectLayer.when(() => {
+        view.goTo(intersectLayer.fullExtent);
+    })
+}
+// Example JavaScript code to retrieve the data-header attribute value
+    });
+</script>
+<div id="viewDiv"></div>
+<table class="table surveys">
+  <thead>
+    <tr>
+      <th>Survey</th>
+      <th>TRS</th>
+      <th>Year</th>
+      <th>Partition Plat</th>
+      <th>Prepared For</th>
+      <th>Prepared By</th>
+      <th>Subdivision</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Link</th>
+    </tr>
+  </thead>
+  <tbody id="table-body"></tbody>
+</table>
+
+
+
+

@@ -16,7 +16,10 @@
             </div>
         </div>
         <div class="col py-3">
-{#{% include 'pats/mapPage2.html' %}#}
+{% for i in maptaxlot %}
+{% include 'pats/surveyMap.html' %}
+{% endfor %}
+            <!-- insert survey map here -->
 </div>
 </div>
 </div>
