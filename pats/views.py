@@ -8,6 +8,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+#class AccessData():
+    
 
 def base(request):
     return render(request, 'pats/base.html')
