@@ -7,46 +7,47 @@ import requests
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from django.views.generic import TemplateView
 
-def relatedaccounts(account):
+class PatsTable():
+    def __init__(self, account):
+        self.account = account
+        self.prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
+        self.params = {
+            "where": f"account_id='{account}'",
+            "outFields": "*",
+            "returnGeometry": False,
+            "f": "json"
+        }
+        self.maptaxlot = []
 
-    prop_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/11/query"
+    def get_data(self):
+        prop_response = requests.get(self.prop_url, params=self.params)
+        prop_data = prop_response.json()
+        return prop_data
 
-    # Define the query parameters
-    params = {
-        "where": f"account_id='{account}'",  # Retrieve all records
-        "outFields": "*",  # Specify the fields to include in the response
-        "returnGeometry": False,  # Exclude geometry information
-        "f": "json"  # Specify the response format as JSON
-    }
+    def process_data(self):
+        prop_data = self.get_data()
 
-    prop_response = requests.get(prop_url, params=params)
-    prop_data = prop_response.json()
+        for elem in prop_data['features']:
+            root = Root.from_dict(elem)
+            mt = root.attributes.map_taxlot
+            mt_find = mt[:mt.find('-', mt.find('-') + 1)]
+            self.maptaxlot.append(mt_find.replace('-', ''))
 
-    dfPropList = []
-    for elem in prop_data['features']:
-        dfPropList.append(elem['attributes'])
 
-    dfprop = pd.DataFrame(dfPropList,
-                         columns=['account_id', 'owner_name'])
-    print(dfprop)
+    def account_query(account):
 
-    related_url = "https://geo.co.crook.or.us/server/rest/services/publicApp/Pats_Tables/MapServer/14/query"
+        data_pipeline = PatsTable(account=account)
+        data_pipeline.process_data()
 
-    related_response = requests.get(related_url, params=params)
-    related_data = related_response.json()
+        #print(data_pipeline.maptaxlot)
 
-    dfRelList = []
-    for elem in related_data['features']:
-        #print(elem)
-        dfRelList.append(elem['attributes'])
 
-    dfrel = pd.DataFrame(dfRelList,
-                              columns=['realted_account_id', 'account_type', 'account_desc'])
-    dfrel.columns = ['Related Account', 'Account Type', 'Account Description']
-    dfRelTable = dfrel.sort_values(by='Related Account', ascending=True)
+patsTable = PatsTable(1001)
+print(patsTable.get_data())
 
-    dfjoin = dfRelTable.merge(dfprop, left_on='Related Account', right_on='account_id', how='left')
-    print(dfjoin)
 
-relatedaccounts(19173)
+PatsTable.account_query(1001)
+
+

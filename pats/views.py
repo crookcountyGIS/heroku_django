@@ -8,9 +8,6 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
-#class AccessData():
-    
-
 def base(request):
     return render(request, 'pats/base.html')
 
@@ -22,8 +19,7 @@ def index(request):
 def mapPage(request):
     return render(request, 'pats/mapPage.html')
 
-def tableSearchResults(request,
-                       value):  # this search form needs error redirecting, or failed response built into the page
+def tableSearchResults(request, value):  # this search form needs error redirecting, or failed response built into the page
 
     splitValue = value.upper().split()
 
